@@ -15,6 +15,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin.FacebookClient.UWP",
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Plugin.FacebookClient.Shared", "Plugin.FacebookClient.Shared\Plugin.FacebookClient.Shared.shproj", "{CDE01928-7412-479B-9760-EAC724FCF02D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AD531F23-B6B7-4003-BD21-623683BE59CE}"
+	ProjectSection(SolutionItems) = preProject
+		..\nuget\Plugin.nuspec = ..\nuget\Plugin.nuspec
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Plugin.FacebookClient.Shared\Plugin.FacebookClient.Shared.projitems*{2882aeeb-d4cd-4eb9-8a6c-6653b33681f0}*SharedItemsImports = 4

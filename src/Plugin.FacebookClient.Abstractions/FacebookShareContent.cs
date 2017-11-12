@@ -6,10 +6,6 @@ namespace Plugin.FacebookClient.Abstractions
 {
     public abstract class FacebookShareContent
     {
-        public FacebookShareContent()
-        {
-        }
-
         public FacebookShareContent(string placeId, string[] peopleIds, string @ref, string hashtag, Uri contentLink)
         {
             PlaceId = placeId;

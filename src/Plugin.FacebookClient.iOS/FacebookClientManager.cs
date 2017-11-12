@@ -217,7 +217,7 @@ namespace Plugin.FacebookClient
                         sLinkContent.SetContentUrl(linkContent.ContentLink);
                     }
 
-                    if (linkContent.Hashtag != null)
+                    if (!string.IsNullOrEmpty(linkContent.Hashtag))
                     {
                         var shareHashTag = new Hashtag();
                         shareHashTag.StringRepresentation = linkContent.Hashtag;
@@ -304,7 +304,7 @@ namespace Plugin.FacebookClient
                         sharePhotoContent.SetContentUrl(photoContent.ContentLink);
                     }
 
-                    if (photoContent.Hashtag != null)
+                    if (!string.IsNullOrEmpty(photoContent.Hashtag))
                     {
                         var shareHashTag = new Hashtag();
                         shareHashTag.StringRepresentation = photoContent.Hashtag;
@@ -390,7 +390,7 @@ namespace Plugin.FacebookClient
                         shareVideoContent.SetContentUrl(videoContent.ContentLink);
                     }
 
-                    if (videoContent.Hashtag != null)
+                    if (!string.IsNullOrEmpty(videoContent.Hashtag))
                     {
                         var shareHashTag = new Hashtag();
                         shareHashTag.StringRepresentation = videoContent.Hashtag;

@@ -11,6 +11,6 @@ namespace Plugin.FacebookClient.Abstractions
             LocalUrl = localUrl;
         }
 
-        public Uri LocalUrl { get; set; }
+        public Uri LocalUrl { get; }
     }
 }

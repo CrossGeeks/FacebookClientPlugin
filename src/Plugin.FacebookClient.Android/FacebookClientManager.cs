@@ -211,8 +211,8 @@ namespace Plugin.FacebookClient
         }
         public void Logout()
         {
-            _shareTcs = null;
-            _userDataTcs = null;
+            //_shareTcs = null;
+            //_userDataTcs = null;
             LoginManager.Instance.LogOut();
             AccessToken.CurrentAccessToken = null;
             Profile.CurrentProfile = null;
@@ -355,7 +355,7 @@ namespace Plugin.FacebookClient
                         linkContentBuilder.SetContentUrl(Android.Net.Uri.Parse(linkContent.ContentLink.AbsoluteUri));
                     }
 
-                    if (linkContent.Hashtag != null)
+                    if (!string.IsNullOrEmpty(linkContent.Hashtag))
                     {
                         var shareHashTagBuilder = new ShareHashtag.Builder();
                         shareHashTagBuilder.SetHashtag(linkContent.Hashtag);
@@ -422,7 +422,7 @@ namespace Plugin.FacebookClient
                         photoContentBuilder.SetContentUrl(Android.Net.Uri.Parse(photoContent.ContentLink.AbsoluteUri));
                     }
 
-                    if (photoContent.Hashtag != null)
+                    if (!string.IsNullOrEmpty(photoContent.Hashtag))
                     {
                         var shareHashTagBuilder = new ShareHashtag.Builder();
                         shareHashTagBuilder.SetHashtag(photoContent.Hashtag);
@@ -494,7 +494,7 @@ namespace Plugin.FacebookClient
                         videoContentBuilder.SetContentUrl(Android.Net.Uri.Parse(videoContent.ContentLink.AbsoluteUri));
                     }
 
-                    if (videoContent.Hashtag != null)
+                    if (!string.IsNullOrEmpty(videoContent.Hashtag))
                     {
                         var shareHashTagBuilder = new ShareHashtag.Builder();
                         shareHashTagBuilder.SetHashtag(videoContent.Hashtag);
@@ -613,7 +613,7 @@ namespace Plugin.FacebookClient
                 {
                     System.Diagnostics.Debug.WriteLine(response.Error.ErrorMessage.ToString());
                     var fbArgs = new FBEventArgs<Dictionary<string, object>>(null, FacebookActionStatus.Error);
-                    _onUserData.Invoke(CrossFacebookClient.Current, fbArgs);
+                    _onUserData?.Invoke(CrossFacebookClient.Current, fbArgs);
                     _userDataTcs?.TrySetResult(fbArgs);
                 }
                else{
@@ -633,7 +633,7 @@ namespace Plugin.FacebookClient
                     userData.Add("user_id", AccessToken.CurrentAccessToken.UserId);
                     userData.Add("token", AccessToken.CurrentAccessToken.Token);
                     var fbArgs = new FBEventArgs<Dictionary<string, object>>(userData, FacebookActionStatus.Completed);
-                    _onUserData.Invoke(CrossFacebookClient.Current, fbArgs);
+                    _onUserData?.Invoke(CrossFacebookClient.Current, fbArgs);
                     _userDataTcs?.TrySetResult(fbArgs);
                 }
               
@@ -642,7 +642,7 @@ namespace Plugin.FacebookClient
             {
                 System.Diagnostics.Debug.WriteLine(ex.ToString());
                 var fbArgs = new FBEventArgs<Dictionary<string, object>>(null, FacebookActionStatus.Error);
-                _onUserData.Invoke(CrossFacebookClient.Current, fbArgs);
+                _onUserData?.Invoke(CrossFacebookClient.Current, fbArgs);
                 _userDataTcs?.TrySetResult(fbArgs);
             }
            
