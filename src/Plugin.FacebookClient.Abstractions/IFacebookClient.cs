@@ -87,6 +87,7 @@ namespace Plugin.FacebookClient.Abstractions
 
             Task<FBEventArgs<bool>> LoginAsync(string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read);
             Task<FBEventArgs<Dictionary<string, object>>> SharePhotoAsync(byte[] imgBytes, string caption = "");
+            Task<FBEventArgs<Dictionary<string, object>>> ShareAsync(FacebookShareContent shareContent);
             Task<FBEventArgs<Dictionary<string, object>>> RequestUserDataAsync(string[] fields, string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read);
 
             void Logout();

@@ -247,6 +247,18 @@ namespace Plugin.FacebookClient
             return await task;
 
         }
+        public async Task<FBEventArgs<Dictionary<string, object>>> ShareAsync(FacebookShareContent shareContent)
+        {
+            _shareTcs = new TaskCompletionSource<FBEventArgs<Dictionary<string, object>>>();
+            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            {
+                {"content",shareContent}
+
+            };
+
+            return await PerformAction(RequestShare, parameters, _shareTcs.Task, FacebookPermissionType.Publish, new string[] { "publish_actions" });
+
+        }
 
         public async Task<FBEventArgs<Dictionary<string, object>>> SharePhotoAsync(byte[] photoBytes, string caption = "")
         {
@@ -322,6 +334,198 @@ namespace Plugin.FacebookClient
             }
 
         }
+        async void RequestShare(Dictionary<string, object> paramsDictionary)
+        {
+            if (paramsDictionary.TryGetValue("content",out object shareContent) && shareContent is FacebookShareContent)
+            {
+                ShareContent content = null;
+                if (shareContent is FacebookShareLinkContent)
+                {
+                    FacebookShareLinkContent linkContent = shareContent as FacebookShareLinkContent;
+                    ShareLinkContent.Builder linkContentBuilder = new ShareLinkContent.Builder();
+
+
+                    if (linkContent.Quote != null)
+                    {
+                        linkContentBuilder.SetQuote(linkContent.Quote);
+                    }
+
+                    if (linkContent.ContentLink != null)
+                    {
+                        linkContentBuilder.SetContentUrl(Android.Net.Uri.Parse(linkContent.ContentLink.AbsoluteUri));
+                    }
+
+                    if (linkContent.Hashtag != null)
+                    {
+                        var shareHashTagBuilder = new ShareHashtag.Builder();
+                        shareHashTagBuilder.SetHashtag(linkContent.Hashtag);
+                        linkContentBuilder.SetShareHashtag(shareHashTagBuilder.Build().JavaCast<ShareHashtag>());
+                    }
+
+                    if (linkContent.PeopleIds != null && linkContent.PeopleIds.Length > 0)
+                    {
+                        linkContentBuilder.SetPeopleIds(linkContent.PeopleIds);
+                    }
+
+                    if (!string.IsNullOrEmpty(linkContent.PlaceId))
+                    {
+                        linkContentBuilder.SetPlaceId(linkContent.PlaceId);
+                    }
+
+                    if (!string.IsNullOrEmpty(linkContent.Ref))
+                    {
+                        linkContentBuilder.SetRef(linkContent.Ref);
+                    }
+
+                    content = linkContentBuilder.Build();
+
+                }
+                else if (shareContent is FacebookSharePhotoContent)
+                {
+
+                    FacebookSharePhotoContent photoContent = shareContent as FacebookSharePhotoContent;
+
+                    SharePhotoContent.Builder photoContentBuilder = new SharePhotoContent.Builder();
+
+                    if (photoContent.Photos != null && photoContent.Photos.Length > 0)
+                    {
+                        foreach (var p in photoContent.Photos)
+                        {
+                            SharePhoto.Builder photoBuilder = new SharePhoto.Builder();
+
+                            if (!string.IsNullOrEmpty(p.Caption))
+                            {
+                                photoBuilder.SetCaption(p.Caption);
+                            }
+
+                            if (p.ImageUrl != null && !string.IsNullOrEmpty(p.ImageUrl.AbsoluteUri))
+                            {
+                                photoBuilder.SetImageUrl(Android.Net.Uri.Parse(p.ImageUrl.AbsoluteUri));
+                            }
+
+                            if (p.Image != null)
+                            {
+                                Bitmap bmp = BitmapFactory.DecodeByteArray(p.Image, 0, p.Image.Length);
+
+                                photoBuilder.SetBitmap(bmp);
+                            }
+                            photoContentBuilder.AddPhoto(photoBuilder.Build().JavaCast<SharePhoto>());
+
+                        }
+
+
+
+                    }
+
+                    if (photoContent.ContentLink != null)
+                    {
+                        photoContentBuilder.SetContentUrl(Android.Net.Uri.Parse(photoContent.ContentLink.AbsoluteUri));
+                    }
+
+                    if (photoContent.Hashtag != null)
+                    {
+                        var shareHashTagBuilder = new ShareHashtag.Builder();
+                        shareHashTagBuilder.SetHashtag(photoContent.Hashtag);
+                        photoContentBuilder.SetShareHashtag(shareHashTagBuilder.Build().JavaCast<ShareHashtag>());
+                    }
+
+                    if (photoContent.PeopleIds != null && photoContent.PeopleIds.Length > 0)
+                    {
+                        photoContentBuilder.SetPeopleIds(photoContent.PeopleIds);
+                    }
+
+                    if (!string.IsNullOrEmpty(photoContent.PlaceId))
+                    {
+                        photoContentBuilder.SetPlaceId(photoContent.PlaceId);
+                    }
+
+                    if (!string.IsNullOrEmpty(photoContent.Ref))
+                    {
+                        photoContentBuilder.SetRef(photoContent.Ref);
+                    }
+
+                    content = photoContentBuilder.Build();
+                }
+                else if (shareContent is FacebookShareVideoContent)
+                {
+                    FacebookShareVideoContent videoContent = shareContent as FacebookShareVideoContent;
+                    ShareVideoContent.Builder videoContentBuilder = new ShareVideoContent.Builder();
+
+
+                    if (videoContent.PreviewPhoto != null)
+                    {
+                        SharePhoto.Builder photoBuilder = new SharePhoto.Builder();
+
+                        if (!string.IsNullOrEmpty(videoContent.PreviewPhoto.Caption))
+                        {
+                            photoBuilder.SetCaption(videoContent.PreviewPhoto.Caption);
+                        }
+
+                        if (videoContent.PreviewPhoto.ImageUrl != null && !string.IsNullOrEmpty(videoContent.PreviewPhoto.ImageUrl.AbsoluteUri))
+                        {
+                            photoBuilder.SetImageUrl(Android.Net.Uri.Parse(videoContent.PreviewPhoto.ImageUrl.AbsoluteUri));
+                        }
+
+                        if (videoContent.PreviewPhoto.Image != null)
+                        {
+                            Bitmap bmp = BitmapFactory.DecodeByteArray(videoContent.PreviewPhoto.Image, 0, videoContent.PreviewPhoto.Image.Length);
+
+                            photoBuilder.SetBitmap(bmp);
+                        }
+                        videoContentBuilder.SetPreviewPhoto(photoBuilder.Build().JavaCast<SharePhoto>());
+                    }
+
+                    if (videoContent.Video != null)
+                    {
+                        ShareVideo.Builder videoBuilder = new ShareVideo.Builder();
+
+                        if (videoContent.Video.LocalUrl != null)
+                        {
+                            videoBuilder.SetLocalUrl(Android.Net.Uri.Parse(videoContent.PreviewPhoto.ImageUrl.AbsoluteUri));
+
+                        }
+
+                        videoContentBuilder.SetVideo(videoBuilder.Build().JavaCast<ShareVideo>());
+                    }
+
+
+                    if (videoContent.ContentLink != null)
+                    {
+                        videoContentBuilder.SetContentUrl(Android.Net.Uri.Parse(videoContent.ContentLink.AbsoluteUri));
+                    }
+
+                    if (videoContent.Hashtag != null)
+                    {
+                        var shareHashTagBuilder = new ShareHashtag.Builder();
+                        shareHashTagBuilder.SetHashtag(videoContent.Hashtag);
+                        videoContentBuilder.SetShareHashtag(shareHashTagBuilder.Build().JavaCast<ShareHashtag>());
+                    }
+
+                    if (videoContent.PeopleIds != null && videoContent.PeopleIds.Length > 0)
+                    {
+                        videoContentBuilder.SetPeopleIds(videoContent.PeopleIds);
+                    }
+
+                    if (!string.IsNullOrEmpty(videoContent.PlaceId))
+                    {
+                        videoContentBuilder.SetPlaceId(videoContent.PlaceId);
+                    }
+
+                    if (!string.IsNullOrEmpty(videoContent.Ref))
+                    {
+                        videoContentBuilder.SetRef(videoContent.Ref);
+                    }
+
+                    content = videoContentBuilder.Build();
+                }
+
+                if (content != null)
+                {
+                    ShareApi.Share(content, shareCallback);
+                }
+            }
+           
+        }
         async void RequestSharePhoto(Dictionary<string, object> paramsDictionary)
         {
             if (paramsDictionary != null && paramsDictionary.ContainsKey("photo"))
@@ -379,7 +583,7 @@ namespace Plugin.FacebookClient
             else
             {
                 var fbArgs = new FBEventArgs<bool>(retVal, FacebookActionStatus.Completed);
-                _onLogin.Invoke(CrossFacebookClient.Current, fbArgs);
+                _onLogin?.Invoke(CrossFacebookClient.Current, fbArgs);
                 _loginTcs.TrySetResult(fbArgs);
 
                 pendingAction?.Execute();
@@ -443,6 +647,8 @@ namespace Plugin.FacebookClient
             }
            
         }
+
+      
     }
 
     /// <summary>

@@ -185,6 +185,244 @@ namespace Plugin.FacebookClient
           return await PerformAction(RequestSharePhoto, parameters, _shareTcs.Task, FacebookPermissionType.Publish, new string[] { "publish_actions" });
         }
 
+        public async Task<FBEventArgs<Dictionary<string, object>>> ShareAsync(FacebookShareContent shareContent)
+        {
+            _shareTcs = new TaskCompletionSource<FBEventArgs<Dictionary<string, object>>>();
+            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            {
+                {"content",shareContent}
+
+            };
+
+            return await PerformAction(RequestShare, parameters, _shareTcs.Task, FacebookPermissionType.Publish, new string[] { "publish_actions" });
+        }
+        void RequestShare(Dictionary<string, object> paramsDictionary)
+        {
+            if (paramsDictionary.TryGetValue("content", out object shareContent) && shareContent is FacebookShareContent)
+            {
+                ISharingContent content = null;
+                if (shareContent is FacebookShareLinkContent)
+                {
+                    FacebookShareLinkContent linkContent = shareContent as FacebookShareLinkContent;
+                    ShareLinkContent sLinkContent = new ShareLinkContent();
+
+
+                    if (linkContent.Quote != null)
+                    {
+                        sLinkContent.Quote=linkContent.Quote;
+                    }
+
+                    if (linkContent.ContentLink != null)
+                    {
+                        sLinkContent.SetContentUrl(linkContent.ContentLink);
+                    }
+
+                    if (linkContent.Hashtag != null)
+                    {
+                        var shareHashTag = new Hashtag();
+                        shareHashTag.StringRepresentation = linkContent.Hashtag;
+                        sLinkContent.Hashtag = shareHashTag;
+                    }
+
+                    if (linkContent.PeopleIds != null && linkContent.PeopleIds.Length > 0)
+                    {
+                        sLinkContent.SetPeopleIds(linkContent.PeopleIds);
+                    }
+
+                    if (!string.IsNullOrEmpty(linkContent.PlaceId))
+                    {
+                        sLinkContent.SetPlaceId(linkContent.PlaceId);
+                    }
+
+                    if (!string.IsNullOrEmpty(linkContent.Ref))
+                    {
+                        sLinkContent.SetRef(linkContent.Ref);
+                    }
+
+                    content = sLinkContent;
+                }
+                else if (shareContent is FacebookSharePhotoContent)
+                {
+
+                    FacebookSharePhotoContent photoContent = shareContent as FacebookSharePhotoContent;
+
+                    SharePhotoContent sharePhotoContent = new SharePhotoContent();
+
+                    if (photoContent.Photos != null && photoContent.Photos.Length > 0)
+                    {
+                        List<SharePhoto> photos = new List<SharePhoto>();
+                        foreach (var p in photoContent.Photos)
+                        {
+
+                            if (p.ImageUrl != null && !string.IsNullOrEmpty(p.ImageUrl.AbsoluteUri))
+                            {
+                                SharePhoto photoFromUrl = SharePhoto.From(p.ImageUrl, true);
+
+                                if (!string.IsNullOrEmpty(p.Caption))
+                                {
+                                    photoFromUrl.Caption = p.Caption;
+                                }
+
+                                photos.Add(photoFromUrl);
+                            }
+
+                            if (p.Image != null)
+                            {
+                                UIImage image = null;
+
+                                var imageBytes = p.Image as byte[];
+
+                                if (imageBytes != null)
+                                {
+                                    using (var data = NSData.FromArray(imageBytes))
+                                        image = UIImage.LoadFromData(data);
+
+                                    SharePhoto sPhoto = Facebook.ShareKit.SharePhoto.From(image, true);
+
+                                    if (!string.IsNullOrEmpty(p.Caption))
+                                    {
+                                        sPhoto.Caption = p.Caption;
+                                    }
+
+
+                                    photos.Add(sPhoto);
+                                }
+
+                            }
+
+                        }
+
+                        if(photos.Count >0)
+                        {
+                            sharePhotoContent.Photos = photos.ToArray();
+                        }
+
+                    }
+
+                    if (photoContent.ContentLink != null)
+                    {
+                        sharePhotoContent.SetContentUrl(photoContent.ContentLink);
+                    }
+
+                    if (photoContent.Hashtag != null)
+                    {
+                        var shareHashTag = new Hashtag();
+                        shareHashTag.StringRepresentation = photoContent.Hashtag;
+                        sharePhotoContent.SetHashtag(shareHashTag);
+                    }
+
+                    if (photoContent.PeopleIds != null && photoContent.PeopleIds.Length > 0)
+                    {
+                        sharePhotoContent.SetPeopleIds(photoContent.PeopleIds);
+                    }
+
+                    if (!string.IsNullOrEmpty(photoContent.PlaceId))
+                    {
+                        sharePhotoContent.SetPlaceId(photoContent.PlaceId);
+                    }
+
+                    if (!string.IsNullOrEmpty(photoContent.Ref))
+                    {
+                        sharePhotoContent.SetRef(photoContent.Ref);
+                    }
+
+                    content = sharePhotoContent;
+                }
+                else if (shareContent is FacebookShareVideoContent)
+                {
+                    FacebookShareVideoContent videoContent = shareContent as FacebookShareVideoContent;
+                    ShareVideoContent shareVideoContent = new ShareVideoContent();
+
+
+                    if (videoContent.PreviewPhoto != null)
+                    {
+                        if (videoContent.PreviewPhoto.ImageUrl != null && !string.IsNullOrEmpty(videoContent.PreviewPhoto.ImageUrl.AbsoluteUri))
+                        {
+                            SharePhoto photoFromUrl = Facebook.ShareKit.SharePhoto.From(videoContent.PreviewPhoto.ImageUrl, true); 
+
+                            if (!string.IsNullOrEmpty(videoContent.PreviewPhoto.Caption))
+                            {
+                                photoFromUrl.Caption =videoContent.PreviewPhoto.Caption;
+                            }
+
+                            shareVideoContent.PreviewPhoto = photoFromUrl;
+                        }
+
+                        if (videoContent.PreviewPhoto.Image != null)
+                        {
+                            UIImage image = null;
+
+                            var imageBytes = videoContent.PreviewPhoto.Image as byte[];
+
+                            if (imageBytes != null)
+                            {
+                                using (var data = NSData.FromArray(imageBytes))
+                                    image = UIImage.LoadFromData(data);
+
+                                SharePhoto photo = Facebook.ShareKit.SharePhoto.From(image, true);
+
+                                if (!string.IsNullOrEmpty(videoContent.PreviewPhoto.Caption))
+                                {
+                                    photo.Caption = videoContent.PreviewPhoto.Caption;
+                                }
+
+
+                                shareVideoContent.PreviewPhoto = photo;
+                            }
+                          
+                        }
+                        
+                    }
+
+                    if (videoContent.Video != null)
+                    {
+                        
+                        if (videoContent.Video.LocalUrl != null)
+                        {
+                            shareVideoContent.Video = ShareVideo.From(videoContent.Video.LocalUrl);
+                        }
+
+                        
+                    }
+
+                    if (videoContent.ContentLink != null)
+                    {
+                        shareVideoContent.SetContentUrl(videoContent.ContentLink);
+                    }
+
+                    if (videoContent.Hashtag != null)
+                    {
+                        var shareHashTag = new Hashtag();
+                        shareHashTag.StringRepresentation = videoContent.Hashtag;
+                        shareVideoContent.SetHashtag(shareHashTag);
+                    }
+
+                    if (videoContent.PeopleIds != null && videoContent.PeopleIds.Length > 0)
+                    {
+                        shareVideoContent.SetPeopleIds(videoContent.PeopleIds);
+                    }
+
+                    if (!string.IsNullOrEmpty(videoContent.PlaceId))
+                    {
+                        shareVideoContent.SetPlaceId(videoContent.PlaceId);
+                    }
+
+                    if (!string.IsNullOrEmpty(videoContent.Ref))
+                    {
+                        shareVideoContent.SetRef(videoContent.Ref);
+                    }
+
+                    content = shareVideoContent;
+                }
+
+                if (content != null)
+                {
+                    
+                    ShareAPI.Share(content, this);
+                }
+            }
+        }
+
         void RequestSharePhoto(Dictionary<string, object> paramsDictionary)
         {
             if (paramsDictionary != null && paramsDictionary.ContainsKey("photo"))
@@ -201,21 +439,19 @@ namespace Plugin.FacebookClient
                 
 
                 SharePhoto photo = Facebook.ShareKit.SharePhoto.From(image, true);
-
-
+           
                 if (paramsDictionary.ContainsKey("caption"))
                 {
                     photo.Caption = $"{paramsDictionary["caption"]}";
                 }
 
-
-
+         
                 var photoContent = new SharePhotoContent()
                 {
                     Photos = new SharePhoto[] { photo }
 
                 };
-
+               
                 ShareAPI.Share(photoContent, this);
             }
 
@@ -325,5 +561,7 @@ namespace Plugin.FacebookClient
         {
             AppEvents.LogEvent(name);
         }
+
+ 
     }
 }
