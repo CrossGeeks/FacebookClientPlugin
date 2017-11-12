@@ -48,6 +48,11 @@ On AppDelegate FinishedLaunching just before **return base.FinishedLaunching(app
 Facebook.CoreKit.ApplicationDelegate.SharedInstance.FinishedLaunching(app, options);
 ```
 
+On AppDelegate OnActivated add
+```cs
+AppEvents.ActivateApp();
+```
+
 Need to whitelist Facebook domains in your app by adding the following to your application's Info.plist:
 
 ```xml
@@ -107,7 +112,8 @@ Also add:
 <key>NSPhotoLibraryUsageDescription</key>
   <string>{human-readable reason for photo access}</string>
 ```
-### Methods
+
+### Plugin Methods
 ```cs
    Task<FBEventArgs<bool>> LoginAsync(string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read);
    
