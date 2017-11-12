@@ -80,6 +80,33 @@ Need to whitelist Facebook domains in your app by adding the following to your a
 </dict>
 ```
 
+Also add:
+
+
+```xml
+<key>CFBundleURLTypes</key>
+<array>
+  <dict>
+    <key>CFBundleURLSchemes</key>
+    <array>
+      <string>fb{your-app-id}</string>
+    </array>
+  </dict>
+</array>
+<key>FacebookAppID</key>
+<string>{your-app-id}</string>
+<key>FacebookDisplayName</key>
+<string>{your-app-name}</string>
+<key>LSApplicationQueriesSchemes</key>
+<array>
+  <string>fbapi</string>
+  <string>fb-messenger-api</string>
+  <string>fbauth2</string>
+  <string>fbshareextension</string>
+</array>
+<key>NSPhotoLibraryUsageDescription</key>
+  <string>{human-readable reason for photo access}</string>
+```
 ### Methods
 ```cs
    Task<FBEventArgs<bool>> LoginAsync(string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read);
