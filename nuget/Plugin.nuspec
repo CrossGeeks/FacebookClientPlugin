@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<package >
+  <metadata minClientVersion="2.8.1">
+    <id>Plugin.FacebookClient</id>
+    <version>0.0.1-beta</version>
+    <title>Facebook Client Plugin for Xamarin</title>
+    <authors>Rendy Del Rosario</authors>
+    <owners>crossgeeks</owners>
+    <licenseUrl>https://raw.githubusercontent.com/CrossGeeks/FacebookClientPlugin/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/CrossGeeks/FacebookClientPlugin</projectUrl>
+    <iconUrl>https://github.com/CrossGeeks/FacebookClientPlugin/blob/master/art/icon.png?raw=true</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Facebook login and share across Xamarin.iOS and Xamarin.Android</description>
+    <summary>Facebook login and share across Xamarin.iOS and Xamarin.Android</summary>
+    <releaseNotes>Support for facebook login and share using native apis</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>iOS,Android,facebook,login,share,xamarin,plugins</tags>
+    <dependencies>
+        <group targetFramework="MonoAndroid10">
+            <dependency id="Xamarin.Facebook.Android" version="4.26.0" />
+        </group>
+        <group targetFramework="Xamarin.iOS10">
+            <dependency id="Xamarin.Facebook.iOS" version="4.27.1" />
+        </group>
+    </dependencies>
+  </metadata>
+  <files>
+        <!--NetStandard/PCL-->
+        <file src="..\src\Plugin.FacebookClient\bin\Release\netstandard1.0\Plugin.FacebookClient.*" target="lib\netstandard1.0" />
+        <file src="..\src\Plugin.FacebookClient.Android\bin\Release\Plugin.FacebookClient.*" target="lib\MonoAndroid10" />
+        <file src="..\src\Plugin.FacebookClient.iOS\bin\iPhone\Release\Plugin.FacebookClient.*" target="lib\Xamarin.iOS10" />
+  </files>
+</package>
+
