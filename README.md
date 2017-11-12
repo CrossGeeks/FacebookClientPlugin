@@ -42,18 +42,18 @@ On MainActivity.cs
 
 ### iOS Setup
 
-On AppDelegate FinishedLaunching just before **return base.FinishedLaunching(app, options)**:
+On AppDelegate **FinishedLaunching** just before **return base.FinishedLaunching(app, options)**:
 
 ```cs
 Facebook.CoreKit.ApplicationDelegate.SharedInstance.FinishedLaunching(app, options);
 ```
 
-On AppDelegate OnActivated add:
+On AppDelegate **OnActivated(UIApplication uiApplication)**:
 ```cs
 AppEvents.ActivateApp();
 ```
 
-Need to whitelist Facebook domains in your app by adding the following to your application's Info.plist:
+Need to whitelist Facebook domains in your app by adding the following to your application's **Info.plist**:
 
 ```xml
 <key>NSAppTransportSecurity</key>
@@ -113,7 +113,7 @@ Also add:
   <string>{human-readable reason for photo access}</string>
 ```
 
-On your Entitlement.plist add:
+On your **Entitlement.plist** add:
 
 
 ```xml
@@ -122,6 +122,13 @@ On your Entitlement.plist add:
     <string>{your-apple-app-id-prefix}.{your-apple-app-id-bundle-identifier}</string>
   </array>
 ```
+On AppDelegate **OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)**
+
+```cs
+  return Facebook.CoreKit.ApplicationDelegate.SharedInstance.OpenUrl(application, url, sourceApplication, annotation);
+```
+
+
 ### Plugin Methods
 ```cs
    Task<FBEventArgs<bool>> LoginAsync(string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read);
