@@ -177,3 +177,16 @@ On AppDelegate **OpenUrl(UIApplication application, NSUrl url, string sourceAppl
   Task<FBEventArgs<Dictionary<string, object>>> RequestUserDataAsync(string[] fields, string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read);
 
 ```
+
+### Sample use
+
+Login & Get User Data
+
+```cs
+ await CrossFacebookClient.Current.RequestUserDataAsync(new string[] { "email", "first_name", "gender", "last_name", "birthday" }, new string[] { "email", "user_birthday" });
+```
+
+To Share
+```cs
+ await CrossFacebookClient.Current.SharePhotoAsync(myPhotoBytes, captionText);
+```
