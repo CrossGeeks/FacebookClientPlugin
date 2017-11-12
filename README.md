@@ -48,7 +48,7 @@ On AppDelegate FinishedLaunching just before **return base.FinishedLaunching(app
 Facebook.CoreKit.ApplicationDelegate.SharedInstance.FinishedLaunching(app, options);
 ```
 
-On AppDelegate OnActivated add
+On AppDelegate OnActivated add:
 ```cs
 AppEvents.ActivateApp();
 ```
