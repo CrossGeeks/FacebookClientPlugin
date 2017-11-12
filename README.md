@@ -113,6 +113,15 @@ Also add:
   <string>{human-readable reason for photo access}</string>
 ```
 
+On your Entitlement.plist add:
+
+
+```xml
+<key>keychain-access-groups</key>
+  <array>
+    <string>{your-app-id-prefix}.{your-app-id-bundle-identifier}</string>
+  </array>
+```
 ### Plugin Methods
 ```cs
    Task<FBEventArgs<bool>> LoginAsync(string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read);
