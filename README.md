@@ -21,6 +21,66 @@ Call **CrossFacebookClient.Current** from any project or PCL to gain access to A
 - Login
 - Share
 
+### Android Setup
+
+On MainActivity.cs
+
+- On OnCreate just after calling base.OnCreate:
+```cs
+     FacebookSdk.SdkInitialize(this.ApplicationContext);
+	  CallbackManager = CallbackManagerFactory.Create();
+```
+
+- Override OnActivityResult:
+```cs
+  protected override void OnActivityResult(int requestCode, Result resultCode, Intent intent)
+  {
+		base.OnActivityResult(requestCode, resultCode, intent);
+		CallbackManager.OnActivityResult(requestCode, (int)resultCode, intent);
+  }
+```
+
+### iOS Setup
+
+On AppDelegate FinishedLaunching just before **return base.FinishedLaunching(app, options)**:
+
+```cs
+Facebook.CoreKit.ApplicationDelegate.SharedInstance.FinishedLaunching(app, options);
+```
+
+Need to whitelist Facebook domains in your app by adding the following to your application's Info.plist:
+
+```xml
+<key>NSAppTransportSecurity</key>
+<dict>
+    <key>NSExceptionDomains</key>
+    <dict>
+        <key>facebook.com</key>
+        <dict>
+            <key>NSIncludesSubdomains</key>
+            <true/>                
+            <key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
+            <false/>
+        </dict>
+        <key>fbcdn.net</key>
+        <dict>
+            <key>NSIncludesSubdomains</key>
+            <true/>
+            <key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
+            <false/>
+        </dict>
+        <key>akamaihd.net</key>
+        <dict>
+            <key>NSIncludesSubdomains</key>
+            <true/>
+            <key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
+            <false/>
+        </dict>
+    </dict>
+</dict>
+```
+
+### Methods
 ```cs
    Task<FBEventArgs<bool>> LoginAsync(string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read);
    
