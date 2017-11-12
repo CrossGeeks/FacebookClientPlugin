@@ -29,6 +29,7 @@ On MainActivity.cs
 ```cs
      FacebookSdk.SdkInitialize(this.ApplicationContext);
      CallbackManager = CallbackManagerFactory.Create();
+     CrossFacebookClient.Current.Initialize(CallbackManager,this);
 ```
 
 Note: Save that CallbackManager in class variable/property since you will need it in the following step.
