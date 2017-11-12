@@ -94,14 +94,14 @@ Also add:
   <dict>
     <key>CFBundleURLSchemes</key>
     <array>
-      <string>fb{your-app-id}</string>
+      <string>fb{your-fb-app-id}</string>
     </array>
   </dict>
 </array>
 <key>FacebookAppID</key>
-<string>{your-app-id}</string>
+<string>{your-fb-app-id}</string>
 <key>FacebookDisplayName</key>
-<string>{your-app-name}</string>
+<string>{your-fb-app-name}</string>
 <key>LSApplicationQueriesSchemes</key>
 <array>
   <string>fbapi</string>
@@ -119,7 +119,7 @@ On your Entitlement.plist add:
 ```xml
 <key>keychain-access-groups</key>
   <array>
-    <string>{your-app-id-prefix}.{your-app-id-bundle-identifier}</string>
+    <string>{your-apple-app-id-prefix}.{your-apple-app-id-bundle-identifier}</string>
   </array>
 ```
 ### Plugin Methods
