@@ -28,8 +28,10 @@ On MainActivity.cs
 - On OnCreate just after calling base.OnCreate:
 ```cs
      FacebookSdk.SdkInitialize(this.ApplicationContext);
-	  CallbackManager = CallbackManagerFactory.Create();
+     CallbackManager = CallbackManagerFactory.Create();
 ```
+
+Note: Save that CallbackManager in class variable/property since you will need it in the following step.
 
 - Override OnActivityResult:
 ```cs
@@ -39,6 +41,42 @@ On MainActivity.cs
 		CallbackManager.OnActivityResult(requestCode, (int)resultCode, intent);
   }
 ```
+
+On **Resources/values/strings.xml**:
+```xml
+<string name="facebook_app_id">1226960274038687</string>
+<string name="fb_login_protocol_scheme">fb1226960274038687</string>
+```
+
+Add this permission on **AndroidManifest.xml**
+
+```xml
+<uses-permission android:name="android.permission.INTERNET"/>
+```
+
+Also add this inside the **application** node
+
+```xml
+<meta-data android:name="com.facebook.sdk.ApplicationId"  android:value="@string/facebook_app_id"/>
+    
+    <activity android:name="com.facebook.FacebookActivity"
+        android:configChanges=
+                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+        android:label="@string/app_name" />
+    <activity
+        android:name="com.facebook.CustomTabActivity"
+        android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="@string/fb_login_protocol_scheme" />
+        </intent-filter>
+    </activity>
+```
+
+
+
 
 ### iOS Setup
 
