@@ -216,8 +216,7 @@ To Share
 ### Share Content
 ```cs
 FacebookSharePhoto photo = new FacebookSharePhoto(text, image);
-             FacebookSharePhoto[] photos = new FacebookSharePhoto[] { photo };
-                    
+FacebookSharePhoto[] photos = new FacebookSharePhoto[] { photo };                    
 FacebookSharePhotoContent photoContent = new FacebookSharePhotoContent(photos);
  var ret = await CrossFacebookClient.Current.ShareAsync(photoContent);
 ```
