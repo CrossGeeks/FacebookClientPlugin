@@ -219,9 +219,7 @@ FacebookSharePhoto photo = new FacebookSharePhoto(text, image);
              FacebookSharePhoto[] photos = new FacebookSharePhoto[] { photo };
                     
 FacebookSharePhotoContent photoContent = new FacebookSharePhotoContent(photos);
-             photoContent.Photos = photos;
-                    
-             var ret = await CrossFacebookClient.Current.ShareAsync(photoContent);
+ var ret = await CrossFacebookClient.Current.ShareAsync(photoContent);
 ```
 
 #### Contributors
