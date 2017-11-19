@@ -163,7 +163,16 @@ On your **Entitlement.plist** add:
 On AppDelegate **OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)**
 
 ```cs
-  return Facebook.CoreKit.ApplicationDelegate.SharedInstance.OpenUrl(application, url, sourceApplication, annotation);
+  public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
+  {
+      return Facebook.CoreKit.ApplicationDelegate.SharedInstance.OpenUrl(app, url, $"{options["UIApplicationOpenURLOptionsSourceApplicationKey"]}", null);
+  }
+
+  public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
+  {
+      return Facebook.CoreKit.ApplicationDelegate.SharedInstance.OpenUrl(application, url, sourceApplication, annotation);        
+  }
+
 ```
 
 
