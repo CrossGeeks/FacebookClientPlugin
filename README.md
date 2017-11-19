@@ -129,6 +129,8 @@ Need to whitelist Facebook domains in your app by adding the following to your a
 	  <true/>
 	</dict>
     </dict>
+    <key>NSAllowsArbitraryLoadsInWebContent</key>
+    <true/>
 </dict>
 ```
 
