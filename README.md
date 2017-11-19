@@ -27,7 +27,6 @@ On MainActivity.cs
 
 - On OnCreate just after calling base.OnCreate:
 ```cs
-     FacebookSdk.SdkInitialize(this.ApplicationContext);
      CallbackManager = CallbackManagerFactory.Create();
      FacebookClientManager.Initialize(CallbackManager,this);
 ```
