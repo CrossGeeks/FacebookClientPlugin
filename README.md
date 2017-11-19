@@ -130,25 +130,28 @@ Also add:
 <key>CFBundleURLTypes</key>
 <array>
   <dict>
+    <key>CFBundleURLName</key>
+    <string>fb</string>
     <key>CFBundleURLSchemes</key>
     <array>
-      <string>fb{your-fb-app-id}</string>
+       <string>fbxxxxxxxxxxxxx</string>
     </array>
   </dict>
 </array>
 <key>FacebookAppID</key>
-<string>{your-fb-app-id}</string>
+<string>xxxxxxxxxxxxx</string>
 <key>FacebookDisplayName</key>
-<string>{your-fb-app-name}</string>
+<string>[Facebook app name]</string>
 <key>LSApplicationQueriesSchemes</key>
 <array>
-  <string>fbapi</string>
-  <string>fb-messenger-api</string>
-  <string>fbauth2</string>
-  <string>fbshareextension</string>
+   <string>fbapi</string>
+   <string>fb-messenger-api</string>
+   <string>fbauth2</string>
+   <string>fbshareextension</string>
 </array>
 <key>NSPhotoLibraryUsageDescription</key>
-  <string>{human-readable reason for photo access}</string>
+<string>{human-readable reason for photo access}</string>
+ 
 ```
 
 On your **Entitlement.plist** add:
