@@ -44,9 +44,10 @@ Note: Save that CallbackManager in class variable/property since you will need i
 
 On **Resources/values/strings.xml**:
 ```xml
-<string name="facebook_app_id">1226960274038687</string>
-<string name="fb_login_protocol_scheme">fb1226960274038687</string>
+<string name="facebook_app_id">xxxxxxxxxxxxx</string>
+<string name="fb_login_protocol_scheme">fbxxxxxxxxxxxxx</string>
 ```
+Replace *xxxxxxxxxxxxx* with your facebook app id.
 
 Add this permission on **AndroidManifest.xml**
 
