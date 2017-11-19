@@ -201,6 +201,12 @@ On AppDelegate **OpenUrl(UIApplication application, NSUrl url, string sourceAppl
 
 ```
 
+### Permissions
+
+More information about available permissions here
+https://developers.facebook.com/docs/facebook-login/permissions/?locale=en_EN
+
+
 ### Sample use
 
 Login & Get User Data
