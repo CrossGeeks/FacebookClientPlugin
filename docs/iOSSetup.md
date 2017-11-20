@@ -6,18 +6,18 @@
 ### AppDelegate
 
 
-**FinishedLaunching** just before **return base.FinishedLaunching(app, options)**:
+On **FinishedLaunching** just before **return base.FinishedLaunching(app, options)**:
 
 ```cs
 FacebookManager.Initialize(app,options);
 ```
 
-**OnActivated(UIApplication uiApplication)**:
+Override **OnActivated(UIApplication uiApplication)**:
 ```cs
 FacebookManager.OnActivated();
 ```
 
-**OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)**
+Override OpenUrl methods
 
 ```cs
   public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
