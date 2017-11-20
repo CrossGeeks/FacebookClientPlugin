@@ -80,6 +80,8 @@ Also you can specify the parameters for the facebook graph request.
 
 * **parameters** : Dictionary for the facebook graph request parameters.
 
+#### Usage Sample
+
 ```cs
 
    CrossFacebookClient.Current.DeleteDataAsync("1234");
@@ -99,6 +101,9 @@ Allows you to post information within the specified facebook graph path. Automat
 Also you can specify the parameters for the facebook graph request.
 
 * **parameters** : Dictionary for the facebook graph request parameters.
+
+
+#### Usage Sample
 
 ```cs
 
