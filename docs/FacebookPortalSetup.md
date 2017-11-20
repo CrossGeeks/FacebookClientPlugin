@@ -65,13 +65,11 @@ Windows: keytool -exportcert -alias androiddebugkey -keystore "C:\Users\[USERNAM
 
 ![Testers](https://github.com/CrossGeeks/FacebookClientPlugin/blob/develop/images/testers.png?raw=true)
 
-**Note: This will allow you to test sharing just within your testers group since is not yet approved for public use, so will just work for people added on Roles section, until you submit for approval by clicking on Edit Details and following the steps described there. Until permissions are not on green state are not yet approved.**
+**Note: This will allow you to test sharing just within your testers group since is not yet approved for public use, so will just work for people added on Roles section, until you submit for approval by clicking on Edit Details and following the steps described there. Until permissions are not on green state are not yet approved (This applies for all permissions that are not approved by default).**
 
-There are few permissions approved by default. Which are:
+**There are few permissions approved by default. Which are: email , public_profile, user_friends**
 
-* email
-* public_profile
-* user_friends
+
 
 
 
