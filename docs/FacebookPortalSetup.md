@@ -13,7 +13,6 @@
 ![Facebook Settings](https://github.com/CrossGeeks/FacebookClientPlugin/blob/develop/images/fb-app-settings.png)
 
 
-
 ### Android Setup
 
 3. Click on add platform and then select Android
@@ -35,12 +34,15 @@ Windows: keytool -exportcert -alias androiddebugkey -keystore "C:\Users\[USERNAM
 
 ![Add Android  Details](https://github.com/CrossGeeks/FacebookClientPlugin/blob/develop/images/create-android-app-details.png?raw=true)
 
+
 ### iOS Setup
 
 7. Click on add platform then select iOS
+
 ![Add iOS](https://github.com/CrossGeeks/FacebookClientPlugin/blob/develop/images/create-ios-app.png?raw=true)
 
 8. Enter the bundle identifier for your iOS application on iOs platform config
+
 ![Add iOS 2](https://github.com/CrossGeeks/FacebookClientPlugin/blob/develop/images/create-ios-app-2.png?raw=true)
 
 ### Enable sharing content setup (Optional)
