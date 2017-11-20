@@ -1,15 +1,5 @@
 ## Facebook Client Plugin for Xamarin iOS and Android
 
-
-1. Login to https://developer.facebook.com and create a new project
-
-![Creating Application](https://github.com/CrossGeeks/FirebasePushNotificationPlugin/blob/master/images/firebase-portal-create-project.png?raw=true)
-
-
-2. After project is created you should see options to add Firebase to your iOS and Android apps
-
-![Firebase Overview](https://github.com/CrossGeeks/FirebasePushNotificationPlugin/blob/master/images/firebase-overview.png?raw=true)
-
 Simple cross platform plugin for handling facebook login, sharing, facebook graph requests and permissions handling.
 
 ### Setup
