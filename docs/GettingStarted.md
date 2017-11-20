@@ -1,5 +1,4 @@
 ## Getting Started
-Simple cross platform plugin for facebook login, sharing, facebook graph requests and permissions handling.
 
 ### Setup
 * [Facebook Setup](docs/FacebookPortalSetup.md)
