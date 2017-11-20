@@ -68,7 +68,7 @@ Need to whitelist Facebook domains in your app by adding the following to your a
 </dict>
 ```
 
-Make sure you add any other additional urls web services call too:
+Make sure you add any other additional urls for web services call inside the **NSExceptionDomains** dict too:
 
 ```xml
 <key>otherExternalDomainYouNeedToCall</key>
