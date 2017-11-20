@@ -46,19 +46,17 @@ Login with read permissions & Get User Data
 
 ### Permissions
 
+**CrossFacebookClient.Current.ActivePermissions** : Get the granted permissions
+
+**CrossFacebookClient.Current.DeclinedPermissions** : Get the declined permissions
+
+**CrossFacebookClient.Current.VerifyPermission** : Verify if a specific permission has been granted
+
+**CrossFacebookClient.Current.HasPermissions** : Verify if the permissions specified have been granted
+
 More information about available permissions here
 https://developers.facebook.com/docs/facebook-login/permissions/?locale=en_EN
 
-```cs
-      string[] ActivePermissions { get; }
-
-            string[] DeclinedPermissions { get; }
-
-			  bool VerifyPermission(string permission);
-
-            bool HasPermissions(string[] permission);
-
-```
 
 ### Events
 
