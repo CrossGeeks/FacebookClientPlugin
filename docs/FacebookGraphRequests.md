@@ -35,7 +35,7 @@ If need to do the request on an specific Graph Api version, could be specify by 
 Usage:
 
 
-//Get all friends that are authorized on your facebook app
+Get all friends that are authorized on your facebook app
 
 ```cs
 
@@ -46,7 +46,7 @@ Usage:
   
 ```
 
-//Get all friends in facebook
+Get all friends in facebook
 
 ```cs
 
@@ -57,7 +57,7 @@ Usage:
   
 ```
 
-//Get all my likes
+Get all my likes
 
 ```cs
 
@@ -65,8 +65,9 @@ Usage:
   
 ```
 
+### DeleteDataAsync
 
-//Delete post
+Delete post
 
 ```cs
 
@@ -75,7 +76,9 @@ Usage:
 ```
 
 
-//Post Data
+### PostDataAsync
+
+PostData
 
 ```cs
 
