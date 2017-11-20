@@ -12,14 +12,14 @@ https://developers.facebook.com/docs/graph-api/reference
 
 Allows you to get information using a Facebook Graph Request Query. You should specify at least two things:
 
-* *path* : The facebook Graph path for the requested information
-* *permissions* : The facebook needed permissions for the requested information.
+* **path** : The facebook Graph path for the requested information
+* **permissions** : The facebook needed permissions for the requested information.
 
 Also you can specify the parameters for the facebook graph request.
 
 * **parameters**: Dictionary for the facebook graph request parameters.
 
-Sample:
+For example let's say I just want to get a few fields on my response back, then I would specify parameters similar to this:
 
 ```cs
 
