@@ -2,13 +2,12 @@
 
 https://developers.facebook.com/docs/graph-api/reference
 
-```cs
-            Task<FacebookResponse<string>> QueryDataAsync(string path, string[] permissions, IDictionary<string, string> parameters = null, string version = null);
-            Task<FacebookResponse<string>> PostDataAsync(string path, IDictionary<string, string> parameters = null, string version = null);
-            Task<FacebookResponse<string>> DeleteDataAsync(string path, IDictionary<string, string> parameters = null, string version = null);
-```
 
 ### QueryDataAsync
+
+```cs
+ Task<FacebookResponse<string>> QueryDataAsync(string path, string[] permissions, IDictionary<string, string> parameters = null, string version = null);
+```
 
 Allows you to get information using a Facebook Graph Request Query. You should specify at least two things:
 
@@ -67,6 +66,10 @@ Get all my likes
 
 ### DeleteDataAsync
 
+```cs
+Task<FacebookResponse<string>> DeleteDataAsync(string path, IDictionary<string, string> parameters = null, string version = null);
+```
+
 Allows you to delete information within the specified facebook graph path. Automatically requests login with **publish_actions** permission if is not granted yet.
 
 * **path** : The facebook Graph path for information to delete
@@ -82,6 +85,10 @@ Also you can specify the parameters for the facebook graph request.
 ```
 
 ### PostDataAsync
+
+```cs
+Task<FacebookResponse<string>> PostDataAsync(string path, IDictionary<string, string> parameters = null, string version = null);
+```
 
 Allows you to post information within the specified facebook graph path. Automatically requests login with **publish_actions** permission if is not granted yet.
 
