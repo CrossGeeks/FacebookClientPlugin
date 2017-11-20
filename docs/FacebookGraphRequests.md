@@ -67,7 +67,13 @@ Get all my likes
 
 ### DeleteDataAsync
 
-Delete post
+Allows you to delete information within the specified facebook graph path. Automatically requests login with **publish_actions** permission if is not granted yet.
+
+* **path** : The facebook Graph path for information to delete
+
+Also you can specify the parameters for the facebook graph request.
+
+* **parameters** : Dictionary for the facebook graph request parameters.
 
 ```cs
 
@@ -75,10 +81,15 @@ Delete post
   
 ```
 
-
 ### PostDataAsync
 
-PostData
+Allows you to post information within the specified facebook graph path. Automatically requests login with **publish_actions** permission if is not granted yet.
+
+* **path** : The facebook Graph path for the information to post
+
+Also you can specify the parameters for the facebook graph request.
+
+* **parameters** : Dictionary for the facebook graph request parameters.
 
 ```cs
 
