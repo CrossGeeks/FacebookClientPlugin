@@ -23,6 +23,7 @@ Note: Save that CallbackManager in class variable/property since you will need i
 ### Resources/values/strings.xml
 
 ```xml
+<string name="facebook_app_name">MyFacebookAppName</string>
 <string name="facebook_app_id">xxxxxxxxxxxxx</string>
 <string name="fb_login_protocol_scheme">fbxxxxxxxxxxxxx</string>
 ```
@@ -43,7 +44,7 @@ Also add this inside the **application** node
     <activity android:name="com.facebook.FacebookActivity"
         android:configChanges=
                 "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-        android:label="@string/app_name" />
+        android:label="@string/facebook_app_name" />
     <activity
         android:name="com.facebook.CustomTabActivity"
         android:exported="true">

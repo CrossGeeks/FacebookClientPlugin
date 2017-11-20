@@ -9,9 +9,11 @@ You can share 3 types of content:
 * Link: By using FacebookShareLinkContent
 * Video: By using FacebookShareVideoContent
 
+### Simple photo share
 ```cs
  await CrossFacebookClient.Current.SharePhotoAsync(myPhotoBytes, captionText);
 ```
+
 ### Share Photo using bytes
 ```cs
 FacebookSharePhoto photo = new FacebookSharePhoto(text, image);
@@ -28,10 +30,9 @@ FacebookSharePhotoContent photoContent = new FacebookSharePhotoContent(photos);
  var ret = await CrossFacebookClient.Current.ShareAsync(photoContent);
 ```
 
-
 ### Share Link
 ```cs               
-FacebookShareLinkContent linkContent = new FacebookShareLinkContent("http://www.crossgeeks.com");
+FacebookShareLinkContent linkContent = new FacebookShareLinkContent("http://www.github.com/crossgeeks");
  var ret = await CrossFacebookClient.Current.ShareAsync(linkContent);
 ```
 

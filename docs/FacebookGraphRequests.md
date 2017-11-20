@@ -1,73 +1,90 @@
-## Getting Started
-Simple cross platform plugin for handling facebook login and sharing.
+## Facebook Graph Requests
 
-### Setup
-* Facebook Portal Setup
-* Android Setup
-* iOS Setup
+https://developers.facebook.com/docs/graph-api/reference
 
-### Login
-
-
-### Plugin Methods
-```cs
-   Task<FBEventArgs<bool>> LoginAsync(string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read);
-   
-   Task<FBEventArgs<Dictionary<string, object>>> SharePhotoAsync(byte[] imgBytes, string caption = "");
-  
-  Task<FBEventArgs<Dictionary<string, object>>> RequestUserDataAsync(string[] fields, string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read);
-
-```
-
-### Permissions
-
-More information about available permissions here
-https://developers.facebook.com/docs/facebook-login/permissions/?locale=en_EN
-
-```cs
-      string[] ActivePermissions { get; }
-
-            string[] DeclinedPermissions { get; }
-
-			  bool VerifyPermission(string permission);
-
-            bool HasPermissions(string[] permission);
-
-```
-
-### Events
-
-```cs
-            event EventHandler<FBEventArgs<string>> OnRequestData;
-            event EventHandler<FBEventArgs<string>> OnPostData;
-            event EventHandler<FBEventArgs<string>> OnDeleteData;
-
-            event EventHandler<FBEventArgs<Dictionary<string, object>>> OnUserData;
-
-            event EventHandler<FBEventArgs<bool>> OnLogin;
-
-            event EventHandler<FBEventArgs<bool>> OnLogout;
-
-            event EventHandler<FBEventArgs<Dictionary<string, object>>> OnSharing;
-
-```
-
-### Sample use
-
-Login & Get User Data
-
-```cs
- await CrossFacebookClient.Current.RequestUserDataAsync(new string[] { "email", "first_name", "gender", "last_name", "birthday" }, new string[] { "email", "user_birthday" });
-```
-
-To Share
-```cs
- await CrossFacebookClient.Current.SharePhotoAsync(myPhotoBytes, captionText);
-```
-### Facebook Graph Requests
 ```cs
             Task<FacebookResponse<string>> QueryDataAsync(string path, string[] permissions, IDictionary<string, string> parameters = null, string version = null);
             Task<FacebookResponse<string>> PostDataAsync(string path, IDictionary<string, string> parameters = null, string version = null);
             Task<FacebookResponse<string>> DeleteDataAsync(string path, IDictionary<string, string> parameters = null, string version = null);
 ```
+
+### QueryDataAsync
+
+Allows you to get information using a Facebook Graph Request Query. You should specify at least two things:
+
+* *path* : The facebook Graph path for the requested information
+* *permissions* : The facebook needed permissions for the requested information.
+
+Also you can specify the parameters for the facebook graph request.
+
+* **parameters**: Dictionary for the facebook graph request parameters.
+
+Sample:
+
+```cs
+
+   var fbParams =  new Dictionary<string, string>()
+   {
+      {"fields", "id, first_name, last_name, middle_name, name, email, picture"}
+   }
+  
+```
+
+If need to do the request on an specific Graph Api version, could be specify by setting the **version** parameter.
+
+Usage:
+
+
+//Get all friends that are authorized on your facebook app
+
+```cs
+
+   CrossFacebookClient.Current.QueryDataAsync("me/friends", new string[]{ "user_friends"}, new Dictionary<string, string>()
+   {
+      {"fields", "id, first_name, last_name, middle_name, name, email, picture"}
+   });
+  
+```
+
+//Get all friends in facebook
+
+```cs
+
+   CrossFacebookClient.Current.QueryDataAsync("me/taggable_friends", new string[]{ "user_friends"}, new Dictionary<string, string>()
+   {
+      {"fields", "id, first_name, last_name, middle_name, name, email, picture"}
+   });
+  
+```
+
+//Get all my likes
+
+```cs
+
+   CrossFacebookClient.Current.QueryDataAsync("me/likes", new string[]{ "user_likes"});
+  
+```
+
+
+//Delete post
+
+```cs
+
+   CrossFacebookClient.Current.DeleteDataAsync("1234");
+  
+```
+
+
+//Post Data
+
+```cs
+
+   CrossFacebookClient.Current.PostDataAsync("me/feed", new Dictionary<string, string>()
+   {
+      {"message" , "hello world"}
+   });
+  
+```
+
+
 <= Back to [Table of Contents](../README.md)

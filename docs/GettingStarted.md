@@ -1,10 +1,10 @@
 ## Getting Started
-Simple cross platform plugin for handling facebook login and sharing.
+Simple cross platform plugin for facebook login, sharing, facebook graph requests and permissions handling.
 
 ### Setup
-* Facebook Portal Setup
-* Android Setup
-* iOS Setup
+* [Facebook Setup](docs/FacebookPortalSetup.md)
+* [Android Setup](docs/AndroidSetup.md)
+* [iOS Setup](docs/iOSSetup.md)
 
 ### Login
 
