@@ -46,11 +46,15 @@ Login with read permissions & Get User Data
 
 ### Permissions
 
+There are some methods & properties to verify the current state of facebook permissions:
+
 **CrossFacebookClient.Current.ActivePermissions** : Get the granted permissions
 
 **CrossFacebookClient.Current.DeclinedPermissions** : Get the declined permissions
 
 **CrossFacebookClient.Current.VerifyPermission** : Verify if a specific permission has been granted
+
+Usage:
 
 ```cs
 CrossFacebookClient.Current.VerifyPermission("publish_actions");
@@ -58,8 +62,10 @@ CrossFacebookClient.Current.VerifyPermission("publish_actions");
 
 **CrossFacebookClient.Current.HasPermissions** : Verify if all the permissions specified have been granted
 
+Usage:
+
 ```cs
-CrossFacebookClient.Current.HasPermissions(new string[]{"user_friends","birthdat"});
+CrossFacebookClient.Current.HasPermissions(new string[]{"user_friends","user_likes"});
 ```
 
 More information about available permissions here
