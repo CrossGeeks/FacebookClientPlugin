@@ -19,21 +19,21 @@ Login with publish permissions
  CrossFacebookClient.Current.LoginAsync( new string[] {"publish_actions"},FacebookPermissionType.Publish);
 ```
 
+### Logout
+
+```cs
+ CrossFacebookClient.Current.Logout();
+```
+
 ### Plugin Methods
 ```cs
-            Task<FacebookResponse<bool>> LoginAsync(string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read);
             Task<FacebookResponse<Dictionary<string, object>>> SharePhotoAsync(byte[] imgBytes, string caption = "");
             Task<FacebookResponse<Dictionary<string, object>>> ShareAsync(FacebookShareContent shareContent);
             Task<FacebookResponse<Dictionary<string, object>>> RequestUserDataAsync(string[] fields, string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read);
             Task<FacebookResponse<string>> QueryDataAsync(string path, string[] permissions, IDictionary<string, string> parameters = null, string version = null);
             Task<FacebookResponse<string>> PostDataAsync(string path, IDictionary<string, string> parameters = null, string version = null);
             Task<FacebookResponse<string>> DeleteDataAsync(string path, IDictionary<string, string> parameters = null, string version = null);
-			void Logout();
-
             void LogEvent(string name);
-            bool VerifyPermission(string permission);
-
-            bool HasPermissions(string[] permission);
 
 ```
 
