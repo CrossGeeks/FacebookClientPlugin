@@ -16,13 +16,17 @@ using AVFoundation;
 
 namespace Plugin.FacebookClient
 {
-  /// <summary>
-  /// Implementation for FacebookClient
-  /// </summary>
-  public class FacebookClientManager : NSObject,IFacebookClient, ISharingDelegate
-  {
-        TaskCompletionSource<FBEventArgs<Dictionary<string, object>>> _userDataTcs;
-        TaskCompletionSource<FBEventArgs<Dictionary<string, object>>> _shareTcs;
+    /// <summary>
+    /// Implementation for FacebookClient
+    /// </summary>
+    public class FacebookClientManager : NSObject, IFacebookClient, ISharingDelegate
+    {
+        TaskCompletionSource<FacebookResponse<Dictionary<string, object>>> _userDataTcs;
+        TaskCompletionSource<FacebookResponse<Dictionary<string, object>>> _shareTcs;
+        TaskCompletionSource<FacebookResponse<string>> _requestTcs;
+        TaskCompletionSource<FacebookResponse<string>> _postTcs;
+        TaskCompletionSource<FacebookResponse<string>> _deleteTcs;
+
 
         public event EventHandler<FBEventArgs<Dictionary<string, object>>> OnUserData = delegate { };
 
@@ -31,6 +35,10 @@ namespace Plugin.FacebookClient
         public event EventHandler<FBEventArgs<bool>> OnLogout = delegate { };
 
         public event EventHandler<FBEventArgs<Dictionary<string, object>>> OnSharing = delegate { };
+
+        public event EventHandler<FBEventArgs<string>> OnRequestData = delegate { };
+        public event EventHandler<FBEventArgs<string>> OnPostData = delegate { };
+        public event EventHandler<FBEventArgs<string>> OnDeleteData = delegate { };
 
         LoginManager loginManager = new LoginManager();
         FacebookPendingAction<Dictionary<string, object>> pendingAction;
@@ -92,7 +100,24 @@ namespace Plugin.FacebookClient
             return IsLoggedIn && (AccessToken.CurrentAccessToken.HasGranted(permission));
 
         }
+        public static void Initialize(UIApplication app,NSDictionary options)
+        {
+            ApplicationDelegate.SharedInstance.FinishedLaunching(app, options);
+        }
+        public static void OnActivated()
+        {
+            AppEvents.ActivateApp();
+        }
+        public static void OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
+        {
+            ApplicationDelegate.SharedInstance.OpenUrl(app, url, $"{options["UIApplicationOpenURLOptionsSourceApplicationKey"]}", null);
+        }
 
+        public static void OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
+        {
+            ApplicationDelegate.SharedInstance.OpenUrl(application, url, sourceApplication, annotation);
+        }
+        
         public void DidComplete(ISharing sharer, NSDictionary results)
         {
             Dictionary<string, object> parameters = new Dictionary<string, object>();
@@ -102,14 +127,14 @@ namespace Plugin.FacebookClient
             }
             var fbArgs = new FBEventArgs<Dictionary<string, object>>(parameters, FacebookActionStatus.Completed);
             OnSharing(this, fbArgs);
-            _shareTcs?.TrySetResult(fbArgs);
+            _shareTcs?.TrySetResult(new FacebookResponse<Dictionary<string, object>>(fbArgs));
         }
 
         public void DidFail(ISharing sharer, NSError error)
         {
             var fbArgs = new FBEventArgs<Dictionary<string, object>>(null, FacebookActionStatus.Error, error.Description);
             OnSharing(this, fbArgs);
-            _shareTcs?.TrySetResult(fbArgs);
+            _shareTcs?.TrySetResult(new FacebookResponse<Dictionary<string, object>>(fbArgs));
         }
 
         public void DidCancel(ISharing sharer)
@@ -117,10 +142,10 @@ namespace Plugin.FacebookClient
             var fbArgs = new FBEventArgs<Dictionary<string, object>>(null, FacebookActionStatus.Canceled);
 
             OnSharing(this, fbArgs);
-            _shareTcs?.TrySetResult(fbArgs);
+            _shareTcs?.TrySetResult(new FacebookResponse<Dictionary<string, object>>(fbArgs));
         }
 
-        public async Task<FBEventArgs<bool>> LoginAsync(string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read)
+        public async Task<FacebookResponse<bool>> LoginAsync(string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read)
         {
             var retVal = IsLoggedIn;
             FacebookActionStatus status = FacebookActionStatus.Error;
@@ -163,14 +188,14 @@ namespace Plugin.FacebookClient
             pendingAction = null;
 
 
-            return fbArgs;
+            return new FacebookResponse<bool>(fbArgs);
         }
 
 
 
-        public async Task<FBEventArgs<Dictionary<string, object>>> SharePhotoAsync(byte[] photoBytes, string caption = "")
+        public async Task<FacebookResponse<Dictionary<string, object>>> SharePhotoAsync(byte[] photoBytes, string caption = "")
         {
-            _shareTcs = new TaskCompletionSource<FBEventArgs<Dictionary<string, object>>>();
+            _shareTcs = new TaskCompletionSource<FacebookResponse<Dictionary<string, object>>>();
             Dictionary<string, object> parameters = new Dictionary<string, object>()
             {
                 {"photo",photoBytes},
@@ -185,9 +210,9 @@ namespace Plugin.FacebookClient
           return await PerformAction(RequestSharePhoto, parameters, _shareTcs.Task, FacebookPermissionType.Publish, new string[] { "publish_actions" });
         }
 
-        public async Task<FBEventArgs<Dictionary<string, object>>> ShareAsync(FacebookShareContent shareContent)
+        public async Task<FacebookResponse<Dictionary<string, object>>> ShareAsync(FacebookShareContent shareContent)
         {
-            _shareTcs = new TaskCompletionSource<FBEventArgs<Dictionary<string, object>>>();
+            _shareTcs = new TaskCompletionSource<FacebookResponse<Dictionary<string, object>>>();
             Dictionary<string, object> parameters = new Dictionary<string, object>()
             {
                 {"content",shareContent}
@@ -457,6 +482,121 @@ namespace Plugin.FacebookClient
 
         }
 
+        public async Task<FacebookResponse<string>> QueryDataAsync(string path, string[] permissions, IDictionary<string, string> parameters = null, string version = null)
+        {
+            _requestTcs = new TaskCompletionSource<FacebookResponse<string>>();
+            Dictionary<string, object> paramDict = new Dictionary<string, object>()
+            {
+                {"path", path},
+                {"parameters",parameters},
+                {"method", FacebookHttpMethod.Get},
+                {"version", version}
+            };
+            return await PerformAction<FacebookResponse<string>>(RequestData, paramDict, _requestTcs.Task, FacebookPermissionType.Read, permissions);
+        }
+
+        public async Task<FacebookResponse<string>> PostDataAsync(string path, string[] permissions, IDictionary<string, string> parameters = null, string version = null)
+        {
+            _postTcs = new TaskCompletionSource<FacebookResponse<string>>();
+            Dictionary<string, object> paramDict = new Dictionary<string, object>()
+            {
+                {"path", path},
+                {"parameters",parameters},
+                {"method", FacebookHttpMethod.Post},
+                {"version", version}
+            };
+            return await PerformAction<FacebookResponse<string>>(RequestData, paramDict, _postTcs.Task, FacebookPermissionType.Publish, permissions);
+        }
+
+        public async Task<FacebookResponse<string>> DeleteDataAsync(string path, string[] permissions, IDictionary<string, string> parameters = null, string version = null)
+        {
+            _deleteTcs = new TaskCompletionSource<FacebookResponse<string>>();
+            Dictionary<string, object> paramDict = new Dictionary<string, object>()
+            {
+                {"path", path},
+                {"parameters",parameters},
+                {"method", FacebookHttpMethod.Delete },
+                {"version", version}
+            };
+            return await PerformAction<FacebookResponse<string>>(RequestData, paramDict, _deleteTcs.Task, FacebookPermissionType.Publish, permissions);
+        }
+
+
+
+        void RequestData(Dictionary<string, object> pDictionary)
+        {
+            string path = $"{pDictionary["method"]}";
+            string version = $"{pDictionary["version"]}";
+            Dictionary<string, string> paramDict = pDictionary["parameters"] as Dictionary<string, string>;
+            FacebookHttpMethod? method = pDictionary["method"] as FacebookHttpMethod?;
+            var currentTcs = _requestTcs;
+            var onEvent = OnRequestData;
+            var httpMethod = "GET";
+            if (method != null)
+            {
+                switch (method)
+                {
+                    case FacebookHttpMethod.Get:
+                        httpMethod = "GET";
+                        break;
+                    case FacebookHttpMethod.Post:
+                        httpMethod = "POST";
+                        onEvent = OnPostData;
+                        currentTcs = _postTcs;
+                        break;
+                    case FacebookHttpMethod.Delete:
+                        httpMethod = "DELETE";
+                        onEvent = OnDeleteData;
+                        currentTcs = _deleteTcs;
+                        break;
+                }
+
+            }
+
+            if (string.IsNullOrEmpty(path))
+            {
+                var fbResponse = new FBEventArgs<string>(null, FacebookActionStatus.Error, "Graph query path not specified");
+                onEvent?.Invoke(CrossFacebookClient.Current, fbResponse);
+                currentTcs?.TrySetResult(new FacebookResponse<string>(fbResponse));
+                return;
+            }
+
+         
+
+            
+
+            NSMutableDictionary parameters=null;
+
+            if (paramDict != null)
+            {
+                parameters = new NSMutableDictionary();
+                foreach (var p in paramDict)
+                {
+                    var key = $"{p}";
+                    parameters.Add(new NSString(key), new NSString($"{paramDict[key]}"));
+                }
+            }
+
+            var graphRequest = string.IsNullOrEmpty(version)?new GraphRequest(path, parameters, httpMethod): new GraphRequest(path, parameters, AccessToken.CurrentAccessToken.TokenString,version, httpMethod);
+            var requestConnection = new GraphRequestConnection();
+            requestConnection.AddRequest(graphRequest, (connection, result, error) =>
+            {
+                
+                if (error == null)
+                {
+                    var fbResponse = new FBEventArgs<string>(result.ToString(), FacebookActionStatus.Completed);
+                    onEvent?.Invoke(CrossFacebookClient.Current, fbResponse);
+                    currentTcs?.TrySetResult(new FacebookResponse<string>(fbResponse));
+                }
+                else
+                {
+                    var fbResponse = new FBEventArgs<string>(null, FacebookActionStatus.Error, error.ToString());
+                    onEvent?.Invoke(CrossFacebookClient.Current, fbResponse);
+                    currentTcs?.TrySetResult(new FacebookResponse<string>(fbResponse));
+                }
+            });
+            requestConnection.Start();
+        }
         void RequestUserData(Dictionary<string, object> fieldsDictionary)
         {
             string[] fields = new string[] { };
@@ -487,14 +627,14 @@ namespace Plugin.FacebookClient
                         userData.Add("token", AccessToken.CurrentAccessToken.TokenString);
                         var fbArgs = new FBEventArgs<Dictionary<string, object>>(userData, FacebookActionStatus.Completed);
                         OnUserData(this,fbArgs);
-                        _userDataTcs?.TrySetResult(fbArgs);
+                        _userDataTcs?.TrySetResult(new FacebookResponse<Dictionary<string, object>>(fbArgs));
                         
                     }
                     else
                     {
                         var fbArgs = new FBEventArgs<Dictionary<string, object>>(null, FacebookActionStatus.Error, $"Facebook User Data Request Failed - {error.Code} - {error.Description}");
                         OnUserData(this,fbArgs );
-                        _userDataTcs?.TrySetResult(fbArgs);
+                        _userDataTcs?.TrySetResult(new FacebookResponse<Dictionary<string, object>>(fbArgs));
                        
                     }
 
@@ -506,9 +646,35 @@ namespace Plugin.FacebookClient
             {
                 var fbArgs = new FBEventArgs<Dictionary<string, object>>(null, FacebookActionStatus.Canceled);
                 OnUserData(this, null);
-                _userDataTcs?.TrySetResult(fbArgs);
+                _userDataTcs?.TrySetResult(new FacebookResponse<Dictionary<string, object>>(fbArgs));
             }
 
+
+        }
+
+        async Task<T> PerformAction<T>(Action<Dictionary<string, object>> action, Dictionary<string, object> parameters, Task<T> task, FacebookPermissionType permissionType, string[] permissions) 
+        {
+            pendingAction = null;
+            if (permissions == null)
+            {
+                action(parameters);
+            }
+            else
+            {
+                bool authorized = HasPermissions(permissions);
+
+                if (!authorized)
+                {
+                    pendingAction = new FacebookPendingAction<Dictionary<string, object>>(action, parameters);
+                    await LoginAsync(permissions, permissionType);
+                }
+                else
+                {
+                    action(parameters);
+                }
+            }
+
+            return await task;
 
         }
 
@@ -516,19 +682,26 @@ namespace Plugin.FacebookClient
         async Task<FBEventArgs<Dictionary<string, object>>> PerformAction(Action<Dictionary<string, object>> action, Dictionary<string, object> parameters,Task<FBEventArgs<Dictionary<string, object>>> task, FacebookPermissionType permissionType, string[] permissions)
         {
             pendingAction = null;
-
-            bool authorized = HasPermissions(permissions);
-
-            if (!authorized)
-            {
-                pendingAction = new FacebookPendingAction<Dictionary<string, object>>(action, parameters);
-                await LoginAsync(permissions, permissionType);
-
-            }
-            else
+            if (permissions == null)
             {
                 action(parameters);
             }
+            else
+            {
+                bool authorized = HasPermissions(permissions);
+
+                if (!authorized)
+                {
+                    pendingAction = new FacebookPendingAction<Dictionary<string, object>>(action, parameters);
+                    await LoginAsync(permissions, permissionType);
+
+                }
+                else
+                {
+                    action(parameters);
+                }
+            }
+           
 
             return await task;
         }
@@ -541,9 +714,9 @@ namespace Plugin.FacebookClient
             OnLogout(this, new FBEventArgs<bool>(true, FacebookActionStatus.Completed));
         }
 
-        public async Task<FBEventArgs<Dictionary<string, object>>> RequestUserDataAsync(string[] fields, string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read)
+        public async Task<FacebookResponse<Dictionary<string, object>>> RequestUserDataAsync(string[] fields, string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read)
         {
-            _userDataTcs = new TaskCompletionSource<FBEventArgs<Dictionary<string, object>>>();
+            _userDataTcs = new TaskCompletionSource<FacebookResponse<Dictionary<string, object>>>();
             Dictionary<string, object> parameters = new Dictionary<string, object>()
             {
                 {"fields",fields}
@@ -552,16 +725,11 @@ namespace Plugin.FacebookClient
            return await PerformAction(RequestUserData, parameters,_userDataTcs.Task, FacebookPermissionType.Read, permissions);
         }
 
-        public void ActivateApp()
-        {
-            AppEvents.ActivateApp();
-        }
-
         public void LogEvent(string name)
         {
             AppEvents.LogEvent(name);
         }
 
- 
+      
     }
 }

@@ -4,6 +4,12 @@ using System.Threading.Tasks;
 
 namespace Plugin.FacebookClient.Abstractions
 {
+    public enum FacebookHttpMethod
+    {
+        Get,
+        Post,
+        Delete
+    }
 
     public enum FacebookPermissionType
     {
@@ -27,13 +33,34 @@ namespace Plugin.FacebookClient.Abstractions
     }
 
     public class FBEventArgs<T> : EventArgs
-        where T : new()
     {
         public T Data { get; set; }
         public FacebookActionStatus Status { get; set; }
         public string Message { get; set; }
 
         public FBEventArgs(T data, FacebookActionStatus status, string msg = "")
+        {
+            Data = data;
+            Status = status;
+            Message = msg;
+        }
+
+    }
+
+    public class FacebookResponse<T> 
+    {
+        public T Data { get; set; }
+        public FacebookActionStatus Status { get; set; }
+        public string Message { get; set; }
+
+        public FacebookResponse(FBEventArgs<T> evtArgs)
+        {
+            Data = evtArgs.Data;
+            Status = evtArgs.Status;
+            Message = evtArgs.Message;
+        }
+
+        public FacebookResponse(T data, FacebookActionStatus status, string msg = "")
         {
             Data = data;
             Status = status;
@@ -67,7 +94,11 @@ namespace Plugin.FacebookClient.Abstractions
     /// </summary>
     public interface IFacebookClient
     {
-            event EventHandler<FBEventArgs<Dictionary<string, object>>> OnUserData;
+            event EventHandler<FBEventArgs<string>> OnRequestData;
+            event EventHandler<FBEventArgs<string>> OnPostData;
+            event EventHandler<FBEventArgs<string>> OnDeleteData;
+
+           event EventHandler<FBEventArgs<Dictionary<string, object>>> OnUserData;
 
             event EventHandler<FBEventArgs<bool>> OnLogin;
 
@@ -85,14 +116,14 @@ namespace Plugin.FacebookClient.Abstractions
 
             bool IsLoggedIn { get; }
 
-            Task<FBEventArgs<bool>> LoginAsync(string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read);
-            Task<FBEventArgs<Dictionary<string, object>>> SharePhotoAsync(byte[] imgBytes, string caption = "");
-            Task<FBEventArgs<Dictionary<string, object>>> ShareAsync(FacebookShareContent shareContent);
-            Task<FBEventArgs<Dictionary<string, object>>> RequestUserDataAsync(string[] fields, string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read);
-
+            Task<FacebookResponse<bool>> LoginAsync(string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read);
+            Task<FacebookResponse<Dictionary<string, object>>> SharePhotoAsync(byte[] imgBytes, string caption = "");
+            Task<FacebookResponse<Dictionary<string, object>>> ShareAsync(FacebookShareContent shareContent);
+            Task<FacebookResponse<Dictionary<string, object>>> RequestUserDataAsync(string[] fields, string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read);
+            Task<FacebookResponse<string>> QueryDataAsync(string path, string[] permissions, IDictionary<string, string> parameters = null, string version = null);
+            Task<FacebookResponse<string>> PostDataAsync(string path, string[] permissions, IDictionary<string, string> parameters = null, string version = null);
+            Task<FacebookResponse<string>> DeleteDataAsync(string path, string[] permissions, IDictionary<string, string> parameters = null, string version = null);
             void Logout();
-
-            void ActivateApp();
 
             void LogEvent(string name);
             bool VerifyPermission(string permission);
