@@ -19,6 +19,13 @@ Login with publish permissions
  CrossFacebookClient.Current.LoginAsync( new string[] {"publish_actions"},FacebookPermissionType.Publish);
 ```
 
+
+Login with read permissions & Get User Data
+
+```cs
+ await CrossFacebookClient.Current.RequestUserDataAsync(new string[] { "email", "first_name", "gender", "last_name", "birthday" }, new string[] { "email", "user_birthday" });
+```
+
 ### Logout
 
 ```cs
@@ -72,11 +79,6 @@ https://developers.facebook.com/docs/facebook-login/permissions/?locale=en_EN
 
 ### Sample use
 
-Login & Get User Data
-
-```cs
- await CrossFacebookClient.Current.RequestUserDataAsync(new string[] { "email", "first_name", "gender", "last_name", "birthday" }, new string[] { "email", "user_birthday" });
-```
 
 To Share
 ```cs
