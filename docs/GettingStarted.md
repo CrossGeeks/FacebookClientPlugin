@@ -68,7 +68,8 @@ Usage:
 CrossFacebookClient.Current.HasPermissions(new string[]{"user_friends","user_likes"});
 ```
 
-More information about available permissions here
+More information about available permissions here:
+
 https://developers.facebook.com/docs/facebook-login/permissions/?locale=en_EN
 
 
