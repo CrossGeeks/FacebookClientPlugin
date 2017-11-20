@@ -132,14 +132,14 @@ namespace Plugin.FacebookClient
 
         public void DidFail(ISharing sharer, NSError error)
         {
-            var fbArgs = new FBEventArgs<Dictionary<string, object>>(null, FacebookActionStatus.Error, error.Description);
+            var fbArgs = new FBEventArgs<Dictionary<string, object>>(null, FacebookActionStatus.Error, $"Facebook Sharing Failed - {error.Code} - {error.Description}");
             OnSharing(this, fbArgs);
             _shareTcs?.TrySetResult(new FacebookResponse<Dictionary<string, object>>(fbArgs));
         }
 
         public void DidCancel(ISharing sharer)
         {
-            var fbArgs = new FBEventArgs<Dictionary<string, object>>(null, FacebookActionStatus.Canceled);
+            var fbArgs = new FBEventArgs<Dictionary<string, object>>(null, FacebookActionStatus.Canceled, "User cancelled facebook operation");
 
             OnSharing(this, fbArgs);
             _shareTcs?.TrySetResult(new FacebookResponse<Dictionary<string, object>>(fbArgs));
@@ -495,7 +495,7 @@ namespace Plugin.FacebookClient
             return await PerformAction<FacebookResponse<string>>(RequestData, paramDict, _requestTcs.Task, FacebookPermissionType.Read, permissions);
         }
 
-        public async Task<FacebookResponse<string>> PostDataAsync(string path, string[] permissions, IDictionary<string, string> parameters = null, string version = null)
+        public async Task<FacebookResponse<string>> PostDataAsync(string path, IDictionary<string, string> parameters = null, string version = null)
         {
             _postTcs = new TaskCompletionSource<FacebookResponse<string>>();
             Dictionary<string, object> paramDict = new Dictionary<string, object>()
@@ -505,10 +505,10 @@ namespace Plugin.FacebookClient
                 {"method", FacebookHttpMethod.Post},
                 {"version", version}
             };
-            return await PerformAction<FacebookResponse<string>>(RequestData, paramDict, _postTcs.Task, FacebookPermissionType.Publish, permissions);
+            return await PerformAction<FacebookResponse<string>>(RequestData, paramDict, _postTcs.Task, FacebookPermissionType.Publish, new string[] { "publish_actions" });
         }
 
-        public async Task<FacebookResponse<string>> DeleteDataAsync(string path, string[] permissions, IDictionary<string, string> parameters = null, string version = null)
+        public async Task<FacebookResponse<string>> DeleteDataAsync(string path, IDictionary<string, string> parameters = null, string version = null)
         {
             _deleteTcs = new TaskCompletionSource<FacebookResponse<string>>();
             Dictionary<string, object> paramDict = new Dictionary<string, object>()
@@ -518,7 +518,7 @@ namespace Plugin.FacebookClient
                 {"method", FacebookHttpMethod.Delete },
                 {"version", version}
             };
-            return await PerformAction<FacebookResponse<string>>(RequestData, paramDict, _deleteTcs.Task, FacebookPermissionType.Publish, permissions);
+            return await PerformAction<FacebookResponse<string>>(RequestData, paramDict, _deleteTcs.Task, FacebookPermissionType.Publish, new string[] { "publish_actions" });
         }
 
 
@@ -590,7 +590,7 @@ namespace Plugin.FacebookClient
                 }
                 else
                 {
-                    var fbResponse = new FBEventArgs<string>(null, FacebookActionStatus.Error, error.ToString());
+                    var fbResponse = new FBEventArgs<string>(null, FacebookActionStatus.Error, $" Facebook operation failed - {error.Code} - {error.Description}");
                     onEvent?.Invoke(CrossFacebookClient.Current, fbResponse);
                     currentTcs?.TrySetResult(new FacebookResponse<string>(fbResponse));
                 }
@@ -644,7 +644,7 @@ namespace Plugin.FacebookClient
             }
             else
             {
-                var fbArgs = new FBEventArgs<Dictionary<string, object>>(null, FacebookActionStatus.Canceled);
+                var fbArgs = new FBEventArgs<Dictionary<string, object>>(null, FacebookActionStatus.Canceled, "User cancelled facebook operation");
                 OnUserData(this, null);
                 _userDataTcs?.TrySetResult(new FacebookResponse<Dictionary<string, object>>(fbArgs));
             }
