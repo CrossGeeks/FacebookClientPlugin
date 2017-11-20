@@ -62,21 +62,25 @@ Need to whitelist Facebook domains in your app by adding the following to your a
             <key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
             <false/>
         </dict>
-	<key>otherExternalDomainYouNeedToCall</key>
-	<dict>
-	  <key>NSIncludesSubdomains</key>
-	  <true/>
-	  <key>NSExceptionAllowsInsecureHTTPLoads</key>
-	  <true/>
-	  <key>NSAllowsArbitraryLoads</key>
-	  <true/>
-	</dict>
     </dict>
     <key>NSAllowsArbitraryLoadsInWebContent</key>
     <true/>
 </dict>
 ```
 
+Make sure you add any other additional urls web services call too:
+
+```xml
+<key>otherExternalDomainYouNeedToCall</key>
+<dict> 
+  <key>NSIncludesSubdomains</key>
+  <true/>
+  <key>NSExceptionAllowsInsecureHTTPLoads</key>
+  <true/>
+  <key>NSAllowsArbitraryLoads</key>
+  <true/>
+</dict>
+``
 Also add:
 
 
