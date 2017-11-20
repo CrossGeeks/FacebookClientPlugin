@@ -29,7 +29,7 @@ Call **CrossFacebookClient.Current** from any project or PCL to gain access to A
 
 ## Documentation
 
-Here you will find detailed documentation on setting up and using the Firebase Push Notification Plugin for Xamarin
+Here you will find detailed documentation on setting up and using the Facebook Client Plugin for Xamarin
 
 * [Facebook Setup](docs/FacebookPortalSetup.md)
 * [Android Setup](docs/AndroidSetup.md)
