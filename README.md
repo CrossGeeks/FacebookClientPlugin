@@ -7,7 +7,7 @@ Simple cross platform plugin for handling facebook login, sharing, facebook grap
 * Install into your PCL project and Client projects.
 * Create your [Facebook](docs/FacebookPortalSetup.md) application.
 * Follow the [Android](docs/AndroidSetup.md) and [iOS](docs/iOSSetup.md) Setup guides
-* Follow [Getting Started](docs/GettingStarted.md)
+* Check out [Getting Started](docs/GettingStarted.md)
 
 **Platform Support**
 
