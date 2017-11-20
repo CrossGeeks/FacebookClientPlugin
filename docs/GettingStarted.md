@@ -9,12 +9,16 @@ If developing an application that supports iOS and Android, make sure you instal
 
 ### Login
 
+Here some examples on how to login depending on your use case:
+
 Login with read permissions requesting email permission.
+
 ```cs
  CrossFacebookClient.Current.LoginAsync( new string[] {"email"});
 ```
 
 Login with publish permissions
+
 ```cs
  CrossFacebookClient.Current.LoginAsync( new string[] {"publish_actions"},FacebookPermissionType.Publish);
 ```
