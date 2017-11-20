@@ -1,5 +1,7 @@
 ## Getting Started
 
+If developing an application that supports iOS and Android, make sure you installed the NuGet package into your PCL project and Client projects.
+
 ### Setup
 * [Facebook Setup](docs/FacebookPortalSetup.md)
 * [Android Setup](docs/AndroidSetup.md)
