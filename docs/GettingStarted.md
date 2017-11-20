@@ -52,7 +52,15 @@ Login with read permissions & Get User Data
 
 **CrossFacebookClient.Current.VerifyPermission** : Verify if a specific permission has been granted
 
-**CrossFacebookClient.Current.HasPermissions** : Verify if the permissions specified have been granted
+```cs
+CrossFacebookClient.Current.VerifyPermission("publish_actions");
+```
+
+**CrossFacebookClient.Current.HasPermissions** : Verify if all the permissions specified have been granted
+
+```cs
+CrossFacebookClient.Current.HasPermissions(new string[]{"user_friends","birthdat"});
+```
 
 More information about available permissions here
 https://developers.facebook.com/docs/facebook-login/permissions/?locale=en_EN
@@ -62,7 +70,9 @@ https://developers.facebook.com/docs/facebook-login/permissions/?locale=en_EN
 
 ```cs
             event EventHandler<FBEventArgs<string>> OnRequestData;
+            
             event EventHandler<FBEventArgs<string>> OnPostData;
+            
             event EventHandler<FBEventArgs<string>> OnDeleteData;
 
             event EventHandler<FBEventArgs<Dictionary<string, object>>> OnUserData;
