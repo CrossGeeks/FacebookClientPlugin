@@ -108,14 +108,14 @@ namespace Plugin.FacebookClient
         {
             AppEvents.ActivateApp();
         }
-        public static void OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
+        public static bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
         {
-            ApplicationDelegate.SharedInstance.OpenUrl(app, url, $"{options["UIApplicationOpenURLOptionsSourceApplicationKey"]}", null);
+           return ApplicationDelegate.SharedInstance.OpenUrl(app, url, $"{options["UIApplicationOpenURLOptionsSourceApplicationKey"]}", null);
         }
 
-        public static void OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
+        public static bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
         {
-            ApplicationDelegate.SharedInstance.OpenUrl(application, url, sourceApplication, annotation);
+           return ApplicationDelegate.SharedInstance.OpenUrl(application, url, sourceApplication, annotation);
         }
         
         public void DidComplete(ISharing sharer, NSDictionary results)

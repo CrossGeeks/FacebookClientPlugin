@@ -9,12 +9,12 @@
 On **FinishedLaunching** just before **return base.FinishedLaunching(app, options)**:
 
 ```cs
-FacebookManager.Initialize(app,options);
+FacebookClientManager.Initialize(app,options);
 ```
 
 Override **OnActivated(UIApplication uiApplication)**:
 ```cs
-FacebookManager.OnActivated();
+FacebookClientManager.OnActivated();
 ```
 
 Override OpenUrl methods
@@ -22,12 +22,12 @@ Override OpenUrl methods
 ```cs
   public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
   {
-      return FacebookManager.OpenUrl(app, url, options);
+      return FacebookClientManager.OpenUrl(app, url, options);
   }
 
   public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
   {
-      return FacebookManager.OpenUrl(application, url, sourceApplication, annotation);        
+      return FacebookClientManager.OpenUrl(application, url, sourceApplication, annotation);        
   }
 
 ```

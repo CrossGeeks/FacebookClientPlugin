@@ -16,7 +16,7 @@ Note: Save that CallbackManager in class variable/property since you will need i
   protected override void OnActivityResult(int requestCode, Result resultCode, Intent intent)
   {
 		base.OnActivityResult(requestCode, resultCode, intent);
-		FacebookManager.OnActivityResult(requestCode, (int)resultCode, intent);
+		FacebookClientManager.OnActivityResult(requestCode, resultCode, intent);
   }
 ```
 
