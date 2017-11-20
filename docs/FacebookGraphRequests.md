@@ -31,7 +31,9 @@ For example let's say I just want to get a few fields on my response back, then 
 
 If need to do the request on an specific Graph Api version, could be specify by setting the **version** parameter.
 
-Usage:
+Response will be a raw string will the requested information correspondant to the query.
+
+#### Usage Sample:
 
 
 Get all friends that are authorized on your facebook app
