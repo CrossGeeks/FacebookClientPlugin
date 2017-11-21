@@ -32,24 +32,24 @@ Windows: keytool -exportcert -alias <KEY_STORE_ALIAS> -keystore <KEY_STORE_PATH>
 
 Make sure to use the password that you set when you first created the keystore.
 
-6. Add your package name and full class name for your Activity.
+5. Add your package name and full class name for your Activity.
 
 ![Add Android  Details](https://github.com/CrossGeeks/FacebookClientPlugin/blob/develop/images/create-android-app-details.png?raw=true)
 
 
 ### iOS Setup
 
-7. Click on add platform then select iOS
+6. Click on add platform then select iOS
 
 ![Add iOS](https://github.com/CrossGeeks/FacebookClientPlugin/blob/develop/images/create-ios-app.png?raw=true)
 
-8. Enter the bundle identifier for your iOS application on iOs platform config
+7. Enter the bundle identifier for your iOS application on iOs platform config
 
 ![Add iOS 2](https://github.com/CrossGeeks/FacebookClientPlugin/blob/develop/images/create-ios-app-2.png?raw=true)
 
 ### Enable sharing content setup (Optional)
 
-9. Go to App Review and make public your application so that you are able to test sharing posts.
+8. Go to App Review and make public your application so that you are able to test sharing posts.
 
 ![Make Public](https://github.com/CrossGeeks/FacebookClientPlugin/blob/develop/images/fb-app-make-public.png)
 
@@ -57,13 +57,13 @@ Make sure to use the password that you set when you first created the keystore.
 
 ![Make Public 3](https://github.com/CrossGeeks/FacebookClientPlugin/blob/develop/images/fb-app-make-ublic-3.png?raw=true)
 
-10. Click on start submission to add **publish_actions** permission, then click on Add Item (You can add any other permissions you might need in your application)
+9. Click on start submission to add **publish_actions** permission, then click on Add Item (You can add any other permissions you might need in your application)
 
 ![Enable publish permission](https://github.com/CrossGeeks/FacebookClientPlugin/blob/develop/images/publish_actions_permission.png?raw=true)
 
 ![Enable publish permission](https://github.com/CrossGeeks/FacebookClientPlugin/blob/develop/images/publish_actions_permission_2.png?raw=true)
 
-11. Add your testers
+10. Add your testers
 
 ![Testers](https://github.com/CrossGeeks/FacebookClientPlugin/blob/develop/images/testers.png?raw=true)
 
