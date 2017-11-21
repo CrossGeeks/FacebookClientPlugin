@@ -91,17 +91,17 @@ More information on [Sharing Content](../docs/SharingContent.md) section.
 
 All async methods response is a  ```FacebookResponse<T>``` where the type of T is relevant to the caller method.
 
+   On login method returns a bool.
+     
+   On sharing/user data returns a dictionary with the data response.
+
 #### Response
 
 Type: ```FacebookResponse<T>```
 
 Properties:
 
-* **Data**:
-
-     On login method returns a bool.
-     
-     On sharing/user data returns a dictionary with the data response.
+* **Data**: Response data (T)
 
 * **Status**: Response status
 
