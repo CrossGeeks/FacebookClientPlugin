@@ -66,19 +66,6 @@ More information about available permissions here:
 https://developers.facebook.com/docs/facebook-login/permissions/?locale=en_EN
 
 
-### Events
-
-```cs
-            event EventHandler<FBEventArgs<string>> OnRequestData;
-            
-            event EventHandler<FBEventArgs<string>> OnPostData;
-            
-            event EventHandler<FBEventArgs<string>> OnDeleteData;
-
-            event EventHandler<FBEventArgs<Dictionary<string, object>>> OnSharing;
-
-```
-
 ### Facebook Response Status
 ```cs
   public enum FacebookActionStatus
@@ -107,6 +94,28 @@ https://developers.facebook.com/docs/facebook-login/permissions/?locale=en_EN
         public string Message { get; set; }
     }
 ```
+
+### Sharing
+
+By default sharing methods request the **publish_actions** permission if not granted.
+
+Simple Share
+```cs
+ await CrossFacebookClient.Current.SharePhotoAsync(myPhotoBytes, captionText);
+```
+
+Share multiple photos
+```cs
+FacebookSharePhoto photo = new FacebookSharePhoto(text, imageBytes);
+FacebookSharePhoto photo2 = new FacebookSharePhoto(text2, imageBytes2);
+FacebookSharePhoto[] photos = new FacebookSharePhoto[] { photo, photo2 };                    
+FacebookSharePhotoContent photoContent = new FacebookSharePhotoContent(photos);
+ var ret = await CrossFacebookClient.Current.ShareAsync(photoContent);
+```
+
+More information on [Sharing Content](../docs/SharingContent.md) section.
+
+
 
 ### Events
 
@@ -137,24 +146,13 @@ Logout triggers **OnLogout** event.
   };
 ```
 
-### Sharing
-
-By default sharing methods request the **publish_actions** permission if not granted.
-
-Simple Share
+Sharing event:
+  
 ```cs
- await CrossFacebookClient.Current.SharePhotoAsync(myPhotoBytes, captionText);
+  CrossFacebookClient.Current.OnSharing += (s,a)=> 
+  {
+      
+  };
 ```
-
-Share multiple photos
-```cs
-FacebookSharePhoto photo = new FacebookSharePhoto(text, imageBytes);
-FacebookSharePhoto photo2 = new FacebookSharePhoto(text2, imageBytes2);
-FacebookSharePhoto[] photos = new FacebookSharePhoto[] { photo, photo2 };                    
-FacebookSharePhotoContent photoContent = new FacebookSharePhotoContent(photos);
- var ret = await CrossFacebookClient.Current.ShareAsync(photoContent);
-```
-
-More information on [Sharing Content](../docs/SharingContent.md) section.
 
 <= Back to [Table of Contents](../README.md)
