@@ -74,7 +74,7 @@ Task<FacebookResponse<string>> DeleteDataAsync(string path, string[] permissions
 
 Allows you to delete information within the specified facebook graph path.
 
-* **path** : The facebook Graph path for information to delete
+* **path** : The facebook node id for information to delete
 
 * **permissions** : The facebook needed permissions for the requested information.
 
@@ -82,6 +82,7 @@ Also you can specify the parameters for the facebook graph request.
 
 * **parameters** : Dictionary for the facebook graph request parameters.
 
+If need to do the request on an specific Graph Api version, could be specify by setting the **version** parameter.
 
 #### Usage Sample
 
@@ -107,6 +108,7 @@ Also you can specify the parameters for the facebook graph request.
 
 * **parameters** : Dictionary for the facebook graph request parameters.
 
+If need to do the request on an specific Graph Api version, could be specify by setting the **version** parameter.
 
 #### Usage Sample
 
