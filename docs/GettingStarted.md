@@ -185,4 +185,46 @@ Sharing event:
   };
 ```
 
+Request event:
+  
+```cs
+  CrossFacebookClient.Current.OnRequestData += (s,a)=> 
+  {
+      switch (a.Status)
+      {
+         case FacebookActionStatus.Completed:
+      
+         break;
+      }
+  };
+```
+
+Delete event:
+  
+```cs
+  CrossFacebookClient.Current.OnDeleteData += (s,a)=> 
+  {
+      switch (a.Status)
+      {
+         case FacebookActionStatus.Completed:
+        
+         break;
+      }
+  };
+```
+
+Post event:
+  
+```cs
+  CrossFacebookClient.Current.OnPostData += (s,a)=> 
+  {
+      switch (a.Status)
+      {
+         case FacebookActionStatus.Completed:
+      
+         break;
+      }
+  };
+```
+
 <= Back to [Table of Contents](../README.md)
