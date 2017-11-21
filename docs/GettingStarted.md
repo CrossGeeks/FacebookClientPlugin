@@ -120,24 +120,36 @@ More information on [Sharing Content](../docs/SharingContent.md) section.
 ### Events
 
 
-Login method trigger **OnLogin** event.
+Login event:
 
 ```cs
   CrossFacebookClient.Current.OnLogin += (s,a)=> 
   {
+     switch (a.Status)
+      {
+         case FacebookActionStatus.Completed:
+          //Logged in succesfully
+         break;
+      }
   };
 ```
 
-RequestUserData methos trigger **OnUserData** event.
+RequestUserData event:
 
 ```cs
   CrossFacebookClient.Current.OnUserData += (s,a)=> 
   {
+     switch (a.Status)
+      {
+         case FacebookActionStatus.Completed:
+          //Got user data
+         break;
+      }
       
   };
 ```
 
-Logout triggers **OnLogout** event.
+Logout event:
 
 ```cs
   CrossFacebookClient.Current.OnLogout += (s,a)=> 
@@ -151,7 +163,12 @@ Sharing event:
 ```cs
   CrossFacebookClient.Current.OnSharing += (s,a)=> 
   {
-      
+      switch (a.Status)
+      {
+         case FacebookActionStatus.Completed:
+          //Shared post succesfully
+         break;
+      }
   };
 ```
 
