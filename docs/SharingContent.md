@@ -51,7 +51,8 @@ FacebookShareLinkContent linkContent = new FacebookShareLinkContent("http://www.
 
 ### Share Video
 ```cs               
-FacebookShareVideoContent videoContent = new FacebookShareVideoContent(filePath);
+FacebookShareVideo video = new FacebookShareVideo(videoPath);
+FacebookShareVideoContent videoContent = new FacebookShareVideoContent(video);
  var ret = await CrossFacebookClient.Current.ShareAsync(videoContent);
 ```
 
