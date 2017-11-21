@@ -114,7 +114,6 @@ Properties:
 * **Message**: Error message string
 
 **Note: If response *Status* isn't FacebookActionStatus.Completed, *Data* property will be null and should have a value on *Message* property with the error.**
-```
 
 ### Events
 
