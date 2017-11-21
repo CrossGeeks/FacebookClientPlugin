@@ -69,34 +69,39 @@ Get all my likes
 ### DeleteDataAsync
 
 ```cs
-Task<FacebookResponse<string>> DeleteDataAsync(string path, IDictionary<string, string> parameters = null, string version = null);
+Task<FacebookResponse<string>> DeleteDataAsync(string path, string[] permissions, IDictionary<string, string> parameters = null, string version = null);
 ```
 
-Allows you to delete information within the specified facebook graph path. Automatically requests login with **publish_actions** permission if is not granted yet.
+Allows you to delete information within the specified facebook graph path.
 
 * **path** : The facebook Graph path for information to delete
+
+* **permissions** : The facebook needed permissions for the requested information.
 
 Also you can specify the parameters for the facebook graph request.
 
 * **parameters** : Dictionary for the facebook graph request parameters.
 
+
 #### Usage Sample
 
 ```cs
 
-   CrossFacebookClient.Current.DeleteDataAsync("1234");
+   CrossFacebookClient.Current.DeleteDataAsync("1234",new string[]{"publish_actions");
   
 ```
 
 ### PostDataAsync
 
 ```cs
-Task<FacebookResponse<string>> PostDataAsync(string path, IDictionary<string, string> parameters = null, string version = null);
+Task<FacebookResponse<string>> PostDataAsync(string path, string[] permissions, IDictionary<string, string> parameters = null, string version = null);
 ```
 
 Allows you to post information within the specified facebook graph path. Automatically requests login with **publish_actions** permission if is not granted yet.
 
 * **path** : The facebook Graph path for the information to post
+
+* **permissions** : The facebook needed permissions for the requested information.
 
 Also you can specify the parameters for the facebook graph request.
 
@@ -110,7 +115,7 @@ Also you can specify the parameters for the facebook graph request.
    CrossFacebookClient.Current.PostDataAsync("me/feed", new Dictionary<string, string>()
    {
       {"message" , "hello world"}
-   });
+   },new string[]{"publish_actions");
   
 ```
 

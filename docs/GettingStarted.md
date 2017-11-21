@@ -9,76 +9,174 @@ If developing an application that supports iOS and Android, make sure you instal
 
 ### Login
 
+Here some examples on how to login depending on your use case:
 
-### Plugin Methods
+Login with read permissions requesting email permission.
+
 ```cs
-            Task<FacebookResponse<bool>> LoginAsync(string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read);
-            Task<FacebookResponse<Dictionary<string, object>>> SharePhotoAsync(byte[] imgBytes, string caption = "");
-            Task<FacebookResponse<Dictionary<string, object>>> ShareAsync(FacebookShareContent shareContent);
-            Task<FacebookResponse<Dictionary<string, object>>> RequestUserDataAsync(string[] fields, string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read);
-            Task<FacebookResponse<string>> QueryDataAsync(string path, string[] permissions, IDictionary<string, string> parameters = null, string version = null);
-            Task<FacebookResponse<string>> PostDataAsync(string path, IDictionary<string, string> parameters = null, string version = null);
-            Task<FacebookResponse<string>> DeleteDataAsync(string path, IDictionary<string, string> parameters = null, string version = null);
-			void Logout();
+ await CrossFacebookClient.Current.LoginAsync( new string[] {"email"});
+```
 
-            void LogEvent(string name);
-            bool VerifyPermission(string permission);
+Login with publish permissions
 
-            bool HasPermissions(string[] permission);
+```cs
+  await CrossFacebookClient.Current.LoginAsync( new string[] {"publish_actions"},FacebookPermissionType.Publish);
+```
 
+Login with read permissions & get user data
+
+```cs
+ await CrossFacebookClient.Current.RequestUserDataAsync(new string[] { "email", "first_name", "gender", "last_name", "birthday" }, new string[] { "email", "user_birthday" });
+```
+Note: This method will check if has the requested permissions granted, if so will just get the user data, if not will prompt login requesting the missing permissions and after granted will get the user data.
+
+
+### Logout
+
+```cs
+ CrossFacebookClient.Current.Logout();
 ```
 
 ### Permissions
 
-More information about available permissions here
-https://developers.facebook.com/docs/facebook-login/permissions/?locale=en_EN
+There are some methods & properties to verify the current state of facebook permissions:
+
+**CrossFacebookClient.Current.ActivePermissions** : List of granted permissions.
+
+**CrossFacebookClient.Current.DeclinedPermissions** : List of declined permissions.
+
+**CrossFacebookClient.Current.VerifyPermission** : Verify if a specific permission has been granted.
+
+Usage:
 
 ```cs
-      string[] ActivePermissions { get; }
-
-            string[] DeclinedPermissions { get; }
-
-			  bool VerifyPermission(string permission);
-
-            bool HasPermissions(string[] permission);
-
+CrossFacebookClient.Current.VerifyPermission("publish_actions");
 ```
+
+**CrossFacebookClient.Current.HasPermissions** : Verify if all the permissions specified have been granted.
+
+Usage:
+
+```cs
+CrossFacebookClient.Current.HasPermissions(new string[]{"user_friends","user_likes"});
+```
+
+More information about available permissions here:
+
+https://developers.facebook.com/docs/facebook-login/permissions/?locale=en_EN
+
 
 ### Events
 
 ```cs
             event EventHandler<FBEventArgs<string>> OnRequestData;
+            
             event EventHandler<FBEventArgs<string>> OnPostData;
+            
             event EventHandler<FBEventArgs<string>> OnDeleteData;
-
-            event EventHandler<FBEventArgs<Dictionary<string, object>>> OnUserData;
-
-            event EventHandler<FBEventArgs<bool>> OnLogin;
-
-            event EventHandler<FBEventArgs<bool>> OnLogout;
 
             event EventHandler<FBEventArgs<Dictionary<string, object>>> OnSharing;
 
 ```
 
-### Sample use
-
-Login & Get User Data
-
+### Facebook Response Status
 ```cs
- await CrossFacebookClient.Current.RequestUserDataAsync(new string[] { "email", "first_name", "gender", "last_name", "birthday" }, new string[] { "email", "user_birthday" });
+  public enum FacebookActionStatus
+  {
+        Canceled,
+        Unauthorized,
+        Completed,
+        Error
+  }
 ```
 
-To Share
+
+```cs
+  public class FBEventArgs<T> : EventArgs
+    {
+        public T Data { get; set; }
+        public FacebookActionStatus Status { get; set; }
+        public string Message { get; set; }
+
+        public FBEventArgs(T data, FacebookActionStatus status, string msg = "")
+        {
+            Data = data;
+            Status = status;
+            Message = msg;
+        }
+
+    }
+
+    public class FacebookResponse<T> 
+    {
+        public T Data { get; set; }
+        public FacebookActionStatus Status { get; set; }
+        public string Message { get; set; }
+
+        public FacebookResponse(FBEventArgs<T> evtArgs)
+        {
+            Data = evtArgs.Data;
+            Status = evtArgs.Status;
+            Message = evtArgs.Message;
+        }
+
+        public FacebookResponse(T data, FacebookActionStatus status, string msg = "")
+        {
+            Data = data;
+            Status = status;
+            Message = msg;
+        }
+
+    }
+```
+
+### Events
+
+
+Login method trigger **OnLogin** event.
+
+```cs
+  CrossFacebookClient.Current.OnLogin += (s,a)=> 
+  {
+  };
+```
+
+RequestUserData methos trigger **OnUserData** event.
+
+```cs
+  CrossFacebookClient.Current.OnUserData += (s,a)=> 
+  {
+      
+  };
+```
+
+Logout triggers **OnLogout** event.
+
+```cs
+  CrossFacebookClient.Current.OnLogout += (s,a)=> 
+  {
+      
+  };
+```
+
+### Sharing
+
+By default sharing methods request the **publish_actions** permission if not granted.
+
+Simple Share
 ```cs
  await CrossFacebookClient.Current.SharePhotoAsync(myPhotoBytes, captionText);
 ```
-### Share Content
+
+Share multiple photos
 ```cs
-FacebookSharePhoto photo = new FacebookSharePhoto(text, image);
-FacebookSharePhoto[] photos = new FacebookSharePhoto[] { photo };                    
+FacebookSharePhoto photo = new FacebookSharePhoto(text, imageBytes);
+FacebookSharePhoto photo2 = new FacebookSharePhoto(text2, imageBytes2);
+FacebookSharePhoto[] photos = new FacebookSharePhoto[] { photo, photo2 };                    
 FacebookSharePhotoContent photoContent = new FacebookSharePhotoContent(photos);
  var ret = await CrossFacebookClient.Current.ShareAsync(photoContent);
 ```
+
+More information on [Sharing Content](../docs/SharingContent.md) section.
 
 <= Back to [Table of Contents](../README.md)
