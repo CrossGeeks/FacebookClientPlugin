@@ -24,7 +24,7 @@ Login with publish permissions
 ```
 
 
-Login with read permissions & Get User Data
+Login with read permissions & get user data
 
 ```cs
  await CrossFacebookClient.Current.RequestUserDataAsync(new string[] { "email", "first_name", "gender", "last_name", "birthday" }, new string[] { "email", "user_birthday" });
