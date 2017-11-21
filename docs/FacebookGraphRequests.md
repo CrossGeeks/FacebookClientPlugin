@@ -32,7 +32,7 @@ Properties:
         
 * **Message**: Error message string
 
-Response is type **FacebookResponse<string>** which includes the string of the raw facebook response on *Data* property if *Status* is **FacebookActionStatus.Completed**. If not then *Data* value will be null, and should have a value on *Message* property with the error.
+Note: If response status is not **Completed**, *Data* property will be null and should have a value on *Message* property with the error.
 
 
 ### QueryDataAsync
