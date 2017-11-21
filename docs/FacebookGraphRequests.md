@@ -1,6 +1,6 @@
 ## Facebook Graph Requests
 
-Information on graph api:
+Information on graph api here:
 
 https://developers.facebook.com/docs/graph-api/reference
 
