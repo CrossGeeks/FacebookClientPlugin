@@ -2,6 +2,14 @@
 
 https://developers.facebook.com/docs/graph-api/reference
 
+The following method will allow you to make facebook graph requests:
+
+* QueryDataAsync - Request information from facebook
+* DeleteDataAsync - Delete a previously posted information from facebook
+* PostDataAsync - Post information to facebook
+
+Response is type FacebookResponse<string> which includes the string of the raw facebook response if succesfull. If not Data value will be null, and should have a value on Message property with the error.
+
 
 ### QueryDataAsync
 
