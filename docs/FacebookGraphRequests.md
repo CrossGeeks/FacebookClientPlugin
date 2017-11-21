@@ -27,10 +27,13 @@ Properties:
 
 * **Status**: Response status
 
-        - FacebookActionStatus.Canceled - If Request was canceled
-        - FacebookActionStatus.Unauthorized - If Request was not authorized due to lack of permissions required
-        - FacebookActionStatus.Completed - If Request was completed succesfully
-        - FacebookActionStatus.Error - If Request failed
+     *FacebookActionStatus.Canceled* - If Request was canceled
+     
+     *FacebookActionStatus.Unauthorized* - If Request was not authorized due to lack of permissions required
+     
+     *FacebookActionStatus.Completed* - If Request was completed succesfully
+     
+     *FacebookActionStatus.Error* - If Request failed
         
 * **Message**: Error message string
 
