@@ -20,21 +20,11 @@ Response is type **FacebookResponse<string>** which includes the string of the r
 
 ### QueryDataAsync
 
-```cs
- Task<FacebookResponse<string>> QueryDataAsync(string path, string[] permissions, IDictionary<string, string> parameters = null, string version = null);
-```
 
 Allows you to get information using a Facebook Graph Request Query. 
 
-For example let's say I just want to get a few fields on my response back, then I would specify parameters similar to this:
-
 ```cs
-
-   var fbParams =  new Dictionary<string, string>()
-   {
-      {"fields", "id, first_name, last_name, middle_name, name, email, picture"}
-   }
-  
+ Task<FacebookResponse<string>> QueryDataAsync(string path, string[] permissions, IDictionary<string, string> parameters = null, string version = null);
 ```
 
 #### Usage Sample:
@@ -72,11 +62,11 @@ Get all my likes
 
 ### DeleteDataAsync
 
+Allows you to delete information within the specified facebook graph path.
+
 ```cs
 Task<FacebookResponse<string>> DeleteDataAsync(string path, string[] permissions, IDictionary<string, string> parameters = null, string version = null);
 ```
-
-Allows you to delete information within the specified facebook graph path.
 
 
 #### Usage Sample
@@ -89,11 +79,11 @@ Allows you to delete information within the specified facebook graph path.
 
 ### PostDataAsync
 
+Allows you to post information within the specified facebook graph path. 
+
 ```cs
 Task<FacebookResponse<string>> PostDataAsync(string path, string[] permissions, IDictionary<string, string> parameters = null, string version = null);
 ```
-
-Allows you to post information within the specified facebook graph path. 
 
 #### Usage Sample
 
