@@ -29,6 +29,7 @@ namespace Plugin.FacebookClient
         static TaskCompletionSource<FacebookResponse<string>> _deleteTcs;
         static TaskCompletionSource<FacebookResponse<bool>> _loginTcs;
 
+        static AppEventsLogger mLogger;
         static ICallbackManager mCallbackManager;
 
         //Activity mActivity;
@@ -175,6 +176,7 @@ namespace Plugin.FacebookClient
         }
         public static void Initialize(Activity activity)
         {
+            mLogger = AppEventsLogger.NewLogger(Android.App.Application.Context as Android.App.Application);
             mCallbackManager = CallbackManagerFactory.Create();
             CurrentActivity = activity;
 
@@ -388,7 +390,7 @@ namespace Plugin.FacebookClient
             return await PerformAction<FacebookResponse<string>>(RequestData, paramDict, _requestTcs.Task,FacebookPermissionType.Read, permissions);
         }
 
-        public async Task<FacebookResponse<string>> PostDataAsync(string path, IDictionary<string, string> parameters = null, string version = null)
+        public async Task<FacebookResponse<string>> PostDataAsync(string path, string[] permissions,IDictionary<string, string> parameters = null, string version = null)
         {
             _postTcs = new TaskCompletionSource<FacebookResponse<string>>();
             Dictionary<string, object> paramDict = new Dictionary<string, object>()
@@ -398,10 +400,10 @@ namespace Plugin.FacebookClient
                 {"method", FacebookHttpMethod.Post},
                 {"version", version}
             };
-            return await PerformAction<FacebookResponse<string>>(RequestData, paramDict, _postTcs.Task, FacebookPermissionType.Publish, new string[] { "publish_actions" });
+            return await PerformAction<FacebookResponse<string>>(RequestData, paramDict, _postTcs.Task, FacebookPermissionType.Publish, permissions);
         }
 
-        public async Task<FacebookResponse<string>> DeleteDataAsync(string path, IDictionary<string, string> parameters = null, string version = null)
+        public async Task<FacebookResponse<string>> DeleteDataAsync(string path, string[] permissions,IDictionary<string, string> parameters = null, string version = null)
         {
             _deleteTcs = new TaskCompletionSource<FacebookResponse<string>>();
             Dictionary<string, object> paramDict = new Dictionary<string, object>()
@@ -411,7 +413,7 @@ namespace Plugin.FacebookClient
                 {"method", FacebookHttpMethod.Delete },
                 {"version", version}
             };
-            return await PerformAction<FacebookResponse<string>>(RequestData, paramDict, _deleteTcs.Task, FacebookPermissionType.Publish, new string[] { "publish_actions" });
+            return await PerformAction<FacebookResponse<string>>(RequestData, paramDict, _deleteTcs.Task, FacebookPermissionType.Publish, permissions);
         }
 
      
@@ -794,7 +796,7 @@ namespace Plugin.FacebookClient
 
         public void LogEvent(string name)
         {
-            AppEventsLogger.NewLogger(Android.App.Application.Context as Android.App.Application).LogEvent(name);
+            mLogger?.LogEvent(name);
         }
 
 
