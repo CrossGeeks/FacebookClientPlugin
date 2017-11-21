@@ -114,7 +114,7 @@ Also add:
  
 ```
 
-Note: Replace xxxxxxxxxxxxx with your facebook app id
+**Note: Replace xxxxxxxxxxxxx with your facebook app id**
 
 
 ### Entitlement.plist
