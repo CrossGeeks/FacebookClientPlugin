@@ -32,7 +32,7 @@ You can share 3 types of content:
 FacebookSharePhoto photo = new FacebookSharePhoto(text, image);
 FacebookSharePhoto[] photos = new FacebookSharePhoto[] { photo };                    
 FacebookSharePhotoContent photoContent = new FacebookSharePhotoContent(photos);
- var ret = await CrossFacebookClient.Current.ShareAsync(photoContent);
+await CrossFacebookClient.Current.ShareAsync(photoContent);
 ```
 
 ### Share Photo using url
@@ -40,7 +40,7 @@ FacebookSharePhotoContent photoContent = new FacebookSharePhotoContent(photos);
 FacebookSharePhoto photo = new FacebookSharePhoto(text, imageUrl);
 FacebookSharePhoto[] photos = new FacebookSharePhoto[] { photo };                    
 FacebookSharePhotoContent photoContent = new FacebookSharePhotoContent(photos);
- var ret = await CrossFacebookClient.Current.ShareAsync(photoContent);
+ await CrossFacebookClient.Current.ShareAsync(photoContent);
 ```
 
 ### Share Link
@@ -53,7 +53,7 @@ FacebookShareLinkContent linkContent = new FacebookShareLinkContent("awesome plu
 ```cs               
 FacebookShareVideo video = new FacebookShareVideo(videoPath);
 FacebookShareVideoContent videoContent = new FacebookShareVideoContent(video);
- var ret = await CrossFacebookClient.Current.ShareAsync(videoContent);
+await CrossFacebookClient.Current.ShareAsync(videoContent);
 ```
 
 <= Back to [Table of Contents](../README.md)
