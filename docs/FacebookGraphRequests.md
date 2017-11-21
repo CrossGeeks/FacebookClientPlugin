@@ -118,5 +118,14 @@ Task<FacebookResponse<string>> PostDataAsync(string path, string[] permissions, 
   
 ```
 
+### Events
+
+```cs
+        public event EventHandler<FBEventArgs<string>> OnRequestData;
+        public event EventHandler<FBEventArgs<string>> OnPostData;
+        public event EventHandler<FBEventArgs<string>> OnDeleteData;
+  
+```
+
 
 <= Back to [Table of Contents](../README.md)
