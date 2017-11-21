@@ -13,7 +13,7 @@ The following method will allow you to make facebook graph requests:
 #### Parameters
 
 * **path** : The facebook Graph path for the requested information
-* **permissions** : The facebook needed permissions for the requested action.
+* **permissions** : The facebook needed permissions for the requested action. (Should always specify the needed permissions for the graph request, if permission is not granted yet it will automatically request the permission to the user and then complete de request operation if granted)
 * **parameters (Optional)** : Dictionary for the facebook graph request parameters.
 * **version (Optional)**: Specify api version if need to do the request on an specific Graph Api version.
 
