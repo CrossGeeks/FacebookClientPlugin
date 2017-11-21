@@ -29,6 +29,7 @@ Login with read permissions & get user data
 ```cs
  await CrossFacebookClient.Current.RequestUserDataAsync(new string[] { "email", "first_name", "gender", "last_name", "birthday" }, new string[] { "email", "user_birthday" });
 ```
+Note: This method will check if has the requested permissions granted, if so will just get the user data, if not will prompt login requesting the missing permissions and after granted will get the user data.
 
 ### Logout
 
