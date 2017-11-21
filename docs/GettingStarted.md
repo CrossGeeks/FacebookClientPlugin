@@ -98,13 +98,6 @@ https://developers.facebook.com/docs/facebook-login/permissions/?locale=en_EN
         public FacebookActionStatus Status { get; set; }
         public string Message { get; set; }
 
-        public FBEventArgs(T data, FacebookActionStatus status, string msg = "")
-        {
-            Data = data;
-            Status = status;
-            Message = msg;
-        }
-
     }
 
     public class FacebookResponse<T> 
@@ -112,21 +105,6 @@ https://developers.facebook.com/docs/facebook-login/permissions/?locale=en_EN
         public T Data { get; set; }
         public FacebookActionStatus Status { get; set; }
         public string Message { get; set; }
-
-        public FacebookResponse(FBEventArgs<T> evtArgs)
-        {
-            Data = evtArgs.Data;
-            Status = evtArgs.Status;
-            Message = evtArgs.Message;
-        }
-
-        public FacebookResponse(T data, FacebookActionStatus status, string msg = "")
-        {
-            Data = data;
-            Status = status;
-            Message = msg;
-        }
-
     }
 ```
 
