@@ -85,19 +85,22 @@ https://developers.facebook.com/docs/facebook-login/permissions/?locale=en_EN
 
 ```
 
-### Sample use
+### Sharing
 
-
-To Share
+Simple Share
 ```cs
  await CrossFacebookClient.Current.SharePhotoAsync(myPhotoBytes, captionText);
 ```
-### Share Content
+
+Share multiple photos
 ```cs
 FacebookSharePhoto photo = new FacebookSharePhoto(text, image);
-FacebookSharePhoto[] photos = new FacebookSharePhoto[] { photo };                    
+FacebookSharePhoto photo2 = new FacebookSharePhoto(text2, image2);
+FacebookSharePhoto[] photos = new FacebookSharePhoto[] { photo, photo2 };                    
 FacebookSharePhotoContent photoContent = new FacebookSharePhotoContent(photos);
  var ret = await CrossFacebookClient.Current.ShareAsync(photoContent);
 ```
+
+More information on [Sharing Content](../docs/SharingContent.md) section.
 
 <= Back to [Table of Contents](../README.md)
