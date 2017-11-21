@@ -22,8 +22,15 @@ Type: ```FacebookResponse<string>```
 Properties:
 
 * **Data**: Raw facebook response string
+
 * **Status**: Response status
-* **Message**: Error message
+
+        - Canceled - If Request was canceled
+        - Unauthorized - If Request was not authorized due to lack of permissions required
+        - Completed - If Request was completed succesfully
+        - Error - If Request failed
+        
+* **Message**: Error message string
 
 Response is type **FacebookResponse<string>** which includes the string of the raw facebook response on *Data* property if *Status* is **FacebookActionStatus.Completed**. If not then *Data* value will be null, and should have a value on *Message* property with the error.
 
