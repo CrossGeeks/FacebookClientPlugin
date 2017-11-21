@@ -63,7 +63,7 @@ This step is optional, but highly recommended. The reason is because in order to
 
 Enable keystore auto signing, so that you are able to test within the same keystore on Debug and Release.
 
-Inside:
+On your Android .csproj inside:
 ```<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">``` and ```<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">```
 
 ```xml
