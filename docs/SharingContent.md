@@ -5,9 +5,9 @@
 
 You can share 3 types of content:
 
-* Photos : By using FacebookSharePhotoContent
-* Link: By using FacebookShareLinkContent
-* Video: By using FacebookShareVideoContent
+* **FacebookSharePhotoContent** - Photos
+* **FacebookShareLinkContent** - Link
+* **FacebookShareVideoContent** - Video
 
 ### Simple photo share
 ```cs
