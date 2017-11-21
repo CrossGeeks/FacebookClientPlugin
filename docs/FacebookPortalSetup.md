@@ -25,10 +25,12 @@
 4. Generate a hash for the keystore you will sign the apk with and add the generated hash to android platform config.
 
 ```bash
-Mac: keytool -exportcert -alias androiddebugkey -keystore /Users/[USERNAME]]/.local/share/Xamarin/Mono\ for\ Android/debug.keystore | openssl sha1 -binary | openssl base64
+Mac: keytool -exportcert -alias <KEY_STORE_ALIAS> -keystore <KEY_STORE_PATH> | openssl sha1 -binary | openssl base64
  
-Windows: keytool -exportcert -alias androiddebugkey -keystore "C:\Users\[USERNAME]\AppData\Local\Xamarin\Mono for Android\debug.keystore" | openssl sha1 -binary | openssl base64
+Windows: keytool -exportcert -alias <KEY_STORE_ALIAS> -keystore <KEY_STORE_PATH> | openssl sha1 -binary | openssl base64
 ```
+
+Make sure to use the password that you set when you first created the keystore.
 
 6. Add your package name and full class name for your Activity.
 
