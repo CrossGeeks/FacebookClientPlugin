@@ -8,7 +8,7 @@ The following method will allow you to make facebook graph requests:
 * **DeleteDataAsync** - Delete a previously posted information from facebook
 * **PostDataAsync** - Post information to facebook
 
-### Parameters
+#### Parameters
 
 * **path** : The facebook Graph path for the requested information
 * **permissions** : The facebook needed permissions for the requested action.
