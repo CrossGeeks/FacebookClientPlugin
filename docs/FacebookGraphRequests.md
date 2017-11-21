@@ -17,13 +17,13 @@ The following method will allow you to make facebook graph requests:
 
 #### Response
 
-Type: FacebookResponse<string>
+Type: ```FacebookResponse<string>```
 
 Properties:
 
-* Data:
-* Status:
-* Message: Error message
+* **Data**: Raw facebook response string
+* **Status**: Response status
+* **Message**: Error message
 
 Response is type **FacebookResponse<string>** which includes the string of the raw facebook response on *Data* property if *Status* is **FacebookActionStatus.Completed**. If not then *Data* value will be null, and should have a value on *Message* property with the error.
 
