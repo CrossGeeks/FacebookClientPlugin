@@ -87,7 +87,9 @@ FacebookSharePhotoContent photoContent = new FacebookSharePhotoContent(photos);
 More information on [Sharing Content](../docs/SharingContent.md) section.
 
 
-### Facebook Response Status
+### Facebook Response
+
+All async methods response is a  ```FacebookResponse<T>``` where the type of T is relevant to the caller method.
 
 #### Response
 
