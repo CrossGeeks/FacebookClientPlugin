@@ -27,7 +27,7 @@ Note: Save that CallbackManager in class variable/property since you will need i
 <string name="facebook_app_id">xxxxxxxxxxxxx</string>
 <string name="fb_login_protocol_scheme">fbxxxxxxxxxxxxx</string>
 ```
-Replace *xxxxxxxxxxxxx* with your facebook app id.
+**Note: Replace *xxxxxxxxxxxxx* with your facebook app id.**
 
 ### AndroidManifest.xml
 
