@@ -119,6 +119,7 @@ Properties:
 
 ### Events
 
+All async methods also trigger events:
 
 Login event:
 
