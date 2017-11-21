@@ -37,8 +37,6 @@ For example let's say I just want to get a few fields on my response back, then 
   
 ```
 
-Response will be a raw string will the requested information correspondant to the query.
-
 #### Usage Sample:
 
 
