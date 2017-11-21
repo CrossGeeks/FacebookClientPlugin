@@ -23,6 +23,13 @@ Login with publish permissions
   await CrossFacebookClient.Current.LoginAsync( new string[] {"publish_actions"},FacebookPermissionType.Publish);
 ```
 
+The above login methods trigger **OnLogin** event.
+
+```cs
+  CrossFacebookClient.Current.OnLogin += (s,a)=> 
+  {
+  };
+```
 
 Login with read permissions & get user data
 
@@ -31,10 +38,28 @@ Login with read permissions & get user data
 ```
 Note: This method will check if has the requested permissions granted, if so will just get the user data, if not will prompt login requesting the missing permissions and after granted will get the user data.
 
+The above method trigger **OnUserData** event.
+
+```cs
+  CrossFacebookClient.Current.OnUserData += (s,a)=> 
+  {
+      
+  };
+```
+
 ### Logout
 
 ```cs
  CrossFacebookClient.Current.Logout();
+```
+
+Triggers **OnLogout** event.
+
+```cs
+  CrossFacebookClient.Current.OnLogout += (s,a)=> 
+  {
+      
+  };
 ```
 
 ### Permissions
@@ -74,12 +99,6 @@ https://developers.facebook.com/docs/facebook-login/permissions/?locale=en_EN
             event EventHandler<FBEventArgs<string>> OnPostData;
             
             event EventHandler<FBEventArgs<string>> OnDeleteData;
-
-            event EventHandler<FBEventArgs<Dictionary<string, object>>> OnUserData;
-
-            event EventHandler<FBEventArgs<bool>> OnLogin;
-
-            event EventHandler<FBEventArgs<bool>> OnLogout;
 
             event EventHandler<FBEventArgs<Dictionary<string, object>>> OnSharing;
 
