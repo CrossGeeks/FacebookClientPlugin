@@ -86,6 +86,25 @@ FacebookSharePhotoContent photoContent = new FacebookSharePhotoContent(photos);
 
 More information on [Sharing Content](../docs/SharingContent.md) section.
 
+### Facebook Graph Requests
+
+Get all my likes
+
+```cs
+
+  await CrossFacebookClient.Current.QueryDataAsync("me/likes", new string[]{ "user_likes"});
+  
+```
+
+Delete my post id 1234
+
+```cs
+
+  await CrossFacebookClient.Current.DeleteDataAsync("1234", new string[]{ "publish_actions"});
+  
+```
+
+More information on [Facebook Graph Requests](../docs/FacebookGraphRequests.md) section.
 
 ### Facebook Response
 
