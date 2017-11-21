@@ -87,6 +87,8 @@ https://developers.facebook.com/docs/facebook-login/permissions/?locale=en_EN
 
 ### Sharing
 
+By default sharing methods request the **publish_actions** permission if not granted.
+
 Simple Share
 ```cs
  await CrossFacebookClient.Current.SharePhotoAsync(myPhotoBytes, captionText);
