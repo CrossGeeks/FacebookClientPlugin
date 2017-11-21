@@ -56,7 +56,7 @@ Get all friends that are authorized on your facebook app
 
 ```cs
 
-   CrossFacebookClient.Current.QueryDataAsync("me/friends", new string[]{ "user_friends"}, new Dictionary<string, string>()
+   await CrossFacebookClient.Current.QueryDataAsync("me/friends", new string[]{ "user_friends"}, new Dictionary<string, string>()
    {
       {"fields", "id, first_name, last_name, middle_name, name, email, picture"}
    });
@@ -67,7 +67,7 @@ Get all friends in facebook
 
 ```cs
 
-   CrossFacebookClient.Current.QueryDataAsync("me/taggable_friends", new string[]{ "user_friends"}, new Dictionary<string, string>()
+   await CrossFacebookClient.Current.QueryDataAsync("me/taggable_friends", new string[]{ "user_friends"}, new Dictionary<string, string>()
    {
       {"fields", "id, first_name, last_name, middle_name, name, email, picture"}
    });
@@ -78,7 +78,7 @@ Get all my likes
 
 ```cs
 
-   CrossFacebookClient.Current.QueryDataAsync("me/likes", new string[]{ "user_likes"});
+  await CrossFacebookClient.Current.QueryDataAsync("me/likes", new string[]{ "user_likes"});
   
 ```
 
@@ -95,7 +95,7 @@ Task<FacebookResponse<string>> DeleteDataAsync(string path, string[] permissions
 
 ```cs
 
-   CrossFacebookClient.Current.DeleteDataAsync("1234",new string[]{"publish_actions");
+  await CrossFacebookClient.Current.DeleteDataAsync("1234",new string[]{"publish_actions");
   
 ```
 
@@ -111,7 +111,7 @@ Task<FacebookResponse<string>> PostDataAsync(string path, string[] permissions, 
 
 ```cs
 
-   CrossFacebookClient.Current.PostDataAsync("me/feed", new Dictionary<string, string>()
+  await CrossFacebookClient.Current.PostDataAsync("me/feed", new Dictionary<string, string>()
    {
       {"message" , "hello world"}
    },new string[]{"publish_actions");
