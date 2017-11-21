@@ -43,3 +43,4 @@ Here you will find detailed documentation on setting up and using the Facebook C
 * [Rendy Del Rosario](https://github.com/rdelrosario)
 * [Charlin Agramonte](https://github.com/char0394)
 * [Sayed Seliman](https://github.com/sayed-seliman)
+* [Michael Arias](https://github.com/mikearias3)
