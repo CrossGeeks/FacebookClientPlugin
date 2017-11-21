@@ -8,6 +8,13 @@ The following method will allow you to make facebook graph requests:
 * **DeleteDataAsync** - Delete a previously posted information from facebook
 * **PostDataAsync** - Post information to facebook
 
+### Parameters
+
+* **path** : The facebook Graph path for the requested information
+* **permissions** : The facebook needed permissions for the requested action.
+* **parameters (Optional)** : Dictionary for the facebook graph request parameters.
+* **version (Optional)**: Specify api version if need to do the request on an specific Graph Api version.
+
 Response is type **FacebookResponse<string>** which includes the string of the raw facebook response on *Data* property if *Status* is **FacebookActionStatus.Completed**. If not then *Data* value will be null, and should have a value on *Message* property with the error.
 
 
@@ -17,14 +24,7 @@ Response is type **FacebookResponse<string>** which includes the string of the r
  Task<FacebookResponse<string>> QueryDataAsync(string path, string[] permissions, IDictionary<string, string> parameters = null, string version = null);
 ```
 
-Allows you to get information using a Facebook Graph Request Query. You should specify at least two things:
-
-* **path** : The facebook Graph path for the requested information
-* **permissions** : The facebook needed permissions for the requested information.
-
-Also you can specify the parameters for the facebook graph request.
-
-* **parameters**: Dictionary for the facebook graph request parameters.
+Allows you to get information using a Facebook Graph Request Query. 
 
 For example let's say I just want to get a few fields on my response back, then I would specify parameters similar to this:
 
@@ -36,8 +36,6 @@ For example let's say I just want to get a few fields on my response back, then 
    }
   
 ```
-
-If need to do the request on an specific Graph Api version, could be specify by setting the **version** parameter.
 
 Response will be a raw string will the requested information correspondant to the query.
 
@@ -82,15 +80,6 @@ Task<FacebookResponse<string>> DeleteDataAsync(string path, string[] permissions
 
 Allows you to delete information within the specified facebook graph path.
 
-* **path** : The facebook node id for information to delete
-
-* **permissions** : The facebook needed permissions for the requested information.
-
-Also you can specify the parameters for the facebook graph request.
-
-* **parameters** : Dictionary for the facebook graph request parameters.
-
-If need to do the request on an specific Graph Api version, could be specify by setting the **version** parameter.
 
 #### Usage Sample
 
@@ -106,17 +95,7 @@ If need to do the request on an specific Graph Api version, could be specify by 
 Task<FacebookResponse<string>> PostDataAsync(string path, string[] permissions, IDictionary<string, string> parameters = null, string version = null);
 ```
 
-Allows you to post information within the specified facebook graph path. Automatically requests login with **publish_actions** permission if is not granted yet.
-
-* **path** : The facebook Graph path for the information to post
-
-* **permissions** : The facebook needed permissions for the requested information.
-
-Also you can specify the parameters for the facebook graph request.
-
-* **parameters** : Dictionary for the facebook graph request parameters.
-
-If need to do the request on an specific Graph Api version, could be specify by setting the **version** parameter.
+Allows you to post information within the specified facebook graph path. 
 
 #### Usage Sample
 
