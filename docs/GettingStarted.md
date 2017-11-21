@@ -66,35 +66,6 @@ More information about available permissions here:
 https://developers.facebook.com/docs/facebook-login/permissions/?locale=en_EN
 
 
-### Facebook Response Status
-```cs
-  public enum FacebookActionStatus
-  {
-        Canceled,
-        Unauthorized,
-        Completed,
-        Error
-  }
-```
-
-
-```cs
-  public class FBEventArgs<T> : EventArgs
-    {
-        public T Data { get; set; }
-        public FacebookActionStatus Status { get; set; }
-        public string Message { get; set; }
-
-    }
-
-    public class FacebookResponse<T> 
-    {
-        public T Data { get; set; }
-        public FacebookActionStatus Status { get; set; }
-        public string Message { get; set; }
-    }
-```
-
 ### Sharing
 
 By default sharing methods request the **publish_actions** permission if not granted.
@@ -116,6 +87,34 @@ FacebookSharePhotoContent photoContent = new FacebookSharePhotoContent(photos);
 More information on [Sharing Content](../docs/SharingContent.md) section.
 
 
+### Facebook Response Status
+
+#### Response
+
+Type: ```FacebookResponse<T>```
+
+Properties:
+
+* **Data**:
+
+     On login method returns a bool.
+     
+     On sharing/user data returns a dictionary with the data response.
+
+* **Status**: Response status
+
+     *FacebookActionStatus.Canceled* - If Request was canceled
+     
+     *FacebookActionStatus.Unauthorized* - If Request was not authorized due to lack of permissions required
+     
+     *FacebookActionStatus.Completed* - If Request was completed succesfully
+     
+     *FacebookActionStatus.Error* - If Request failed
+        
+* **Message**: Error message string
+
+**Note: If response *Status* isn't FacebookActionStatus.Completed, *Data* property will be null and should have a value on *Message* property with the error.**
+```
 
 ### Events
 
