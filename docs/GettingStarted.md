@@ -104,6 +104,17 @@ Delete my post id 1234
   
 ```
 
+Post status on my wall
+
+```cs
+
+  await CrossFacebookClient.Current.PostDataAsync("me/feed", new Dictionary<string, string>()
+   {
+      {"message" , "hello world"}
+   },new string[]{"publish_actions");
+  
+```
+
 More information on [Facebook Graph Requests](../docs/FacebookGraphRequests.md) section.
 
 ### Facebook Response
