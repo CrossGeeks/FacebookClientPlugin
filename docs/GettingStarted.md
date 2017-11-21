@@ -113,6 +113,8 @@ All async methods response is a  ```FacebookResponse<T>``` where the type of T i
    * On login method returns a bool.
      
    * On sharing/user data returns a dictionary with the data response.
+   
+   * On Facebook graph request methods returns a raw string with the request response
 
 #### Response
 
