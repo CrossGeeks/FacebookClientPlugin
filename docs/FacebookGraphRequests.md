@@ -27,14 +27,14 @@ Properties:
 
 * **Status**: Response status
 
-        - Canceled - If Request was canceled
-        - Unauthorized - If Request was not authorized due to lack of permissions required
-        - Completed - If Request was completed succesfully
-        - Error - If Request failed
+        - FacebookActionStatus.Canceled - If Request was canceled
+        - FacebookActionStatus.Unauthorized - If Request was not authorized due to lack of permissions required
+        - FacebookActionStatus.Completed - If Request was completed succesfully
+        - FacebookActionStatus.Error - If Request failed
         
 * **Message**: Error message string
 
-Note: If response status is not **Completed**, *Data* property will be null and should have a value on *Message* property with the error.
+**Note: If response *Status* is not FacebookActionStatus.Completed, *Data* property will be null and should have a value on *Message* property with the error.**
 
 
 ### QueryDataAsync
