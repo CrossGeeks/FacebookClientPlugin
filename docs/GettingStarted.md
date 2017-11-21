@@ -94,8 +94,8 @@ Simple Share
 
 Share multiple photos
 ```cs
-FacebookSharePhoto photo = new FacebookSharePhoto(text, image);
-FacebookSharePhoto photo2 = new FacebookSharePhoto(text2, image2);
+FacebookSharePhoto photo = new FacebookSharePhoto(text, imageBytes);
+FacebookSharePhoto photo2 = new FacebookSharePhoto(text2, imageBytes2);
 FacebookSharePhoto[] photos = new FacebookSharePhoto[] { photo, photo2 };                    
 FacebookSharePhotoContent photoContent = new FacebookSharePhotoContent(photos);
  var ret = await CrossFacebookClient.Current.ShareAsync(photoContent);
