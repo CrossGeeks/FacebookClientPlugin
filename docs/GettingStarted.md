@@ -150,15 +150,6 @@ RequestUserData event:
   };
 ```
 
-Logout event:
-
-```cs
-  CrossFacebookClient.Current.OnLogout += (s,a)=> 
-  {
-      
-  };
-```
-
 Sharing event:
   
 ```cs
