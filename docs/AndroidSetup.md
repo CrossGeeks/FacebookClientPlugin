@@ -37,7 +37,7 @@ Add this permission.
 <uses-permission android:name="android.permission.INTERNET"/>
 ```
 
-Also define this within the **application** tag
+Also define this **within** the **application** tag
 
 ```xml
     <meta-data android:name="com.facebook.sdk.ApplicationId"  android:value="@string/facebook_app_id"/>
