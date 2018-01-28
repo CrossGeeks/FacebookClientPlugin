@@ -473,8 +473,10 @@ namespace Plugin.FacebookClient
                     Bundle bundle = new Bundle();
                     foreach(var p in parameters)
                     {
-                        var key = $"{p}";
-                        bundle.PutString(key, $"{parameters[key]}");
+                        if (!string.IsNullOrEmpty(p.Key) && !string.IsNullOrEmpty(p.Value))
+                        {
+                            bundle.PutString($"{p.Key}", $"{p.Value}");
+                        }
                     }
                     request.Parameters = bundle;
                 }

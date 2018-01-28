@@ -2,7 +2,7 @@
 <package >
   <metadata minClientVersion="2.8.1">
     <id>Plugin.FacebookClient</id>
-    <version>1.0.0-beta</version>
+    <version>1.0.1</version>
     <title>Facebook Client Plugin for Xamarin</title>
     <authors>Rendy Del Rosario</authors>
     <owners>crossgeeks</owners>
@@ -16,6 +16,9 @@
     <copyright>Copyright 2017</copyright>
     <tags>iOS,Android,facebook,login,share,xamarin,plugins</tags>
     <dependencies>
+        <group targetFramework="netstandard1.0">
+          <dependency id="NETStandard.Library" version="1.6.1" />
+        </group>
         <group targetFramework="MonoAndroid10">
             <dependency id="Xamarin.Facebook.Android" version="4.26.0" />
         </group>

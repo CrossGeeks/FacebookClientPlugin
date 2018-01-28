@@ -572,8 +572,11 @@ namespace Plugin.FacebookClient
                 parameters = new NSMutableDictionary();
                 foreach (var p in paramDict)
                 {
-                    var key = $"{p}";
-                    parameters.Add(new NSString(key), new NSString($"{paramDict[key]}"));
+                    if(!string.IsNullOrEmpty(p.Key) && !string.IsNullOrEmpty(p.Value))
+                    {
+                        parameters.Add(new NSString($"{p.Key}"), new NSString($"{p.Value}"));
+                    }
+                  
                 }
             }
 
