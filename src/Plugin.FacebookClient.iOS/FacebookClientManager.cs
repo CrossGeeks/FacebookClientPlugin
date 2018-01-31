@@ -525,7 +525,7 @@ namespace Plugin.FacebookClient
 
         void RequestData(Dictionary<string, object> pDictionary)
         {
-            string path = $"{pDictionary["method"]}";
+            string path = $"{pDictionary["path"]}";
             string version = $"{pDictionary["version"]}";
             Dictionary<string, string> paramDict = pDictionary["parameters"] as Dictionary<string, string>;
             FacebookHttpMethod? method = pDictionary["method"] as FacebookHttpMethod?;

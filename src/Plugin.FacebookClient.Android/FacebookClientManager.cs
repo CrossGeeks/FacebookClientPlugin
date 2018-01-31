@@ -421,7 +421,7 @@ namespace Plugin.FacebookClient
         async void RequestData(Dictionary <string, object> pDictionary)
         {
             //string path,Bundle parameters = null,HttpMethod method = null,string version = null
-            string path = $"{pDictionary["method"]}";
+            string path = $"{pDictionary["path"]}";
             string version = $"{pDictionary["version"]}";
             Dictionary<string, string> parameters = pDictionary["parameters"] as Dictionary<string, string>;
 

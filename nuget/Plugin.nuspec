@@ -2,7 +2,7 @@
 <package >
   <metadata minClientVersion="2.8.1">
     <id>Plugin.FacebookClient</id>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <title>Facebook Client Plugin for Xamarin</title>
     <authors>Rendy Del Rosario</authors>
     <owners>crossgeeks</owners>
