@@ -1,6 +1,6 @@
 ## Sharing Content in Facebook
 
-By default sharing methods request the publish_actions permission if not granted.
+By default sharing methods request the publish_actions permission is not granted.
 
 Make sure your app is public on the App Review section of Facebook developer portal and also have added **publish_actions** permission item, so that you are able to test sharing. 
 
