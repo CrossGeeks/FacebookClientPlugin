@@ -69,7 +69,7 @@ namespace Plugin.FacebookClient
         {
             get
             {
-                return !string.IsNullOrEmpty(ActiveToken);
+                return !string.IsNullOrEmpty(ActiveToken) && NSUserDefaults.StandardUserDefaults.ValueForKey(FBAccessTokenExpirationDateKey) !=null && NSDate.Now.Compare(NSUserDefaults.StandardUserDefaults.ValueForKey(FBAccessTokenExpirationDateKey) as NSDate) == NSComparisonResult.Ascending;
             }
         }
 
