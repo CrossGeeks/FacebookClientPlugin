@@ -69,7 +69,7 @@ namespace Plugin.FacebookClient
         {
             get
             {
-                return AccessToken.CurrentAccessToken != null&& NSDate.Now.Compare(AccessToken.CurrentAccessToken.ExpirationDate) == NSComparisonResult.Ascending;
+                return !string.IsNullOrEmpty(ActiveToken);
             }
         }
 
@@ -89,9 +89,17 @@ namespace Plugin.FacebookClient
             }
         }
 
+        bool IsLoginSessionActive
+        {
+            get
+            {
+                return AccessToken.CurrentAccessToken != null && NSDate.Now.Compare(AccessToken.CurrentAccessToken.ExpirationDate) == NSComparisonResult.Ascending;
+            }
+        }
+
         public bool HasPermissions(string[] permissions)
         {
-            if (!IsLoggedIn)
+            if (!IsLoginSessionActive)
                 return false;
 
             var currentPermissions = AccessToken.CurrentAccessToken.Permissions;
@@ -102,7 +110,7 @@ namespace Plugin.FacebookClient
         public bool VerifyPermission(string permission)
         {
 
-            return IsLoggedIn && (AccessToken.CurrentAccessToken.HasGranted(permission));
+            return IsLoginSessionActive && (AccessToken.CurrentAccessToken.HasGranted(permission));
 
         }
         public static void Initialize(UIApplication app,NSDictionary options)
@@ -152,9 +160,9 @@ namespace Plugin.FacebookClient
 
         public async Task<FacebookResponse<bool>> LoginAsync(string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read)
         {
-            var retVal = IsLoggedIn;
+            var retVal = IsLoginSessionActive;
             FacebookActionStatus status = FacebookActionStatus.Error;
-            if (!retVal || !HasPermissions(permissions) )
+            if (!HasPermissions(permissions))
             {
                 var window = UIApplication.SharedApplication.KeyWindow;
                 var vc = window.RootViewController;
@@ -721,7 +729,7 @@ namespace Plugin.FacebookClient
 
         public void Logout()
         {
-            if (IsLoggedIn)
+            if (IsLoginSessionActive)
                 loginManager.LogOut();
 
             NSUserDefaults.StandardUserDefaults.SetString(string.Empty, FBAccessTokenKey);
