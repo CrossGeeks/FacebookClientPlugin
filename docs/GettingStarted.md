@@ -108,10 +108,10 @@ Post status on my wall
 
 ```cs
 
-  await CrossFacebookClient.Current.PostDataAsync("me/feed", new Dictionary<string, string>()
+  await CrossFacebookClient.Current.PostDataAsync("me/feed",new string[]{"publish_actions"}, new Dictionary<string, string>()
    {
       {"message" , "hello world"}
-   },new string[]{"publish_actions");
+   });
   
 ```
 
