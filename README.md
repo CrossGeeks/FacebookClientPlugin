@@ -45,3 +45,4 @@ Here you will find detailed documentation on setting up and using the Facebook C
 * [Sayed Seliman](https://github.com/sayed-seliman)
 * [Michael Arias](https://github.com/mikearias3)
 * [Leomaris Reyes](https://github.com/LeomarisReyes)
+* [Luis Pujols](https://github.com/pujolsluis)
