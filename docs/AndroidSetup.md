@@ -9,7 +9,7 @@
      FacebookClientManager.Initialize(this);
 ```
 
-Note: Save that CallbackManager in class variable/property since you will need it in the following step.
+Note: Save that CallbackManager in a class variable/property since you will need it in the following step.
 
 - Override OnActivityResult:
 ```cs
@@ -59,7 +59,7 @@ Also define this **within** the **application** tag
 
 ### Keystore Auto Signing
 
-This step is optional, but highly recommended. The reason is because in order to test facebook you have to use have the apk signed with the keystore of the hash that was generated for facebook portal.
+This step is optional, but highly recommended. The reason is because in order to test facebook you have to use the apk signed with the keystore of the hash that was generated for facebook portal.
 
 Enable keystore auto signing, so that you are able to test within the same keystore on Debug and Release.
 
