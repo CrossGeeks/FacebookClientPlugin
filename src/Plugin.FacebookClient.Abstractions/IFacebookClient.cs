@@ -117,6 +117,8 @@ namespace Plugin.FacebookClient.Abstractions
 
             string ActiveUserId { get; }
 
+            DateTime TokenExpirationDate { get; }
+
             string[] ActivePermissions { get; }
 
             string[] DeclinedPermissions { get; }

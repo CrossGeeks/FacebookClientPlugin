@@ -89,6 +89,14 @@ namespace Plugin.FacebookClient
             }
         }
 
+        public DateTime TokenExpirationDate
+        {
+            get
+            {
+                return AccessToken.CurrentAccessToken.ExpirationDate.ToDateTime();
+            }
+        }
+
         bool IsLoginSessionActive
         {
             get
@@ -605,7 +613,7 @@ namespace Plugin.FacebookClient
                 
                 if (error == null)
                 {
-                    var fbResponse = new FBEventArgs<string>(result.ToString(), FacebookActionStatus.Completed);
+                    var fbResponse = new FBEventArgs<string>(result.ToString().Replace("(", "[").Replace(@"\U", "\\\\U").Replace(");", "],").Replace(" = ", ":").Replace(";", ","), FacebookActionStatus.Completed);
                     onEvent?.Invoke(CrossFacebookClient.Current, fbResponse);
                     currentTcs?.TrySetResult(new FacebookResponse<string>(fbResponse));
                 }
@@ -642,7 +650,7 @@ namespace Plugin.FacebookClient
                     {
                         for (int i = 0; i < fields.Length; i++)
                         {
-                            userData.Add(fields[i], $"{result.ValueForKey(new NSString(fields[i]))}");
+                            userData.Add(fields[i], $"{result.ValueForKey(new NSString(fields[i]))}".Replace(" = ", ":").Replace(";", ","));
                         }
                         userData.Add("user_id", AccessToken.CurrentAccessToken.UserID);
                         userData.Add("token", AccessToken.CurrentAccessToken.TokenString);

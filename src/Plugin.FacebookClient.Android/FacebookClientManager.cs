@@ -167,7 +167,7 @@ namespace Plugin.FacebookClient
         {
             get
             {
-                return AccessToken.CurrentAccessToken != null;
+                return AccessToken.CurrentAccessToken != null && !AccessToken.CurrentAccessToken.IsExpired;
             }
         }
 
@@ -187,6 +187,16 @@ namespace Plugin.FacebookClient
                 return AccessToken.CurrentAccessToken?.UserId ?? string.Empty;
             }
         }
+
+        public DateTime TokenExpirationDate
+        {
+            get
+            {
+
+                return AccessToken.CurrentAccessToken == null? DateTime.MinValue: new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(AccessToken.CurrentAccessToken.Expires.Time);
+            }
+        }
+
         public static void OnActivityResult(int requestCode, Result resultCode, Intent intent)
         {
             mCallbackManager?.OnActivityResult(requestCode, (int)resultCode, intent);
@@ -322,7 +332,6 @@ namespace Plugin.FacebookClient
             return (AccessToken.CurrentAccessToken != null) && (AccessToken.CurrentAccessToken.Permissions.Contains(permission));
 
         }
-
 
 
         /*async Task<FBEventArgs<Dictionary<string, object>>> PerformAction(Action<Dictionary<string, object>> action, Dictionary<string, object> parameters, Task<FBEventArgs<Dictionary<string, object>>> task, FacebookPermissionType permissionType, string[] permissions)
@@ -874,7 +883,7 @@ namespace Plugin.FacebookClient
                     {
                         if (@object.Has(fields[i]))
                         {
-                            userData.Add(fields[i], @object.GetString(fields[i]));
+                            userData.Add(fields[i], @object.GetString(fields[i]).Replace(" = ", ":").Replace(";", ","));
                         }
 
                     }
@@ -924,7 +933,7 @@ namespace Plugin.FacebookClient
             }
             else
             {
-                var fbResponse = new FBEventArgs<string>(response.RawResponse, FacebookActionStatus.Completed);
+                var fbResponse = new FBEventArgs<string>(response.RawResponse.Replace("(", "[").Replace(@"\U", "\\\\U").Replace(");", "],").Replace(" = ", ":").Replace(";", ","), FacebookActionStatus.Completed);
                 _onEvent?.Invoke(CrossFacebookClient.Current, fbResponse);
                 currentTcs?.TrySetResult(new FacebookResponse<string>(fbResponse));
             }
