@@ -14,6 +14,7 @@ using Xamarin.Facebook.AppEvents;
 using Java.Interop;
 using Org.Json;
 using Android.Content;
+using Xamarin.Facebook.Share.Widget;
 
 namespace Plugin.FacebookClient
 {
@@ -24,6 +25,7 @@ namespace Plugin.FacebookClient
     {
         static TaskCompletionSource<FacebookResponse<Dictionary<string, object>>> _userDataTcs;
         static TaskCompletionSource<FacebookResponse<Dictionary<string, object>>> _shareTcs;
+        static TaskCompletionSource<FacebookResponse<Dictionary<string, object>>> _appInviteTcs;
         static TaskCompletionSource<FacebookResponse<string>> _requestTcs;
         static TaskCompletionSource<FacebookResponse<string>> _postTcs;
         static TaskCompletionSource<FacebookResponse<string>> _deleteTcs;
@@ -35,6 +37,7 @@ namespace Plugin.FacebookClient
         //Activity mActivity;
         static FacebookCallback<SharerResult> shareCallback;
         static FacebookCallback<LoginResult> loginCallback;
+        static FacebookCallback<AppInviteDialog.Result> appInviteCallback;
         public static Activity CurrentActivity { get; set; }
 
         static FacebookPendingAction<Dictionary<string, object>> pendingAction;
@@ -129,6 +132,20 @@ namespace Plugin.FacebookClient
             }
         }
 
+
+        static EventHandler<FBEventArgs<Dictionary<string, object>>> _onAppInvite;
+        public event EventHandler<FBEventArgs<Dictionary<string, object>>> OnAppInvite
+        {
+            add
+            {
+                _onAppInvite += value;
+            }
+            remove
+            {
+                _onAppInvite -= value;
+            }
+        }
+
         public string[] ActivePermissions
         {
             get
@@ -150,7 +167,7 @@ namespace Plugin.FacebookClient
         {
             get
             {
-                return AccessToken.CurrentAccessToken != null;
+                return AccessToken.CurrentAccessToken != null && !AccessToken.CurrentAccessToken.IsExpired;
             }
         }
 
@@ -170,6 +187,16 @@ namespace Plugin.FacebookClient
                 return AccessToken.CurrentAccessToken?.UserId ?? string.Empty;
             }
         }
+
+        public DateTime TokenExpirationDate
+        {
+            get
+            {
+
+                return AccessToken.CurrentAccessToken == null? DateTime.MinValue: new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(AccessToken.CurrentAccessToken.Expires.Time);
+            }
+        }
+
         public static void OnActivityResult(int requestCode, Result resultCode, Intent intent)
         {
             mCallbackManager?.OnActivityResult(requestCode, (int)resultCode, intent);
@@ -252,6 +279,40 @@ namespace Plugin.FacebookClient
                 }
             };
 
+            appInviteCallback = new FacebookCallback<AppInviteDialog.Result>()
+            {
+                HandleSuccess = Result =>
+                {
+                    Dictionary<string, object> parameters = new Dictionary<string, object>();
+                    var extras = Result.Data;
+
+                    if (extras != null && !extras.IsEmpty)
+                    {
+                        foreach (var key in extras.KeySet())
+                        {
+                            parameters.Add(key, $"{extras.Get(key)}");
+                        }
+                    }
+
+                    var fbArgs = new FBEventArgs<Dictionary<string, object>>(parameters, FacebookActionStatus.Completed);
+                    _onAppInvite?.Invoke(CrossFacebookClient.Current, fbArgs);
+                    _appInviteTcs?.TrySetResult(new FacebookResponse<Dictionary<string, object>>(fbArgs));
+
+                },
+                HandleCancel = () =>
+                {
+                    var fbArgs = new FBEventArgs<Dictionary<string, object>>(null, FacebookActionStatus.Canceled, "User cancelled facebook operation");
+                    _onAppInvite?.Invoke(CrossFacebookClient.Current, fbArgs);
+                    _appInviteTcs?.TrySetResult(new FacebookResponse<Dictionary<string, object>>(fbArgs));
+                },
+                HandleError = appInviteError =>
+                {
+                    var fbArgs = new FBEventArgs<Dictionary<string, object>>(null, FacebookActionStatus.Error, appInviteError.Message);
+                    _onAppInvite?.Invoke(CrossFacebookClient.Current, fbArgs);
+                    _appInviteTcs?.TrySetResult(new FacebookResponse<Dictionary<string, object>>(fbArgs));
+                }
+            };
+            
             LoginManager.Instance.RegisterCallback(mCallbackManager, loginCallback);
         }
         public void Logout()
@@ -271,7 +332,6 @@ namespace Plugin.FacebookClient
             return (AccessToken.CurrentAccessToken != null) && (AccessToken.CurrentAccessToken.Permissions.Contains(permission));
 
         }
-
 
 
         /*async Task<FBEventArgs<Dictionary<string, object>>> PerformAction(Action<Dictionary<string, object>> action, Dictionary<string, object> parameters, Task<FBEventArgs<Dictionary<string, object>>> task, FacebookPermissionType permissionType, string[] permissions)
@@ -363,7 +423,7 @@ namespace Plugin.FacebookClient
 
             var currentPermissions = AccessToken.CurrentAccessToken.Permissions;
 
-            return permissions.All(p => !AccessToken.CurrentAccessToken.DeclinedPermissions.Contains(p));
+            return permissions.All(p => currentPermissions.Contains(p));
         }
 
         public async Task<FacebookResponse<Dictionary<string, object>>> RequestUserDataAsync(string[] fields, string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read)
@@ -823,7 +883,7 @@ namespace Plugin.FacebookClient
                     {
                         if (@object.Has(fields[i]))
                         {
-                            userData.Add(fields[i], @object.GetString(fields[i]));
+                            userData.Add(fields[i], @object.GetString(fields[i]).Replace(" = ", ":").Replace(";", ","));
                         }
 
                     }
@@ -873,13 +933,62 @@ namespace Plugin.FacebookClient
             }
             else
             {
-                var fbResponse = new FBEventArgs<string>(response.RawResponse, FacebookActionStatus.Completed);
+                var fbResponse = new FBEventArgs<string>(response.RawResponse.Replace("(", "[").Replace(@"\U", "\\\\U").Replace(");", "],").Replace(" = ", ":").Replace(";", ","), FacebookActionStatus.Completed);
                 _onEvent?.Invoke(CrossFacebookClient.Current, fbResponse);
                 currentTcs?.TrySetResult(new FacebookResponse<string>(fbResponse));
             }
         }
 
-      
+        public async Task<FacebookResponse<Dictionary<string, object>>> ShowAppInviteDialog(string appLinkUrl, string previewImageUrl = "", string promotionText = "", string promotionCode = "", FacebookAppInviteDestination destination = FacebookAppInviteDestination.Facebook)
+        {
+            _appInviteTcs = new TaskCompletionSource<FacebookResponse<Dictionary<string, object>>>();
+            Dictionary<string, object> paramDict = new Dictionary<string, object>()
+            {
+                {"appLinkUrl",appLinkUrl},
+                {"previewImageUrl", previewImageUrl },
+                {"promotionText", promotionText },
+                {"promotionCode", promotionCode },
+                {"destination", destination }
+
+            };
+
+            return await PerformAction(ShowAppInviteDialogRequest, paramDict, _appInviteTcs.Task, FacebookPermissionType.Publish, new string[] { "publish_actions" });
+        }
+
+        public void ShowAppInviteDialogRequest(Dictionary<string, object> parameters)
+        {
+
+            var appLinkUrl = $"{parameters["appLinkUrl"]}";
+            var previewImageUrl = $"{parameters["previewImageUrl"]}";
+            var promotionCode = $"{parameters["promotionCode"]}";
+            var promotionText = $"{parameters["promotionText"]}";
+            var destination = FacebookAppInviteDestination.Facebook;
+            if (parameters["destination"] is FacebookAppInviteDestination)
+            {
+                destination = (FacebookAppInviteDestination)parameters["destination"];
+            }
+
+            if (AppInviteDialog.CanShow() && !string.IsNullOrEmpty(appLinkUrl))
+            {
+                
+                AppInviteContent.Builder appInviteContentBuilder = new AppInviteContent.Builder();
+
+                appInviteContentBuilder.SetApplinkUrl(appLinkUrl);
+
+                appInviteContentBuilder.SetDestination(destination == FacebookAppInviteDestination.Facebook?AppInviteContent.Builder.Destination.Facebook: AppInviteContent.Builder.Destination.Messenger);
+
+                if (!string.IsNullOrEmpty(previewImageUrl))
+                   appInviteContentBuilder.SetPreviewImageUrl(previewImageUrl);
+
+                if (!string.IsNullOrEmpty(promotionText) || !string.IsNullOrEmpty(promotionCode))
+                {
+                    appInviteContentBuilder.SetPromotionDetails(promotionText, promotionCode);
+                }
+                AppInviteDialog AppInv = new AppInviteDialog(CurrentActivity);
+                AppInv.RegisterCallback(mCallbackManager, appInviteCallback);
+                AppInv.Show(appInviteContentBuilder.Build().JavaCast<AppInviteContent>());
+            }
+        }
     }
 
     /// <summary>

@@ -117,13 +117,22 @@ Post status on my wall
 
 More information on [Facebook Graph Requests](../docs/FacebookGraphRequests.md) section.
 
+### App Invite
+
+
+```cs
+
+  await CrossFacebookClient.Current.ShowAppInviteDialog("<APP LINK URL>","<PREVIEW IMAGE URL>");
+
+```
+
 ### Facebook Response
 
 All async methods response is a  ```FacebookResponse<T>``` where the type of T is relevant to the caller method:
 
    * On login method returns a bool.
      
-   * On sharing/user data returns a dictionary with the data response.
+   * On sharing/user data/app invite returns a dictionary with the data response.
    
    * On Facebook graph request methods returns a raw string with the request response
 
@@ -228,6 +237,21 @@ Post event:
   
 ```cs
   CrossFacebookClient.Current.OnPostData += (s,a)=> 
+  {
+      switch (a.Status)
+      {
+         case FacebookActionStatus.Completed:
+      
+         break;
+      }
+  };
+```
+
+
+App invite event:
+  
+```cs
+  CrossFacebookClient.Current.OnAppInvite += (s,a)=> 
   {
       switch (a.Status)
       {
