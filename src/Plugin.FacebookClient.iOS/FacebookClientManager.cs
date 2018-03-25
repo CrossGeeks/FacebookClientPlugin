@@ -21,7 +21,7 @@ namespace Plugin.FacebookClient
     /// </summary>
     public class FacebookClientManager : NSObject, IFacebookClient, ISharingDelegate, IAppInviteDialogDelegate
     {
-        TaskCompletionSource<FacebookResponse<Dictionary<string, object>>> _userDataTcs;
+        TaskCompletionSource<FacebookResponse<string>> _userDataTcs;
         TaskCompletionSource<FacebookResponse<Dictionary<string, object>>> _shareTcs;
         TaskCompletionSource<FacebookResponse<Dictionary<string, object>>> _appInviteTcs;
         TaskCompletionSource<FacebookResponse<string>> _requestTcs;
@@ -31,7 +31,7 @@ namespace Plugin.FacebookClient
         static NSString FBAccessTokenExpirationDateKey = new NSString("FBAccessTokenExpirationDateKey");
         static NSString FBUserIdKey = new NSString("FBUserIdKey");
 
-        public event EventHandler<FBEventArgs<Dictionary<string, object>>> OnUserData = delegate { };
+        public event EventHandler<FBEventArgs<string>> OnUserData = delegate { };
 
         public event EventHandler<FBEventArgs<bool>> OnLogin = delegate { };
 
@@ -508,7 +508,7 @@ namespace Plugin.FacebookClient
 
         }
 
-        public async Task<FacebookResponse<string>> QueryDataAsync(string path, string[] permissions, IDictionary<string, string> parameters = null, string version = null)
+        public async Task<FacebookResponse<string>> QueryDataAsync(string path, string[] permissions = null, IDictionary<string, string> parameters = null, string version = null)
         {
             _requestTcs = new TaskCompletionSource<FacebookResponse<string>>();
             Dictionary<string, object> paramDict = new Dictionary<string, object>()
@@ -613,9 +613,22 @@ namespace Plugin.FacebookClient
                 
                 if (error == null)
                 {
-                    var fbResponse = new FBEventArgs<string>(result.ToString().Replace("(", "[").Replace(@"\U", "\\\\U").Replace(");", "],").Replace(" = ", ":").Replace(";", ","), FacebookActionStatus.Completed);
-                    onEvent?.Invoke(CrossFacebookClient.Current, fbResponse);
-                    currentTcs?.TrySetResult(new FacebookResponse<string>(fbResponse));
+                    
+                    NSData responseData= NSJsonSerialization.Serialize(result, NSJsonWritingOptions.PrettyPrinted, out NSError jsonError);
+                    if(jsonError == null)
+                    {
+                        NSString responseString = NSString.FromData(responseData, NSStringEncoding.UTF8);
+                        var fbResponse = new FBEventArgs<string>(responseString, FacebookActionStatus.Completed);
+                        onEvent?.Invoke(CrossFacebookClient.Current, fbResponse);
+                        currentTcs?.TrySetResult(new FacebookResponse<string>(fbResponse));
+                    }
+                    else
+                    {
+                        var fbResponse = new FBEventArgs<string>(null, FacebookActionStatus.Error, $" Facebook response parse failed - {jsonError.Code} - {jsonError.Description}");
+                        onEvent?.Invoke(CrossFacebookClient.Current, fbResponse);
+                        currentTcs?.TrySetResult(new FacebookResponse<string>(fbResponse));
+                    }
+                    
                 }
                 else
                 {
@@ -648,23 +661,29 @@ namespace Plugin.FacebookClient
                 {
                     if (error == null)
                     {
-                        for (int i = 0; i < fields.Length; i++)
+                        
+                        NSData responseData = NSJsonSerialization.Serialize(result, NSJsonWritingOptions.PrettyPrinted, out NSError jsonError);
+                        if (jsonError == null)
                         {
-                            userData.Add(fields[i], $"{result.ValueForKey(new NSString(fields[i]))}".Replace(" = ", ":").Replace(";", ","));
+                            NSString responseString = NSString.FromData(responseData, NSStringEncoding.UTF8);
+                            var fbResponse = new FBEventArgs<string>(responseString, FacebookActionStatus.Completed);
+                            OnUserData?.Invoke(this, fbResponse);
+                            _userDataTcs?.TrySetResult(new FacebookResponse<string>(fbResponse));
                         }
-                        userData.Add("user_id", AccessToken.CurrentAccessToken.UserID);
-                        userData.Add("token", AccessToken.CurrentAccessToken.TokenString);
-                        var fbArgs = new FBEventArgs<Dictionary<string, object>>(userData, FacebookActionStatus.Completed);
-                        OnUserData(this,fbArgs);
-                        _userDataTcs?.TrySetResult(new FacebookResponse<Dictionary<string, object>>(fbArgs));
+                        else
+                        {
+                            var fbResponse = new FBEventArgs<string>(null, FacebookActionStatus.Error, $" Facebook response parse failed - {jsonError.Code} - {jsonError.Description}");
+                            OnUserData?.Invoke(this, fbResponse);
+                            _userDataTcs?.TrySetResult(new FacebookResponse<string>(fbResponse));
+                        }
                         
                     }
                     else
                     {
-                        var fbArgs = new FBEventArgs<Dictionary<string, object>>(null, FacebookActionStatus.Error, $"Facebook User Data Request Failed - {error.Code} - {error.Description}");
-                        OnUserData(this,fbArgs );
-                        _userDataTcs?.TrySetResult(new FacebookResponse<Dictionary<string, object>>(fbArgs));
-                       
+                        var fbArgs = new FBEventArgs<string>(null, FacebookActionStatus.Error, $"Facebook User Data Request Failed - {error.Code} - {error.Description}");
+                        OnUserData?.Invoke(this, fbArgs);
+                        _userDataTcs?.TrySetResult(new FacebookResponse<string>(fbArgs));
+
                     }
 
 
@@ -673,9 +692,9 @@ namespace Plugin.FacebookClient
             }
             else
             {
-                var fbArgs = new FBEventArgs<Dictionary<string, object>>(null, FacebookActionStatus.Canceled, "User cancelled facebook operation");
-                OnUserData(this, null);
-                _userDataTcs?.TrySetResult(new FacebookResponse<Dictionary<string, object>>(fbArgs));
+                var fbArgs = new FBEventArgs<string>(null, FacebookActionStatus.Canceled, "User cancelled facebook operation");
+                OnUserData?.Invoke(this, null);
+                _userDataTcs?.TrySetResult(new FacebookResponse<string>(fbArgs));
             }
 
 
@@ -748,9 +767,9 @@ namespace Plugin.FacebookClient
             OnLogout(this, new FBEventArgs<bool>(true, FacebookActionStatus.Completed));
         }
 
-        public async Task<FacebookResponse<Dictionary<string, object>>> RequestUserDataAsync(string[] fields, string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read)
+        public async Task<FacebookResponse<string>> RequestUserDataAsync(string[] fields, string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read)
         {
-            _userDataTcs = new TaskCompletionSource<FacebookResponse<Dictionary<string, object>>>();
+            _userDataTcs = new TaskCompletionSource<FacebookResponse<string>>();
             Dictionary<string, object> parameters = new Dictionary<string, object>()
             {
                 {"fields",fields}

@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="facebook_app_name">SocialClientSample</string>
+    <string name="facebook_app_id">221504171728629</string>
+    <string name="fb_login_protocol_scheme">fb221504171728629</string>
+</resources>

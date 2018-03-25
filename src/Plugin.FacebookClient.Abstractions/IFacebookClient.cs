@@ -104,7 +104,7 @@ namespace Plugin.FacebookClient.Abstractions
             event EventHandler<FBEventArgs<string>> OnPostData;
             event EventHandler<FBEventArgs<string>> OnDeleteData;
 
-           event EventHandler<FBEventArgs<Dictionary<string, object>>> OnUserData;
+            event EventHandler<FBEventArgs<string>> OnUserData;
 
             event EventHandler<FBEventArgs<bool>> OnLogin;
 
@@ -128,8 +128,8 @@ namespace Plugin.FacebookClient.Abstractions
             Task<FacebookResponse<bool>> LoginAsync(string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read);
             Task<FacebookResponse<Dictionary<string, object>>> SharePhotoAsync(byte[] imgBytes, string caption = "");
             Task<FacebookResponse<Dictionary<string, object>>> ShareAsync(FacebookShareContent shareContent);
-            Task<FacebookResponse<Dictionary<string, object>>> RequestUserDataAsync(string[] fields, string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read);
-            Task<FacebookResponse<string>> QueryDataAsync(string path, string[] permissions, IDictionary<string, string> parameters = null, string version = null);
+            Task<FacebookResponse<string>> RequestUserDataAsync(string[] fields, string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read);
+            Task<FacebookResponse<string>> QueryDataAsync(string path, string[] permissions = null, IDictionary<string, string> parameters = null, string version = null);
             Task<FacebookResponse<string>> PostDataAsync(string path, string[] permissions, IDictionary<string, string> parameters = null, string version = null);
             Task<FacebookResponse<string>> DeleteDataAsync(string path, string[] permissions, IDictionary<string, string> parameters = null, string version = null);
 

@@ -2,7 +2,7 @@
 <package >
   <metadata minClientVersion="2.8.1">
     <id>Plugin.FacebookClient</id>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
     <title>Facebook Client Plugin for Xamarin</title>
     <authors>Rendy Del Rosario</authors>
     <owners>crossgeeks</owners>
@@ -12,7 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Facebook login, sharing, facebook graph requests and permissions handling across Xamarin.iOS and Xamarin.Android</description>
     <summary>Facebook login, sharing, facebook graph requests and permissions handling across Xamarin.iOS and Xamarin.Android</summary>
-    <releaseNotes>Permission bug fix, app invite support added, token expiration</releaseNotes>
+    <releaseNotes>Response format fixes</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>iOS,Android,facebook,login,share,xamarin,plugins</tags>
     <dependencies>

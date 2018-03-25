@@ -23,7 +23,7 @@ namespace Plugin.FacebookClient
   /// </summary>
   public class FacebookClientManager : Java.Lang.Object, IFacebookClient, GraphRequest.IGraphJSONObjectCallback, GraphRequest.ICallback
     {
-        static TaskCompletionSource<FacebookResponse<Dictionary<string, object>>> _userDataTcs;
+        static TaskCompletionSource<FacebookResponse<string>> _userDataTcs;
         static TaskCompletionSource<FacebookResponse<Dictionary<string, object>>> _shareTcs;
         static TaskCompletionSource<FacebookResponse<Dictionary<string, object>>> _appInviteTcs;
         static TaskCompletionSource<FacebookResponse<string>> _requestTcs;
@@ -42,8 +42,8 @@ namespace Plugin.FacebookClient
 
         static FacebookPendingAction<Dictionary<string, object>> pendingAction;
 
-        static EventHandler<FBEventArgs<Dictionary<string, object>>> _onUserData;
-        public event EventHandler<FBEventArgs<Dictionary<string, object>>> OnUserData
+        static EventHandler<FBEventArgs<string>> _onUserData;
+        public event EventHandler<FBEventArgs<string>> OnUserData
         {
             add
             {
@@ -426,9 +426,9 @@ namespace Plugin.FacebookClient
             return permissions.All(p => currentPermissions.Contains(p));
         }
 
-        public async Task<FacebookResponse<Dictionary<string, object>>> RequestUserDataAsync(string[] fields, string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read)
+        public async Task<FacebookResponse<string>> RequestUserDataAsync(string[] fields, string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read)
         {
-            _userDataTcs = new TaskCompletionSource<FacebookResponse<Dictionary<string, object>>>();
+            _userDataTcs = new TaskCompletionSource<FacebookResponse<string>>();
             Dictionary<string, object> parameters = new Dictionary<string, object>()
             {
                 {"fields",fields}
@@ -437,7 +437,7 @@ namespace Plugin.FacebookClient
            return await PerformAction(RequestUserData, parameters, _userDataTcs.Task, FacebookPermissionType.Read, permissions);
         }
 
-        public async Task<FacebookResponse<string>> QueryDataAsync(string path, string[] permissions, IDictionary<string, string> parameters = null, string version = null)
+        public async Task<FacebookResponse<string>> QueryDataAsync(string path, string[] permissions = null, IDictionary<string, string> parameters = null, string version = null)
         {
             _requestTcs = new TaskCompletionSource<FacebookResponse<string>>();
             Dictionary<string, object> paramDict = new Dictionary<string, object>()
@@ -537,8 +537,11 @@ namespace Plugin.FacebookClient
                         {
                             bundle.PutString($"{p.Key}", $"{p.Value}");
                         }
+
                     }
                     request.Parameters = bundle;
+
+                  
                 }
 
                 if(!string.IsNullOrEmpty(version))
@@ -585,9 +588,9 @@ namespace Plugin.FacebookClient
             }
             else
             {
-                var fbResponse = new FBEventArgs<Dictionary<string, object>>(null, FacebookActionStatus.Canceled, "User cancelled facebook operation");
+                var fbResponse = new FBEventArgs<string>(null, FacebookActionStatus.Canceled, "User cancelled facebook operation");
                 _onUserData.Invoke(CrossFacebookClient.Current, fbResponse);
-                _userDataTcs?.TrySetResult(new FacebookResponse<Dictionary<string, object>>(fbResponse));
+                _userDataTcs?.TrySetResult(new FacebookResponse<string>(fbResponse));
             }
 
         }
@@ -869,38 +872,23 @@ namespace Plugin.FacebookClient
                 if(response.Error!=null)
                 {
                     System.Diagnostics.Debug.WriteLine(response.Error.ErrorMessage.ToString());
-                    var fbArgs = new FBEventArgs<Dictionary<string, object>>(null, FacebookActionStatus.Error, response.Error.ErrorMessage.ToString());
+                    var fbArgs = new FBEventArgs<string>(null, FacebookActionStatus.Error, response.Error.ErrorMessage.ToString());
                     _onUserData?.Invoke(CrossFacebookClient.Current, fbArgs);
-                    _userDataTcs?.TrySetResult(new FacebookResponse<Dictionary<string, object>>(fbArgs));
+                    _userDataTcs?.TrySetResult(new FacebookResponse<string>(fbArgs));
                 }
                else{
-                    var fieldsString = response.Request.Parameters.GetString("fields");
-                    var fields = fieldsString.Split(',');
-
-                    Dictionary<string, object> userData = new Dictionary<string, object>();
-
-                    for (int i = 0; i < fields.Length; i++)
-                    {
-                        if (@object.Has(fields[i]))
-                        {
-                            userData.Add(fields[i], @object.GetString(fields[i]).Replace(" = ", ":").Replace(";", ","));
-                        }
-
-                    }
-                    userData.Add("user_id", AccessToken.CurrentAccessToken.UserId);
-                    userData.Add("token", AccessToken.CurrentAccessToken.Token);
-                    var fbArgs = new FBEventArgs<Dictionary<string, object>>(userData, FacebookActionStatus.Completed);
+                    var fbArgs = new FBEventArgs<string>(@object?.ToString(), FacebookActionStatus.Completed);
                     _onUserData?.Invoke(CrossFacebookClient.Current, fbArgs);
-                    _userDataTcs?.TrySetResult(new FacebookResponse<Dictionary<string, object>>(fbArgs));
+                    _userDataTcs?.TrySetResult(new FacebookResponse<string>(fbArgs));
                 }
               
             }
             catch(JSONException ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.ToString());
-                var fbArgs = new FBEventArgs<Dictionary<string, object>>(null, FacebookActionStatus.Error,ex.ToString());
+                var fbArgs = new FBEventArgs<string>(null, FacebookActionStatus.Error,ex.ToString());
                 _onUserData?.Invoke(CrossFacebookClient.Current, fbArgs);
-                _userDataTcs?.TrySetResult(new FacebookResponse<Dictionary<string, object>>(fbArgs));
+                _userDataTcs?.TrySetResult(new FacebookResponse<string>(fbArgs));
             }
            
         }
@@ -933,7 +921,7 @@ namespace Plugin.FacebookClient
             }
             else
             {
-                var fbResponse = new FBEventArgs<string>(response.RawResponse.Replace("(", "[").Replace(@"\U", "\\\\U").Replace(");", "],").Replace(" = ", ":").Replace(";", ","), FacebookActionStatus.Completed);
+                var fbResponse = new FBEventArgs<string>(response?.JSONObject?.ToString(), FacebookActionStatus.Completed);
                 _onEvent?.Invoke(CrossFacebookClient.Current, fbResponse);
                 currentTcs?.TrySetResult(new FacebookResponse<string>(fbResponse));
             }
