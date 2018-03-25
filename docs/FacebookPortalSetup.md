@@ -61,7 +61,7 @@ Make sure to use the password that you set when you first created the keystore.
 
 ![Enable publish permission](https://github.com/CrossGeeks/FacebookClientPlugin/blob/develop/images/publish_actions_permission.png?raw=true)
 
-![Enable publish permission](https://github.com/CrossGeeks/FacebookClientPlugin/blob/develop/images/publish_actions_permission_2.png?raw=true)
+![Enable publish permission](https://github.com/CrossGeeks/FacebookClientPlugin/blob/master/images/publish_actions_permissions_2.png?raw=true)
 
 10. Add your testers
 
