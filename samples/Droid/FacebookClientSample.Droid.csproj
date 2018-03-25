@@ -40,10 +40,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Plugin.FacebookClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Plugin.FacebookClient.1.1.1-alpha\lib\MonoAndroid10\Plugin.FacebookClient.dll</HintPath>
+      <HintPath>..\packages\Plugin.FacebookClient.1.2.0\lib\MonoAndroid10\Plugin.FacebookClient.dll</HintPath>
     </Reference>
     <Reference Include="Plugin.FacebookClient.Abstractions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Plugin.FacebookClient.1.1.1-alpha\lib\MonoAndroid10\Plugin.FacebookClient.Abstractions.dll</HintPath>
+      <HintPath>..\packages\Plugin.FacebookClient.1.2.0\lib\MonoAndroid10\Plugin.FacebookClient.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />

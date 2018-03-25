@@ -52,10 +52,10 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Plugin.FacebookClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Plugin.FacebookClient.1.1.1-alpha\lib\netstandard1.0\Plugin.FacebookClient.dll</HintPath>
+      <HintPath>..\packages\Plugin.FacebookClient.1.2.0\lib\netstandard1.0\Plugin.FacebookClient.dll</HintPath>
     </Reference>
     <Reference Include="Plugin.FacebookClient.Abstractions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Plugin.FacebookClient.1.1.1-alpha\lib\netstandard1.0\Plugin.FacebookClient.Abstractions.dll</HintPath>
+      <HintPath>..\packages\Plugin.FacebookClient.1.2.0\lib\netstandard1.0\Plugin.FacebookClient.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Forms.Core">
       <HintPath>..\packages\Xamarin.Forms.2.3.4.231\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.Core.dll</HintPath>
