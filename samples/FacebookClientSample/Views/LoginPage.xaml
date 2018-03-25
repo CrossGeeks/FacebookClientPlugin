@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:FacebookClientSample" xmlns:vm="clr-namespace:FacebookClientSample.ViewModels" x:Class="FacebookClientSample.LoginPage">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:FacebookClientSample" xmlns:vm="clr-namespace:FacebookClientSample.ViewModels" x:Class="FacebookClientSample.LoginPage" Title="Facebook Sample">
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
             <On Platform="iOS" Value="0, 20, 0, 0" />
@@ -9,9 +9,6 @@
         <vm:LoginViewModel />
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="Silver">
-            <Label Text="Facebook Sample" FontSize="Large"/>
-            <Button Text="Login With Facebook" BackgroundColor="#819FF7"  VerticalOptions="StartAndExpand" HorizontalOptions="CenterAndExpand" Command="{Binding LoginCommand}"></Button>  
-        </StackLayout>
+        <Button Text="Login With Facebook" BackgroundColor="#3b5998" TextColor="White" WidthRequest="250"  VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Command="{Binding LoginCommand}"></Button>  
     </ContentPage.Content>
 </ContentPage>
