@@ -4,13 +4,10 @@ namespace FacebookClientSample
 {
     public partial class App : Application
     {
-		public static INavigation Navigation { get; set; }
-
         public App()
         {
             InitializeComponent();
             var navPage = new NavigationPage(new LoginPage());
-            Navigation = navPage.Navigation;
             MainPage = navPage;
         }
 

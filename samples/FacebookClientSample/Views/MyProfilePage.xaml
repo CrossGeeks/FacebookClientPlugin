@@ -7,10 +7,10 @@
         <StackLayout HorizontalOptions="FillAndExpand" Spacing="2" BackgroundColor="#DCE9F7"> 
             <StackLayout HeightRequest="240">
                 <AbsoluteLayout>
+                
                     <Image Source="{Binding Profile.Cover}"  Aspect="AspectFill" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"/>
-                    <Frame CornerRadius="360" OutlineColor="Teal" HasShadow="true" HeightRequest="140" WidthRequest="60">
-                        <Image Source="{Binding Profile.PictureUrl}" />
-                    </Frame>
+                    <Image Source="{Binding Profile.Picture}" />
+
                     <Label Text="{Binding Profile.FullName}" FontSize="15" TextColor="White" FontAttributes="Bold" AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds="0,1,-1,-1" />
                 </AbsoluteLayout>
             </StackLayout> 

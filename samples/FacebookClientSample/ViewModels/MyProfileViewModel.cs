@@ -42,23 +42,12 @@ namespace FacebookClientSample.ViewModels
             Profile = new FacebookProfile()
             {
                 FullName = data["name"].ToString(),
-                Cover = new UriImageSource { Uri = new System.Uri(JsonConvert(data["cover"].ToString(), "source")) },
-                PictureUrl = new UriImageSource { Uri = new System.Uri(JsonConvert(data["picture"].ToString(), "url", "data")) }
+                Cover = new UriImageSource { Uri = new System.Uri($"{data["cover"]["source"]}") },
+                Picture = new UriImageSource { Uri = new System.Uri($"{data["picture"]["data"]["url"]}") }
             };
             LoadPosts();         }
-        string JsonConvert(string json, string child, string parent = null)
-        {
-            var jo = JObject.Parse(json);
-            if (parent != null)
-            {
-                return jo[parent][child].ToString();
-            }
-            else
-            {
-                return jo.GetValue(child).ToString();
-            }
-        }
-        public async Task PostAsync(string message)         {            var response= await CrossFacebookClient.Current.PostDataAsync("me/feed",                                                            new string[] { "publish_actions" },                                                               new Dictionary<string, string>()                                                                 {                                                                    {"message" ,message}                                                                }                                                             );             PostMessage = string.Empty;
+
+        public async Task PostAsync(string message)         {            var response= await CrossFacebookClient.Current.PostDataAsync("me/feed", new string[] { "publish_actions" },                                                               new Dictionary<string, string>()                                                                {                                                                    {"message" ,message}                                                                });             PostMessage = string.Empty;
             LoadPosts();         }
 
 

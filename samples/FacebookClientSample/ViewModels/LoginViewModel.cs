@@ -12,7 +12,7 @@ namespace FacebookClientSample.ViewModels
 {
     public class LoginViewModel : INotifyPropertyChanged
     {
-        string[] permisions = new string[] { "email", "public_profile" };
+        string[] permisions = new string[] { "email", "public_profile" , "user_posts" };
 
         public event PropertyChangedEventHandler PropertyChanged;
 
