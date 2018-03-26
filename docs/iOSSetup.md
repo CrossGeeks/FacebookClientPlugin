@@ -3,7 +3,7 @@
 * Install Plugin.FacebookClient package into your iOS project.
 
 
-### AppDelegate
+### AppDelegate.cs
 
 
 On **FinishedLaunching** just before **return base.FinishedLaunching(app, options)**:
@@ -83,7 +83,7 @@ Make sure you add any other additional urls for web services call inside the **N
 ```
 
 
-Also add:
+Add facebook bundle url types:
 
 
 ```xml
@@ -109,12 +109,16 @@ Also add:
    <string>fbauth2</string>
    <string>fbshareextension</string>
 </array>
-<key>NSPhotoLibraryUsageDescription</key>
-<string>{human-readable reason for photo access}</string>
- 
 ```
 
 **Note: Replace xxxxxxxxxxxxx with your facebook app id**
+
+If your app needs access to the gallery because will be posting photos, remember to add the photo library permission.
+
+```xml
+<key>NSPhotoLibraryUsageDescription</key>
+<string>{human-readable reason for photo access}</string>
+```
 
 
 ### Entitlement.plist
