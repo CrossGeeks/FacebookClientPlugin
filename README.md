@@ -2,6 +2,8 @@
 
 Simple cross platform plugin for handling facebook login, sharing, facebook graph requests and permissions handling.
 
+Blog post : [Facebook Client Plugin](http://wp.me/p9ztz9-du)
+
 ### Setup
 * Available on NuGet: http://www.nuget.org/packages/Plugin.FacebookClient [![NuGet](https://img.shields.io/nuget/v/Plugin.FacebookClient.svg?label=NuGet)](https://www.nuget.org/packages/Plugin.FacebookClient/)
 * Install into your PCL project and Client projects.
