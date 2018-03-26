@@ -17,11 +17,12 @@
               <StackLayout> 
                     <Label Text="Post a Message: " FontSize="10" TextColor="#348CF3" />
                     <Editor HorizontalOptions="FillAndExpand"  VerticalOptions="FillAndExpand" HeightRequest="60" Keyboard="Text" Text="{Binding PostMessage}" ></Editor>
-                    <Button Text="Send" WidthRequest="70" HeightRequest="40" TextColor="White" BorderRadius="10"  BackgroundColor= "#348CF3" HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" Command="{Binding PostMessageCommand}" CommandParameter="{Binding Message}" ></Button>
+                    <Button Text="Send" WidthRequest="70" HeightRequest="40" TextColor="White" BorderRadius="10"  BackgroundColor= "#348CF3" HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" Command="{Binding PostMessageCommand}" CommandParameter="{Binding PostMessage}" ></Button>
             </StackLayout>
             <ScrollView>
             <StackLayout>
-                 <ListView x:Name="lbPost" BackgroundColor="Transparent" HasUnevenRows="true" HorizontalOptions="FillAndExpand" ItemsSource="{Binding Posts}">
+                    <ActivityIndicator IsEnabled="{Binding IsBusy}" IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
+                    <ListView x:Name="lbPost" BackgroundColor="Transparent" HasUnevenRows="true" HorizontalOptions="FillAndExpand" ItemsSource="{Binding Posts}" IsVisible="{Binding IsNotBusy}">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <ViewCell>
@@ -36,7 +37,7 @@
                                         </ViewCell>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
-                            </ListView>
+                  </ListView>
             </StackLayout> 
             </ScrollView>
         </StackLayout>  

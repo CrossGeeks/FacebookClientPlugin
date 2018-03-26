@@ -2,7 +2,7 @@
 
 namespace FacebookClientSample.Models
 {
-    public class FacebookPost
+    public class FacebookPost 
     {
 
         public string Message { get; set; }

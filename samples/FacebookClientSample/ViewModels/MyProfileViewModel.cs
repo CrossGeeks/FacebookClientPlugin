@@ -4,6 +4,7 @@ using Plugin.FacebookClient;
 using Plugin.FacebookClient.Abstractions;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,10 @@ namespace FacebookClientSample.ViewModels
 {
     public class MyProfileViewModel : INotifyPropertyChanged
     {
-        public List<FacebookPost> Posts { get; set; }
+        public bool IsBusy { get; set; } = false;
+
+        public bool IsNotBusy { get { return !IsBusy; } }
+        public ObservableCollection<FacebookPost> Posts { get; set; }
         public FacebookProfile Profile { get; set; }         public Command LoadDataCommand { get; set; }
 
         public Command<string> PostMessageCommand { get; set; }         public string PostMessage { get; set; } = string.Empty;
@@ -24,9 +28,10 @@ namespace FacebookClientSample.ViewModels
         public MyProfileViewModel()
         {
             Profile = new FacebookProfile();
-            Posts = new List<FacebookPost>();             LoadDataCommand = new Command(async() => await LoadData());
+            Posts = new ObservableCollection<FacebookPost>();             LoadDataCommand = new Command(async() => await LoadData());
             PostMessageCommand = new Command<string>(async(msg) => await PostAsync(msg));
             LoadDataCommand.Execute(null);
+
         }
 
 
@@ -40,7 +45,7 @@ namespace FacebookClientSample.ViewModels
                 Cover = new UriImageSource { Uri = new System.Uri(JsonConvert(data["cover"].ToString(), "source")) },
                 PictureUrl = new UriImageSource { Uri = new System.Uri(JsonConvert(data["picture"].ToString(), "url", "data")) }
             };
-         }
+            LoadPosts();         }
         string JsonConvert(string json, string child, string parent = null)
         {
             var jo = JObject.Parse(json);
@@ -53,11 +58,17 @@ namespace FacebookClientSample.ViewModels
                 return jo.GetValue(child).ToString();
             }
         }
-        public async Task PostAsync(string message)         {             await CrossFacebookClient.Current.PostDataAsync("me/feed",                                                            new string[] { "publish_actions" },                                                               new Dictionary<string, string>()                                                                 {                                                                    {"message" ,message}                                                                }                                                             );             PostMessage = string.Empty;
+        public async Task PostAsync(string message)         {            var response= await CrossFacebookClient.Current.PostDataAsync("me/feed",                                                            new string[] { "publish_actions" },                                                               new Dictionary<string, string>()                                                                 {                                                                    {"message" ,message}                                                                }                                                             );             PostMessage = string.Empty;
             LoadPosts();         }
 
 
         public async Task LoadPosts()         {
+            if (IsBusy)
+                return;
+
+            IsBusy = true;
+          
+            Posts.Clear();
             FacebookResponse<string> post = await CrossFacebookClient.Current.QueryDataAsync("me/feed", new string[] { "user_posts" });
             var jo = JObject.Parse(post.Data); 
             if(jo.ContainsKey("data"))
@@ -80,8 +91,8 @@ namespace FacebookClientSample.ViewModels
                     Posts.Add(postData);
                 }
             }
-          
-           
+
+            IsBusy = false;
         }
     }
 }
