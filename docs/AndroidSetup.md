@@ -9,8 +9,6 @@
      FacebookClientManager.Initialize(this);
 ```
 
-Note: Save that CallbackManager in a class variable/property since you will need it in the following step.
-
 - Override OnActivityResult:
 ```cs
   protected override void OnActivityResult(int requestCode, Result resultCode, Intent intent)
