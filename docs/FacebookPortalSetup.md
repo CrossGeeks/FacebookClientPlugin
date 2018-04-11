@@ -34,11 +34,10 @@ Make sure to use the password that you set when you first created the keystore.
 
 **5.** Add your package name and full class name for your Activity.
 
-    If your package name and namespace are not equal your full class name is:
         <package name> + <namespace> + <class name>
-
-    If they are equal your full class name is:      
-        <package name> + <class name>
+        
+        Example:
+            com.crossgeeks.facebookclient.facebookclientsample.Droid.MainActivity
 
 ![Add Android  Details](https://github.com/CrossGeeks/FacebookClientPlugin/blob/develop/images/create-android-app-details.png?raw=true)
 
