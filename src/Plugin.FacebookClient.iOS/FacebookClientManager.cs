@@ -359,7 +359,7 @@ namespace Plugin.FacebookClient
                     {
                         var shareHashTag = new Hashtag();
                         shareHashTag.StringRepresentation = photoContent.Hashtag;
-                        sharePhotoContent.SetHashtag(shareHashTag);
+                        sharePhotoContent.Hashtag = (shareHashTag);
                     }
 
                     if (photoContent.PeopleIds != null && photoContent.PeopleIds.Length > 0)
@@ -445,7 +445,7 @@ namespace Plugin.FacebookClient
                     {
                         var shareHashTag = new Hashtag();
                         shareHashTag.StringRepresentation = videoContent.Hashtag;
-                        shareVideoContent.SetHashtag(shareHashTag);
+                        shareVideoContent.Hashtag = (shareHashTag);
                     }
 
                     if (videoContent.PeopleIds != null && videoContent.PeopleIds.Length > 0)
