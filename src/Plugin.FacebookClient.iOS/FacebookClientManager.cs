@@ -19,11 +19,10 @@ namespace Plugin.FacebookClient
     /// <summary>
     /// Implementation for FacebookClient
     /// </summary>
-    public class FacebookClientManager : NSObject, IFacebookClient, ISharingDelegate, IAppInviteDialogDelegate
+    public class FacebookClientManager : NSObject, IFacebookClient, ISharingDelegate
     {
         TaskCompletionSource<FacebookResponse<string>> _userDataTcs;
         TaskCompletionSource<FacebookResponse<Dictionary<string, object>>> _shareTcs;
-        TaskCompletionSource<FacebookResponse<Dictionary<string, object>>> _appInviteTcs;
         TaskCompletionSource<FacebookResponse<string>> _requestTcs;
         TaskCompletionSource<FacebookResponse<string>> _postTcs;
         TaskCompletionSource<FacebookResponse<string>> _deleteTcs;
@@ -38,8 +37,6 @@ namespace Plugin.FacebookClient
         public event EventHandler<FBEventArgs<bool>> OnLogout = delegate { };
 
         public event EventHandler<FBEventArgs<Dictionary<string, object>>> OnSharing = delegate { };
-
-        public event EventHandler<FBEventArgs<Dictionary<string, object>>> OnAppInvite = delegate { };
 
         public event EventHandler<FBEventArgs<string>> OnRequestData = delegate { };
         public event EventHandler<FBEventArgs<string>> OnPostData = delegate { };
@@ -782,90 +779,6 @@ namespace Plugin.FacebookClient
         {
             AppEvents.LogEvent(name);
         }
-
-        public async Task<FacebookResponse<Dictionary<string, object>>> ShowAppInviteDialog(string appLinkUrl, string previewImageUrl = "", string promotionText = "", string promotionCode = "", FacebookAppInviteDestination destination = FacebookAppInviteDestination.Facebook)
-        {
-            _appInviteTcs = new TaskCompletionSource<FacebookResponse<Dictionary<string, object>>>();
-            Dictionary<string, object> paramDict = new Dictionary<string, object>()
-            {
-                {"appLinkUrl",appLinkUrl},
-                {"previewImageUrl", previewImageUrl },
-                {"promotionText", promotionText },
-                {"promotionCode", promotionCode },
-                {"destination", destination }
-
-            };
-
-            return await PerformAction(ShowAppInviteDialogRequest, paramDict, _appInviteTcs.Task, FacebookPermissionType.Publish, new string[] { "publish_actions" });
-        }
-
-        public void ShowAppInviteDialogRequest(Dictionary<string, object> parameters)
-        {
-            var appLinkUrl = $"{parameters["appLinkUrl"]}";
-            var previewImageUrl = $"{parameters["previewImageUrl"]}";
-            var promotionCode = $"{parameters["promotionCode"]}";
-            var promotionText = $"{parameters["promotionText"]}";
-            var destination = FacebookAppInviteDestination.Facebook;
-            if (parameters["destination"] is FacebookAppInviteDestination)
-            {
-                destination = (FacebookAppInviteDestination)parameters["destination"]; 
-            }
-
-            if (!string.IsNullOrEmpty(appLinkUrl))
-            {
-
-                AppInviteContent content = new AppInviteContent()
-                {
-                    AppLinkURL = NSUrl.FromString(appLinkUrl)
-                };
-
-                if (!string.IsNullOrEmpty(previewImageUrl))
-                {
-                    content.PreviewImageURL = NSUrl.FromString(previewImageUrl);
-                }
-
-                content.Destination = destination == FacebookAppInviteDestination.Facebook ? AppInviteDestination.Facebook : AppInviteDestination.Messenger;
-
-                if (!string.IsNullOrEmpty(promotionText))
-                {
-                    content.PromotionText = promotionText;
-                }
-
-                if (!string.IsNullOrEmpty(promotionCode))
-                {
-                    content.PromotionCode = promotionCode;
-                }
-
-                UIApplication.SharedApplication.InvokeOnMainThread(() =>
-                {
-                    var window = UIApplication.SharedApplication.KeyWindow;
-                    var vc = window.RootViewController;
-                    while (vc.PresentedViewController != null)
-                    {
-                        vc = vc.PresentedViewController;
-                    }
-                    AppInviteDialog.Show(vc, content, this);
-                });
-            }
-        }
-
-        public void DidComplete(AppInviteDialog appInviteDialog, NSDictionary results)
-        {
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
-            foreach (var r in results)
-            {
-                parameters.Add($"{r.Key}", $"{r.Value}");
-            }
-            var fbArgs = new FBEventArgs<Dictionary<string, object>>(parameters, FacebookActionStatus.Completed);
-            OnAppInvite(this, fbArgs);
-            _appInviteTcs?.TrySetResult(new FacebookResponse<Dictionary<string, object>>(fbArgs));
-        }
-
-        public void DidFail(AppInviteDialog appInviteDialog, NSError error)
-        {
-            var fbArgs = new FBEventArgs<Dictionary<string, object>>(null, FacebookActionStatus.Error, $"Facebook App Invite Failed - {error.Code} - {error.Description}");
-            OnAppInvite(this, fbArgs);
-            _appInviteTcs?.TrySetResult(new FacebookResponse<Dictionary<string, object>>(fbArgs));
-        }
+        
     }
 }

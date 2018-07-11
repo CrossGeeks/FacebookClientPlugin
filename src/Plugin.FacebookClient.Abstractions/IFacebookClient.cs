@@ -32,12 +32,6 @@ namespace Plugin.FacebookClient.Abstractions
         Error
     }
 
-    public enum FacebookAppInviteDestination
-    {
-        Facebook,
-        Messenger
-    }
-
     public class FBEventArgs<T> : EventArgs
     {
         public T Data { get; set; }
@@ -111,7 +105,6 @@ namespace Plugin.FacebookClient.Abstractions
             event EventHandler<FBEventArgs<bool>> OnLogout;
 
             event EventHandler<FBEventArgs<Dictionary<string, object>>> OnSharing;
-            event EventHandler<FBEventArgs<Dictionary<string, object>>> OnAppInvite;
 
             string ActiveToken { get; }
 
@@ -133,7 +126,6 @@ namespace Plugin.FacebookClient.Abstractions
             Task<FacebookResponse<string>> PostDataAsync(string path, string[] permissions, IDictionary<string, string> parameters = null, string version = null);
             Task<FacebookResponse<string>> DeleteDataAsync(string path, string[] permissions, IDictionary<string, string> parameters = null, string version = null);
 
-            Task<FacebookResponse<Dictionary<string, object>>> ShowAppInviteDialog(string appLinkUrl, string previewImageUrl = "", string promotionText = "", string promotionCode = "", FacebookAppInviteDestination destination = FacebookAppInviteDestination.Facebook);
             void Logout();
 
             void LogEvent(string name);
