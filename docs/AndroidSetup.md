@@ -2,7 +2,7 @@
 
 * Install Plugin.FacebookClient package into your Android project.
 
-- Make sure your Android project compiled is using 8.1+ target framework (**Project must compile against 27+ as plugin is using API 26 specific things. Here is a great breakdown: http://redth.codes/such-android-api-levels-much-confuse-wow/**)
+- Make sure your Android project is setup to be compiled using 8.1+ as target framework (**Project must compile against 27+ as plugin is using API 26 specific things. Here is a great breakdown: http://redth.codes/such-android-api-levels-much-confuse-wow/**)
 
 ### MainActivity.cs
 
