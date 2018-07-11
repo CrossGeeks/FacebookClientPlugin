@@ -79,11 +79,14 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Facebook, Version=4.10.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xamarin.Facebook.iOS.4.33.0\lib\Xamarin.iOS10\Facebook.dll</HintPath>
+    </Reference>
     <Reference Include="Plugin.FacebookClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Plugin.FacebookClient.1.2.0\lib\Xamarin.iOS10\Plugin.FacebookClient.dll</HintPath>
+      <HintPath>..\packages\Plugin.FacebookClient.1.3.0\lib\Xamarin.iOS10\Plugin.FacebookClient.dll</HintPath>
     </Reference>
     <Reference Include="Plugin.FacebookClient.Abstractions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Plugin.FacebookClient.1.2.0\lib\Xamarin.iOS10\Plugin.FacebookClient.Abstractions.dll</HintPath>
+      <HintPath>..\packages\Plugin.FacebookClient.1.3.0\lib\Xamarin.iOS10\Plugin.FacebookClient.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
@@ -100,9 +103,6 @@
     </Reference>
     <Reference Include="Xamarin.Forms.Xaml">
       <HintPath>..\packages\Xamarin.Forms.2.3.4.231\lib\Xamarin.iOS10\Xamarin.Forms.Xaml.dll</HintPath>
-    </Reference>
-    <Reference Include="Facebook">
-      <HintPath>..\packages\Xamarin.Facebook.iOS.4.27.1\lib\Xamarin.iOS10\Facebook.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
