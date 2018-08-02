@@ -230,7 +230,7 @@ namespace Plugin.FacebookClient
                 parameters.Add("caption", caption);
             }
 
-          return await PerformAction(RequestSharePhoto, parameters, _shareTcs.Task, FacebookPermissionType.Publish, new string[] { "publish_actions" });
+          return await PerformAction(RequestSharePhoto, parameters, _shareTcs.Task, FacebookPermissionType.Publish, new string[] { });
         }
 
         public async Task<FacebookResponse<Dictionary<string, object>>> ShareAsync(FacebookShareContent shareContent)
@@ -242,7 +242,7 @@ namespace Plugin.FacebookClient
 
             };
 
-            return await PerformAction(RequestShare, parameters, _shareTcs.Task, FacebookPermissionType.Publish, new string[] { "publish_actions" });
+            return await PerformAction(RequestShare, parameters, _shareTcs.Task, FacebookPermissionType.Publish, new string[] { });
         }
         void RequestShare(Dictionary<string, object> paramsDictionary)
         {
@@ -465,8 +465,17 @@ namespace Plugin.FacebookClient
 
                 if (content != null)
                 {
-                    
-                    ShareAPI.Share(content, this);
+
+                    //ShareAPI.Share(content, this);
+
+                    var window = UIApplication.SharedApplication.KeyWindow;
+                    var vc = window.RootViewController;
+                    while (vc.PresentedViewController != null)
+                    {
+                        vc = vc.PresentedViewController;
+                    }
+
+                    ShareDialog.Show(vc,content, this);
                 }
             }
         }
@@ -499,8 +508,16 @@ namespace Plugin.FacebookClient
                     Photos = new SharePhoto[] { photo }
 
                 };
-               
-                ShareAPI.Share(photoContent, this);
+
+                //ShareAPI.Share(photoContent, this);
+                var window = UIApplication.SharedApplication.KeyWindow;
+                var vc = window.RootViewController;
+                while (vc.PresentedViewController != null)
+                {
+                    vc = vc.PresentedViewController;
+                }
+
+                ShareDialog.Show(vc, photoContent, this);
             }
 
         }

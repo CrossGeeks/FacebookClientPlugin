@@ -7,8 +7,6 @@ https://developers.facebook.com/docs/graph-api/reference
 The following method will allow you to make facebook graph requests:
 
 * **QueryDataAsync** - Request information from facebook
-* **DeleteDataAsync** - Delete a previously posted information from facebook
-* **PostDataAsync** - Post information to facebook
 
 #### Parameters
 
@@ -81,42 +79,5 @@ Get all my likes
   await CrossFacebookClient.Current.QueryDataAsync("me/likes", new string[]{ "user_likes"});
   
 ```
-
-### DeleteDataAsync
-
-Allows you to delete information within the specified facebook graph path.
-
-```cs
-Task<FacebookResponse<string>> DeleteDataAsync(string path, string[] permissions, IDictionary<string, string> parameters = null, string version = null);
-```
-
-
-#### Usage Sample
-
-```cs
-
-  await CrossFacebookClient.Current.DeleteDataAsync("1234",new string[]{"publish_actions");
-  
-```
-
-### PostDataAsync
-
-Allows you to post information within the specified facebook graph path. 
-
-```cs
-Task<FacebookResponse<string>> PostDataAsync(string path, string[] permissions, IDictionary<string, string> parameters = null, string version = null);
-```
-
-#### Usage Sample
-
-```cs
-
-  await CrossFacebookClient.Current.PostDataAsync("me/feed", new string[]{"publish_actions"}, new Dictionary<string, string>()
-   {
-      {"message" , "hello world"}
-   });
-  
-```
-
 
 <= Back to [Table of Contents](../README.md)

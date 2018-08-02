@@ -40,6 +40,9 @@ Add this permission.
 Also define this **within** the **application** tag
 
 ```xml
+	<provider android:authorities="com.facebook.app.FacebookContentProvider{APP_ID}"
+			  android:name="com.facebook.FacebookContentProvider"
+			  android:exported="true"/>
     <meta-data android:name="com.facebook.sdk.ApplicationId"  android:value="@string/facebook_app_id"/>
     <activity android:name="com.facebook.FacebookActivity"
         android:configChanges=
@@ -56,6 +59,8 @@ Also define this **within** the **application** tag
         </intent-filter>
     </activity>
 ```
+
+**Note: Replace {APP_ID} for your Facebook Application Id**
 
 ### Keystore Auto Signing
 

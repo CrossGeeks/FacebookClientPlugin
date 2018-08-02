@@ -2,7 +2,7 @@
 <package >
   <metadata minClientVersion="2.8.1">
     <id>Plugin.FacebookClient</id>
-    <version>1.3.0</version>
+    <version>1.4.0</version>
     <title>Facebook Client Plugin for Xamarin</title>
     <authors>Rendy Del Rosario</authors>
     <owners>crossgeeks</owners>
@@ -12,7 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Facebook login, sharing, facebook graph requests and permissions handling across Xamarin.iOS and Xamarin.Android</description>
     <summary>Facebook login, sharing, facebook graph requests and permissions handling across Xamarin.iOS and Xamarin.Android</summary>
-    <releaseNotes>Updated packages to facebook latest SDK version</releaseNotes>
+    <releaseNotes>Use of sharing dialogs instead of sharing api because of deprecation of publish_actions permission</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>iOS,Android,facebook,login,share,xamarin,plugins</tags>
     <dependencies>

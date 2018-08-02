@@ -54,7 +54,7 @@ Make sure to use the password that you set when you first created the keystore.
 
 ### Enable sharing content setup (Optional)
 
-**8.** Go to App Review and make public your application so that you are able to test sharing posts.
+If your app is public on Facebook developer portal, you should be able to test sharing with any users. 
 
 ![Make Public](https://github.com/CrossGeeks/FacebookClientPlugin/blob/develop/images/fb-app-make-public.png)
 
@@ -62,24 +62,15 @@ Make sure to use the password that you set when you first created the keystore.
 
 ![Make Public 3](https://github.com/CrossGeeks/FacebookClientPlugin/blob/develop/images/fb-app-make-ublic-3.png?raw=true)
 
-**9.** Click on start submission to add **publish_actions** permission, then click on Add Item (You can add any other permissions you might need in your application).
+If your application isn't yet public then you need to add the users you want to be able to test sharing.
 
-![Enable publish permission](https://github.com/CrossGeeks/FacebookClientPlugin/blob/develop/images/publish_actions_permission.png?raw=true)
-
-![Enable publish permission](https://github.com/CrossGeeks/FacebookClientPlugin/blob/master/images/publish_actions_permissions_2.png?raw=true)
-
-**10.** Add your testers.
+Add your testers.
 
 ![Testers](https://github.com/CrossGeeks/FacebookClientPlugin/blob/develop/images/testers.png?raw=true)
 
-**Note: This will allow you to test sharing just within your testers group since is not yet approved for public use, so will just work for people added on Roles section, until you submit for approval by clicking on Edit Details and following the steps described there. Until permissions are not on green state are not yet approved (This applies for all permissions that are not approved by default).**
+**Note: This will allow you to test any additional permissions needed just within your testers group since is not yet approved for public use, so will just work for people added on Roles section, until you submit for approval by clicking on Edit Details and following the steps described there. Until permissions are not on green state are not yet approved (This applies for all permissions that are not approved by default).**
 
 **There are few permissions approved by default. Which are: "email" , "public_profile", "user_friends"**
-
-
-
-
-
 
 
 <= Back to [Table of Contents](../README.md)

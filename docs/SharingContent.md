@@ -1,18 +1,14 @@
 ## Sharing Content in Facebook
 
-By default sharing methods request the **publish_actions** permission if not granted.
-
-Make sure your app is public on the App Review section of Facebook developer portal and also have added **publish_actions** permission item, so that you are able to test sharing. 
+If your app is public on Facebook developer portal, you should be able to test sharing with any users. 
 
 ## Testing Sharing Content
 
-If you have **publish_actions** permission approved you can ignore this part.
+If your application isn't yet public then you need to add the users you want to be able to test sharing
 
 Add your testers
 
 ![Testers](https://github.com/CrossGeeks/FacebookClientPlugin/blob/develop/images/testers.png?raw=true)
-
-**Note: This will allow you to test sharing just within your testers group since if not yet approved by Facebook for public use, so will just work for people added on Roles section, until you submit for approval by clicking on Edit Details and following the steps described there. Until permissions are not on green state are not yet approved**
 
 ## Share content types
 

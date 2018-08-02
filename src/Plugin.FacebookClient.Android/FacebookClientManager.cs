@@ -344,7 +344,7 @@ namespace Plugin.FacebookClient
 
             };
 
-            return await PerformAction<FacebookResponse<Dictionary<string, object>>>(RequestShare, parameters, _shareTcs.Task, FacebookPermissionType.Publish, new string[] { "publish_actions" });
+            return await PerformAction<FacebookResponse<Dictionary<string, object>>>(RequestShare, parameters, _shareTcs.Task, FacebookPermissionType.Publish, new string[] { });
 
         }
 
@@ -362,7 +362,7 @@ namespace Plugin.FacebookClient
                 parameters.Add("caption", caption);
             }
 
-            return await PerformAction(RequestSharePhoto, parameters, _shareTcs.Task, FacebookPermissionType.Publish, new string[] { "publish_actions" });
+            return await PerformAction(RequestSharePhoto, parameters, _shareTcs.Task, FacebookPermissionType.Publish, new string[] {  });
 
         }
 
@@ -731,7 +731,11 @@ namespace Plugin.FacebookClient
 
                 if (content != null)
                 {
-                    ShareApi.Share(content, shareCallback);
+                    //ShareApi.Share(content, shareCallback);
+                    ShareDialog dialog = new ShareDialog(CurrentActivity);
+                    dialog.RegisterCallback(mCallbackManager, shareCallback);
+                    dialog.ShouldFailOnDataError = true;
+                    dialog.Show(content, ShareDialog.Mode.Automatic);
                 }
             }
 
@@ -759,7 +763,12 @@ namespace Plugin.FacebookClient
                 var sharePhotoContent = new SharePhotoContent.Builder()
                     .SetPhotos(photos).Build();
 
-                ShareApi.Share(sharePhotoContent, shareCallback);
+                //ShareApi.Share(sharePhotoContent, shareCallback);
+
+                ShareDialog dialog = new ShareDialog(CurrentActivity);
+                dialog.RegisterCallback(mCallbackManager, shareCallback);
+                dialog.ShouldFailOnDataError = true;
+                dialog.Show(sharePhotoContent, ShareDialog.Mode.Automatic);
 
             }
 

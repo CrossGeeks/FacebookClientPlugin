@@ -20,7 +20,7 @@ Login with read permissions requesting email permission.
 Login with publish permissions
 
 ```cs
-  await CrossFacebookClient.Current.LoginAsync( new string[] {"publish_actions"},FacebookPermissionType.Publish);
+  await CrossFacebookClient.Current.LoginAsync( new string[] {"user_friends"},FacebookPermissionType.Publish);
 ```
 
 Login with read permissions & get user data
@@ -50,7 +50,7 @@ There are some methods & properties to verify the current state of facebook perm
 Usage:
 
 ```cs
-CrossFacebookClient.Current.VerifyPermission("publish_actions");
+CrossFacebookClient.Current.VerifyPermission("user_friends");
 ```
 
 **CrossFacebookClient.Current.HasPermissions** : Verify if all the permissions specified have been granted.
@@ -67,8 +67,6 @@ https://developers.facebook.com/docs/facebook-login/permissions/?locale=en_EN
 
 
 ### Sharing
-
-By default sharing methods request the **publish_actions** permission if not granted.
 
 Simple Share
 ```cs
@@ -93,25 +91,6 @@ Get all my likes
 ```cs
 
   await CrossFacebookClient.Current.QueryDataAsync("me/likes", new string[]{ "user_likes"});
-  
-```
-
-Delete my post id 1234
-
-```cs
-
-  await CrossFacebookClient.Current.DeleteDataAsync("1234", new string[]{ "publish_actions"});
-  
-```
-
-Post status on my wall
-
-```cs
-
-  await CrossFacebookClient.Current.PostDataAsync("me/feed",new string[]{"publish_actions"}, new Dictionary<string, string>()
-   {
-      {"message" , "hello world"}
-   });
   
 ```
 
@@ -209,34 +188,5 @@ Request event:
       }
   };
 ```
-
-Delete event:
-  
-```cs
-  CrossFacebookClient.Current.OnDeleteData += (s,a)=> 
-  {
-      switch (a.Status)
-      {
-         case FacebookActionStatus.Completed:
-        
-         break;
-      }
-  };
-```
-
-Post event:
-  
-```cs
-  CrossFacebookClient.Current.OnPostData += (s,a)=> 
-  {
-      switch (a.Status)
-      {
-         case FacebookActionStatus.Completed:
-      
-         break;
-      }
-  };
-```
-
 
 <= Back to [Table of Contents](../README.md)
