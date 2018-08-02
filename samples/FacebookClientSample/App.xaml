@@ -1,6 +1,18 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Application xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="FacebookClientSample.App">
+<?xml version="1.0" encoding="utf-8"?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:FacebookClientSample.Helpers.Converters"
+             x:Class="FacebookClientSample.App">
 	<Application.Resources>
-		<!-- Application resource dictionary -->
-	</Application.Resources>
+        <!-- Application resource dictionary -->
+        <ResourceDictionary>
+            <!--App Colors-->
+            <Color x:Key="Primary">#4267b2</Color>
+            <Color x:Key="PrimaryDark">#364a92</Color>
+            <Color x:Key="Accent">#b24267</Color>
+            
+            <!--Converters-->
+            <converters:InverseBooleanConverter x:Key="InverseBoolConverter"/>
+        </ResourceDictionary>
+    </Application.Resources>
 </Application>
