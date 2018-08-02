@@ -1,5 +1,8 @@
-﻿using Xamarin.Forms;
+﻿using FacebookClientSample.Views;
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
+[assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace FacebookClientSample
 {
     public partial class App : Application
@@ -7,7 +10,8 @@ namespace FacebookClientSample
         public App()
         {
             InitializeComponent();
-            var navPage = new NavigationPage(new LoginPage());
+            var navPage = new CustomNavigationPage();
+			navPage.Navigation.PushAsync(new LoginPage());
             MainPage = navPage;
         }
 
