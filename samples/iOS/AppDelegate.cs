@@ -23,7 +23,8 @@ namespace FacebookClientSample.iOS
 
 		public override void OnActivated(UIApplication uiApplication)
 		{
-			FacebookClientManager.OnActivated();
+			 base.OnActivated(uiApplication);
+                         FacebookClientManager.OnActivated();
 		}
 
 		public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
