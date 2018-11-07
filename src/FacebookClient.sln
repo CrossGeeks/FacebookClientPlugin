@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin.FacebookClient.iOS",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin.FacebookClient.Android", "Plugin.FacebookClient.Android\Plugin.FacebookClient.Android.csproj", "{56A56F17-7DE1-4CA1-9617-BF32E971AC84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin.FacebookClient.UWP", "Plugin.FacebookClient.UWP\Plugin.FacebookClient.UWP.csproj", "{E34B516D-C0D8-450F-9DB0-BB6A5B04AEF1}"
-EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Plugin.FacebookClient.Shared", "Plugin.FacebookClient.Shared\Plugin.FacebookClient.Shared.shproj", "{CDE01928-7412-479B-9760-EAC724FCF02D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AD531F23-B6B7-4003-BD21-623683BE59CE}"
@@ -109,22 +107,6 @@ Global
 		{56A56F17-7DE1-4CA1-9617-BF32E971AC84}.Release|x64.Build.0 = Release|Any CPU
 		{56A56F17-7DE1-4CA1-9617-BF32E971AC84}.Release|x86.ActiveCfg = Release|Any CPU
 		{56A56F17-7DE1-4CA1-9617-BF32E971AC84}.Release|x86.Build.0 = Release|Any CPU
-		{E34B516D-C0D8-450F-9DB0-BB6A5B04AEF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E34B516D-C0D8-450F-9DB0-BB6A5B04AEF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E34B516D-C0D8-450F-9DB0-BB6A5B04AEF1}.Debug|ARM.ActiveCfg = Debug|ARM
-		{E34B516D-C0D8-450F-9DB0-BB6A5B04AEF1}.Debug|ARM.Build.0 = Debug|ARM
-		{E34B516D-C0D8-450F-9DB0-BB6A5B04AEF1}.Debug|x64.ActiveCfg = Debug|x64
-		{E34B516D-C0D8-450F-9DB0-BB6A5B04AEF1}.Debug|x64.Build.0 = Debug|x64
-		{E34B516D-C0D8-450F-9DB0-BB6A5B04AEF1}.Debug|x86.ActiveCfg = Debug|x86
-		{E34B516D-C0D8-450F-9DB0-BB6A5B04AEF1}.Debug|x86.Build.0 = Debug|x86
-		{E34B516D-C0D8-450F-9DB0-BB6A5B04AEF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E34B516D-C0D8-450F-9DB0-BB6A5B04AEF1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E34B516D-C0D8-450F-9DB0-BB6A5B04AEF1}.Release|ARM.ActiveCfg = Release|ARM
-		{E34B516D-C0D8-450F-9DB0-BB6A5B04AEF1}.Release|ARM.Build.0 = Release|ARM
-		{E34B516D-C0D8-450F-9DB0-BB6A5B04AEF1}.Release|x64.ActiveCfg = Release|x64
-		{E34B516D-C0D8-450F-9DB0-BB6A5B04AEF1}.Release|x64.Build.0 = Release|x64
-		{E34B516D-C0D8-450F-9DB0-BB6A5B04AEF1}.Release|x86.ActiveCfg = Release|x86
-		{E34B516D-C0D8-450F-9DB0-BB6A5B04AEF1}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

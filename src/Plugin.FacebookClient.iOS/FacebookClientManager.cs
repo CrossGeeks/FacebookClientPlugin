@@ -190,7 +190,7 @@ namespace Plugin.FacebookClient
 
                     NSUserDefaults.StandardUserDefaults.SetString(result.Token.TokenString, FBAccessTokenKey);
                     NSUserDefaults.StandardUserDefaults.SetValueForKey(result.Token.ExpirationDate, FBAccessTokenExpirationDateKey);
-                    NSUserDefaults.StandardUserDefaults.SetString(result.Token.UserID, FBUserIdKey);
+                    NSUserDefaults.StandardUserDefaults.SetString(result.Token.UserId, FBUserIdKey);
                     NSUserDefaults.StandardUserDefaults.Synchronize();
 
                     status = retVal ? FacebookActionStatus.Completed : FacebookActionStatus.Unauthorized;
