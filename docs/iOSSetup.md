@@ -104,10 +104,10 @@ Add facebook bundle url types:
 <string>[Facebook app name]</string>
 <key>LSApplicationQueriesSchemes</key>
 <array>
-   <string>fbapi</string>
-   <string>fb-messenger-api</string>
-   <string>fbauth2</string>
-   <string>fbshareextension</string>
+  <string>fbapi</string>
+  <string>fb-messenger-share-api</string>
+  <string>fbauth2</string>
+  <string>fbshareextension</string>
 </array>
 ```
 

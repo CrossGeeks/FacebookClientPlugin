@@ -128,7 +128,7 @@ namespace Plugin.FacebookClient
         }
         public static bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
         {
-           return ApplicationDelegate.SharedInstance.OpenUrl(app, url, $"{options["UIApplicationOpenURLOptionsSourceApplicationKey"]}", null);
+           return ApplicationDelegate.SharedInstance.OpenUrl(app, url, $"{options["UIApplicationOpenURLOptionsSourceApplicationKey"]}", options["UIApplicationOpenURLOptionsAnnotationKey"]);
         }
 
         public static bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)

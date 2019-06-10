@@ -40,7 +40,7 @@ Add this permission.
 Also define this **within** the **application** tag
 
 ```xml
-	<provider android:authorities="com.facebook.app.FacebookContentProvider{APP_ID}"
+	<provider android:authorities="com.facebook.app.FacebookContentProvider{FB_APP_ID}"
 			  android:name="com.facebook.FacebookContentProvider"
 			  android:exported="true"/>
     <meta-data android:name="com.facebook.sdk.ApplicationId"  android:value="@string/facebook_app_id"/>
