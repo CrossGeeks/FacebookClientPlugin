@@ -30,7 +30,7 @@ Mac: keytool -exportcert -alias <KEY_STORE_ALIAS> -keystore <KEY_STORE_PATH> | o
 Windows: keytool -exportcert -alias <KEY_STORE_ALIAS> -keystore <KEY_STORE_PATH> | openssl sha1 -binary | openssl base64
 ```
 
-Other alternative is to add the following code on the **MainActivity** OnCreate method to get the hash key printed on application output:
+Other alternative is to add the following code on the **MainActivity** OnCreate method to get the hash key printed on the application output:
 
 ```cs
             try
