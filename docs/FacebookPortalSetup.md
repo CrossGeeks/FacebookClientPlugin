@@ -30,6 +30,30 @@ Mac: keytool -exportcert -alias <KEY_STORE_ALIAS> -keystore <KEY_STORE_PATH> | o
 Windows: keytool -exportcert -alias <KEY_STORE_ALIAS> -keystore <KEY_STORE_PATH> | openssl sha1 -binary | openssl base64
 ```
 
+Other alternative is to add the following code on the **MainActivity** OnCreate method to get the hash key printed on application output:
+
+```cs
+            try
+            {
+                PackageInfo info = Android.App.Application.Context.PackageManager.GetPackageInfo(Android.App.Application.Context.PackageName, PackageInfoFlags.Signatures);
+                foreach (var signature in info.Signatures)
+                {
+                    MessageDigest md = MessageDigest.GetInstance("SHA");
+                    md.Update(signature.ToByteArray());
+
+                    System.Diagnostics.Debug.WriteLine(Convert.ToBase64String(md.Digest()));
+                }
+            }
+            catch (NoSuchAlgorithmException e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+            }
+```
+
 Make sure to use the password that you set when you first created the keystore.
 
 **5.** Add your package name and full class name for your Activity.
