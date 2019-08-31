@@ -2,7 +2,7 @@
 <package >
   <metadata minClientVersion="2.8.1">
     <id>Plugin.FacebookClient</id>
-    <version>1.6.0</version>
+    <version>2.0.0-beta</version>
     <title>Facebook Client Plugin for Xamarin</title>
     <authors>Rendy Del Rosario</authors>
     <owners>crossgeeks</owners>
@@ -20,10 +20,22 @@
           <dependency id="NETStandard.Library" version="1.6.1" />
         </group>
         <group targetFramework="MonoAndroid81">
-            <dependency id="Xamarin.Facebook.Android" version="4.40.0" />
+           <dependency id="Xamarin.Facebook.Android" version="5.0.3" />
+           <dependency id="Xamarin.Facebook.AppLinks.Android" version="5.0.3" />
+           <dependency id="Xamarin.Facebook.Common.Android" version="5.0.3" />
+           <dependency id="Xamarin.Facebook.Core.Android" version="5.0.3" />
+           <dependency id="Xamarin.Facebook.Login.Android" version="5.0.3" />
+           <dependency id="Xamarin.Facebook.Messenger.Android" version="5.0.3" />
+           <dependency id="Xamarin.Facebook.Places.Android" version="5.0.3" />
+           <dependency id="Xamarin.Facebook.Share.Android" version="5.0.3" />
         </group>
         <group targetFramework="Xamarin.iOS10">
-            <dependency id="Xamarin.Facebook.iOS" version="4.40.0" />
+            <dependency id="Xamarin.Facebook.iOS" version="5.0.2" />
+            <dependency id="Xamarin.Facebook.CoreKit.iOS" version="5.0.2" />
+            <dependency id="Xamarin.Facebook.LoginKit.iOS" version="5.0.2" />
+            <dependency id="Xamarin.Facebook.MarketingKit.iOS" version="5.0.0" />
+            <dependency id="Xamarin.Facebook.PlacesKit.iOS" version="5.0.2" />
+            <dependency id="Xamarin.Facebook.ShareKit.iOS" version="5.0.2" />
         </group>
     </dependencies>
   </metadata>

@@ -662,7 +662,7 @@ namespace Plugin.FacebookClient
                     ShareVideoContent.Builder videoContentBuilder = new ShareVideoContent.Builder();
 
 
-                    if (videoContent.PreviewPhoto != null)
+                   /*if (videoContent.PreviewPhoto != null)
                     {
                         SharePhoto.Builder photoBuilder = new SharePhoto.Builder();
 
@@ -683,7 +683,7 @@ namespace Plugin.FacebookClient
                             photoBuilder.SetBitmap(bmp);
                         }
                         videoContentBuilder.SetPreviewPhoto(photoBuilder.Build().JavaCast<SharePhoto>());
-                    }
+                    }*/
 
                     if (videoContent.Video != null)
                     {
@@ -691,7 +691,7 @@ namespace Plugin.FacebookClient
 
                         if (videoContent.Video.LocalUrl != null)
                         {
-                            videoBuilder.SetLocalUrl(Android.Net.Uri.Parse(videoContent.PreviewPhoto.ImageUrl.AbsoluteUri));
+                            videoBuilder.SetLocalUrl(Android.Net.Uri.Parse(videoContent.Video.LocalUrl.AbsoluteUri));
 
                         }
 

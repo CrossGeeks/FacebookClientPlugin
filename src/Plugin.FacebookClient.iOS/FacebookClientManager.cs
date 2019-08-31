@@ -26,6 +26,8 @@ namespace Plugin.FacebookClient
         TaskCompletionSource<FacebookResponse<string>> _requestTcs;
         TaskCompletionSource<FacebookResponse<string>> _postTcs;
         TaskCompletionSource<FacebookResponse<string>> _deleteTcs;
+        TaskCompletionSource<FacebookResponse<bool>> _loginTcs;
+
         static NSString FBAccessTokenKey = new NSString("FBAccessToken");
         static NSString FBAccessTokenExpirationDateKey = new NSString("FBAccessTokenExpirationDateKey");
         static NSString FBUserIdKey = new NSString("FBUserIdKey");
@@ -165,6 +167,7 @@ namespace Plugin.FacebookClient
 
         public async Task<FacebookResponse<bool>> LoginAsync(string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read)
         {
+            _loginTcs = new TaskCompletionSource<FacebookResponse<bool>>();
             var retVal = IsLoginSessionActive;
             FacebookActionStatus status = FacebookActionStatus.Error;
             if (!HasPermissions(permissions))
@@ -176,42 +179,64 @@ namespace Plugin.FacebookClient
                     vc = vc.PresentedViewController;
                 }
 
-                LoginManagerLoginResult result = await (permissionType == FacebookPermissionType.Read ? loginManager.LogInWithReadPermissionsAsync(permissions, vc) : loginManager.LogInWithPublishPermissionsAsync(permissions, vc));
-
-                if (result.IsCancelled)
+                loginManager.LogIn(permissions, vc, (result, error) =>
                 {
-                    retVal = false;
-                    status = FacebookActionStatus.Canceled;
-                }
-                else
-                {
-               
-                    retVal = HasPermissions(result.GrantedPermissions.Select(p => $"{p}").ToArray());
+                    if (error == null)
+                    {
 
-                    NSUserDefaults.StandardUserDefaults.SetString(result.Token.TokenString, FBAccessTokenKey);
-                    NSUserDefaults.StandardUserDefaults.SetValueForKey(result.Token.ExpirationDate, FBAccessTokenExpirationDateKey);
-                    NSUserDefaults.StandardUserDefaults.SetString(result.Token.UserId, FBUserIdKey);
-                    NSUserDefaults.StandardUserDefaults.Synchronize();
 
-                    status = retVal ? FacebookActionStatus.Completed : FacebookActionStatus.Unauthorized;
-                }
+                        if (result.IsCancelled)
+                        {
+                            retVal = false;
+                            status = FacebookActionStatus.Canceled;
+                        }
+                        else
+                        {
+
+                            retVal = HasPermissions(result.GrantedPermissions.Select(p => $"{p}").ToArray());
+
+                            NSUserDefaults.StandardUserDefaults.SetString(result.Token.TokenString, FBAccessTokenKey);
+                            NSUserDefaults.StandardUserDefaults.SetValueForKey(result.Token.ExpirationDate, FBAccessTokenExpirationDateKey);
+                            NSUserDefaults.StandardUserDefaults.SetString(result.Token.UserId, FBUserIdKey);
+                            NSUserDefaults.StandardUserDefaults.Synchronize();
+
+                            status = retVal ? FacebookActionStatus.Completed : FacebookActionStatus.Unauthorized;
+                        }
+                    }
+                    else
+                    {
+                        retVal = false;
+                        status = FacebookActionStatus.Error;
+                    }
+
+
+
+                    var fbArgs = new FBEventArgs<bool>(retVal, status);
+                    OnLogin?.Invoke(CrossFacebookClient.Current, fbArgs);
+                    _loginTcs?.TrySetResult(new FacebookResponse<bool>(fbArgs));
+
+                    pendingAction?.Execute();
+
+                    pendingAction = null;
+                });
+
+              
                 
             }
             else
             {
-                
-                status = FacebookActionStatus.Completed;
+               
+                var fbArgs = new FBEventArgs<bool>(retVal, FacebookActionStatus.Completed);
+                OnLogin?.Invoke(CrossFacebookClient.Current, fbArgs);
+                _loginTcs?.TrySetResult(new FacebookResponse<bool>(fbArgs));
+
+                pendingAction?.Execute();
+
+                pendingAction = null;
 
             }
-            var fbArgs = new FBEventArgs<bool>(retVal, status);
-            OnLogin(this, fbArgs);
 
-            pendingAction?.Execute();
-
-            pendingAction = null;
-
-
-            return new FacebookResponse<bool>(fbArgs);
+            return await _loginTcs.Task;
         }
 
 
@@ -381,46 +406,6 @@ namespace Plugin.FacebookClient
                     FacebookShareVideoContent videoContent = shareContent as FacebookShareVideoContent;
                     ShareVideoContent shareVideoContent = new ShareVideoContent();
 
-
-                    if (videoContent.PreviewPhoto != null)
-                    {
-                        if (videoContent.PreviewPhoto.ImageUrl != null && !string.IsNullOrEmpty(videoContent.PreviewPhoto.ImageUrl.AbsoluteUri))
-                        {
-                            SharePhoto photoFromUrl = Facebook.ShareKit.SharePhoto.From(videoContent.PreviewPhoto.ImageUrl, true); 
-
-                            if (!string.IsNullOrEmpty(videoContent.PreviewPhoto.Caption))
-                            {
-                                photoFromUrl.Caption =videoContent.PreviewPhoto.Caption;
-                            }
-
-                            shareVideoContent.PreviewPhoto = photoFromUrl;
-                        }
-
-                        if (videoContent.PreviewPhoto.Image != null)
-                        {
-                            UIImage image = null;
-
-                            var imageBytes = videoContent.PreviewPhoto.Image as byte[];
-
-                            if (imageBytes != null)
-                            {
-                                using (var data = NSData.FromArray(imageBytes))
-                                    image = UIImage.LoadFromData(data);
-
-                                SharePhoto photo = Facebook.ShareKit.SharePhoto.From(image, true);
-
-                                if (!string.IsNullOrEmpty(videoContent.PreviewPhoto.Caption))
-                                {
-                                    photo.Caption = videoContent.PreviewPhoto.Caption;
-                                }
-
-
-                                shareVideoContent.PreviewPhoto = photo;
-                            }
-                          
-                        }
-                        
-                    }
 
                     if (videoContent.Video != null)
                     {
