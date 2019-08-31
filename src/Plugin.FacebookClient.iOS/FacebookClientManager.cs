@@ -692,7 +692,7 @@ namespace Plugin.FacebookClient
             else
             {
                 var fbArgs = new FBEventArgs<string>(null, FacebookActionStatus.Canceled, "User cancelled facebook operation");
-                OnUserData?.Invoke(this, null);
+                OnUserData?.Invoke(this, fbArgs);
                 _userDataTcs?.TrySetResult(new FacebookResponse<string>(fbArgs));
             }
 
