@@ -57,6 +57,14 @@ Also define this **within** the **application** tag
     </activity>
 ```
 
+If you are sharing content (video, images, etc.) also need to add the following:
+
+```xml
+	<provider android:authorities="com.facebook.app.FacebookContentProvider{FB_APP_ID}"
+			  android:name="com.facebook.FacebookContentProvider"
+			  android:exported="true"/>
+```
+
 **Note: Replace {APP_ID} for your Facebook Application Id**
 
 ### Keystore Auto Signing
