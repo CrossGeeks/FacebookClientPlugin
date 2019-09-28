@@ -46,25 +46,25 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Facebook.CoreKit, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xamarin.Facebook.CoreKit.iOS.5.0.2\lib\xamarinios10\Facebook.CoreKit.dll</HintPath>
-    </Reference>
-    <Reference Include="Facebook.LoginKit, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xamarin.Facebook.LoginKit.iOS.5.0.2\lib\xamarinios10\Facebook.LoginKit.dll</HintPath>
-    </Reference>
-    <Reference Include="Facebook.MarketingKit, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xamarin.Facebook.MarketingKit.iOS.5.0.0\lib\xamarinios10\Facebook.MarketingKit.dll</HintPath>
-    </Reference>
-    <Reference Include="Facebook.PlacesKit, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xamarin.Facebook.PlacesKit.iOS.5.0.2\lib\xamarinios10\Facebook.PlacesKit.dll</HintPath>
-    </Reference>
-    <Reference Include="Facebook.ShareKit, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xamarin.Facebook.ShareKit.iOS.5.0.2\lib\xamarinios10\Facebook.ShareKit.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
+    <Reference Include="Facebook.CoreKit">
+      <HintPath>..\packages\Xamarin.Facebook.CoreKit.iOS.5.6.0\lib\xamarinios10\Facebook.CoreKit.dll</HintPath>
+    </Reference>
+    <Reference Include="Facebook.LoginKit">
+      <HintPath>..\packages\Xamarin.Facebook.LoginKit.iOS.5.6.0\lib\xamarinios10\Facebook.LoginKit.dll</HintPath>
+    </Reference>
+    <Reference Include="Facebook.MarketingKit">
+      <HintPath>..\packages\Xamarin.Facebook.MarketingKit.iOS.5.5.0\lib\xamarinios10\Facebook.MarketingKit.dll</HintPath>
+    </Reference>
+    <Reference Include="Facebook.PlacesKit">
+      <HintPath>..\packages\Xamarin.Facebook.PlacesKit.iOS.5.6.0\lib\xamarinios10\Facebook.PlacesKit.dll</HintPath>
+    </Reference>
+    <Reference Include="Facebook.ShareKit">
+      <HintPath>..\packages\Xamarin.Facebook.ShareKit.iOS.5.6.0\lib\xamarinios10\Facebook.ShareKit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
