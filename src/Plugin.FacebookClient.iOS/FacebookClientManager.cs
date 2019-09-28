@@ -84,7 +84,7 @@ namespace Plugin.FacebookClient
         {
             get
             {
-                return AccessToken.CurrentAccessToken?.UserID ?? NSUserDefaults.StandardUserDefaults.StringForKey(FBUserIdKey) ?? string.Empty;
+                return AccessToken.CurrentAccessToken?.UserId ?? NSUserDefaults.StandardUserDefaults.StringForKey(FBUserIdKey) ?? string.Empty;
             }
         }
 

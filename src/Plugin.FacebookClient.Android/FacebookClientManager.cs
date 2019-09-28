@@ -428,7 +428,7 @@ namespace Plugin.FacebookClient
 
 
 
-        async void RequestData(Dictionary<string, object> pDictionary)
+        void RequestData(Dictionary<string, object> pDictionary)
         {
             //string path,Bundle parameters = null,HttpMethod method = null,string version = null
             string path = $"{pDictionary["path"]}";
@@ -513,7 +513,7 @@ namespace Plugin.FacebookClient
 
         }
 
-        async void RequestUserData(Dictionary<string, object> fieldsDictionary)
+        void RequestUserData(Dictionary<string, object> fieldsDictionary)
         {
             string[] fields = new string[] { };
             var extraParams = string.Empty;
@@ -544,7 +544,8 @@ namespace Plugin.FacebookClient
             }
 
         }
-        async void RequestShare(Dictionary<string, object> paramsDictionary)
+
+        void RequestShare(Dictionary<string, object> paramsDictionary)
         {
             if (paramsDictionary.TryGetValue("content", out object shareContent) && shareContent is FacebookShareContent)
             {
@@ -740,7 +741,8 @@ namespace Plugin.FacebookClient
             }
 
         }
-        async void RequestSharePhoto(Dictionary<string, object> paramsDictionary)
+
+        void RequestSharePhoto(Dictionary<string, object> paramsDictionary)
         {
             if (paramsDictionary != null && paramsDictionary.ContainsKey("photo"))
             {
