@@ -1,6 +1,13 @@
 # set the version numbering, this results in 1.0.1 for the first build incrementing that way.
-name: 2.0$(rev:.r)
+name: 2.0.2
 
+# Defines that a commit to the master branch should trigger this build
+trigger:
+- ci
+
+# Defines that PRs against this branch should also trigger this build
+pr:
+- ci
 # the machine and prerequisites to run this build on
 pool:
   name: Hosted VS2017
@@ -22,7 +29,7 @@ steps:
 - task: MSBuild@1
   displayName: 'Build beta'
   inputs:
-    solution: 'src/**/*.sln'
+    solution: 'src/Plugin.FacebookClient/Plugin.FacebookClient.csproj'
     msbuildArguments: '/t:restore;build;pack /p:PackageVersion=$(Build.BuildNumber)-beta /p:PackageOutputPath=$(build.artifactstagingdirectory)/beta /p:AssemblyFileVersion=$(Build.BuildNumber)  '
     clean: true
 
@@ -30,7 +37,7 @@ steps:
 - task: MSBuild@1
   displayName: 'Build final'
   inputs:
-    solution: 'src/**/*.sln'
+    solution: 'src/Plugin.FacebookClient/Plugin.FacebookClient.csproj'
     msbuildArguments: '/t:restore;build;pack /p:PackageVersion=$(Build.BuildNumber) /p:PackageOutputPath=$(build.artifactstagingdirectory)/final /p:AssemblyFileVersion=$(Build.BuildNumber) '
     clean: true
 
