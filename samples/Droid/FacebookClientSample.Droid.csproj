@@ -10,14 +10,13 @@
     <OutputType>Library</OutputType>
     <RootNamespace>FacebookClientSample.Droid</RootNamespace>
     <AssemblyName>FacebookClientSample.Droid</AssemblyName>
-    <TargetFrameworkVersion>v8.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>true</AndroidUseLatestPlatformSdk>
     <AndroidKeyStore>true</AndroidKeyStore>
     <AndroidSigningKeyStore>crossgeeksoss.keystore</AndroidSigningKeyStore>
     <AndroidSigningKeyAlias>crossgeeksoss</AndroidSigningKeyAlias>
@@ -63,35 +62,29 @@
     <Reference Include="Google.ZXing.Core">
       <HintPath>..\packages\Xamarin.Google.ZXing.Core.3.3.0\lib\MonoAndroid\Google.ZXing.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Plugin.FacebookClient.Abstractions">
-      <HintPath>..\packages\Plugin.FacebookClient.1.4.0\lib\MonoAndroid81\Plugin.FacebookClient.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Plugin.FacebookClient">
-      <HintPath>..\packages\Plugin.FacebookClient.1.4.0\lib\MonoAndroid81\Plugin.FacebookClient.dll</HintPath>
-    </Reference>
     <Reference Include="Xamarin.Facebook.Core.Android">
-      <HintPath>..\packages\Xamarin.Facebook.Core.Android.4.34.0\lib\monoandroid81\Xamarin.Facebook.Core.Android.dll</HintPath>
+      <HintPath>..\packages\Xamarin.Facebook.Core.Android.5.0.3\lib\monoandroid81\Xamarin.Facebook.Core.Android.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Facebook.AppLinks.Android">
-      <HintPath>..\packages\Xamarin.Facebook.AppLinks.Android.4.34.0\lib\monoandroid81\Xamarin.Facebook.AppLinks.Android.dll</HintPath>
+      <HintPath>..\packages\Xamarin.Facebook.AppLinks.Android.5.0.3\lib\monoandroid81\Xamarin.Facebook.AppLinks.Android.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Facebook.Messenger.Android">
-      <HintPath>..\packages\Xamarin.Facebook.Messenger.Android.4.34.0\lib\monoandroid81\Xamarin.Facebook.Messenger.Android.dll</HintPath>
+      <HintPath>..\packages\Xamarin.Facebook.Messenger.Android.5.0.3\lib\monoandroid81\Xamarin.Facebook.Messenger.Android.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Facebook.Places.Android">
-      <HintPath>..\packages\Xamarin.Facebook.Places.Android.4.34.0\lib\monoandroid81\Xamarin.Facebook.Places.Android.dll</HintPath>
+      <HintPath>..\packages\Xamarin.Facebook.Places.Android.5.0.3\lib\monoandroid81\Xamarin.Facebook.Places.Android.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Facebook.Common.Android">
-      <HintPath>..\packages\Xamarin.Facebook.Common.Android.4.34.0\lib\monoandroid81\Xamarin.Facebook.Common.Android.dll</HintPath>
+      <HintPath>..\packages\Xamarin.Facebook.Common.Android.5.0.3\lib\monoandroid81\Xamarin.Facebook.Common.Android.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Facebook.Login.Android">
-      <HintPath>..\packages\Xamarin.Facebook.Login.Android.4.34.0\lib\monoandroid81\Xamarin.Facebook.Login.Android.dll</HintPath>
+      <HintPath>..\packages\Xamarin.Facebook.Login.Android.5.0.3\lib\monoandroid81\Xamarin.Facebook.Login.Android.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Facebook.Share.Android">
-      <HintPath>..\packages\Xamarin.Facebook.Share.Android.4.34.0\lib\monoandroid81\Xamarin.Facebook.Share.Android.dll</HintPath>
+      <HintPath>..\packages\Xamarin.Facebook.Share.Android.5.0.3\lib\monoandroid81\Xamarin.Facebook.Share.Android.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Facebook.Android">
-      <HintPath>..\packages\Xamarin.Facebook.Android.4.34.0\lib\monoandroid81\Xamarin.Facebook.Android.dll</HintPath>
+      <HintPath>..\packages\Xamarin.Facebook.Android.5.0.3\lib\monoandroid81\Xamarin.Facebook.Android.dll</HintPath>
     </Reference>
     <Reference Include="FormsViewGroup">
       <HintPath>..\packages\Xamarin.Forms.3.1.0.697729\lib\MonoAndroid10\FormsViewGroup.dll</HintPath>
@@ -167,6 +160,12 @@
     </Reference>
     <Reference Include="Xamarin.Android.Support.v7.MediaRouter">
       <HintPath>..\packages\Xamarin.Android.Support.v7.MediaRouter.27.0.2.1\lib\MonoAndroid81\Xamarin.Android.Support.v7.MediaRouter.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.FacebookClient">
+      <HintPath>..\packages\Plugin.FacebookClient.2.0.9-beta\lib\monoandroid90\Plugin.FacebookClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

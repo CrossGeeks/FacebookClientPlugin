@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Plugin.FacebookClient.Abstractions
+namespace Plugin.FacebookClient
 {
     public enum FacebookHttpMethod
     {

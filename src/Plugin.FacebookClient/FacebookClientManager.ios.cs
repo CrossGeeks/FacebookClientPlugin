@@ -1,4 +1,3 @@
-using Plugin.FacebookClient.Abstractions;
 using System;
 using Facebook.LoginKit;
 using Facebook;

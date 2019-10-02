@@ -1,5 +1,4 @@
-﻿using Plugin.FacebookClient.Abstractions;
-using System;
+﻿using System;
 
 namespace Plugin.FacebookClient
 {
@@ -28,10 +27,13 @@ namespace Plugin.FacebookClient
 
     static IFacebookClient CreateFacebookClient()
     {
-#if NETSTANDARD1_0
-        return null;
+
+#if NETSTANDARD1_0 || NETSTANDARD2_0
+            return null;
 #else
-        return new FacebookClientManager();
+#pragma warning disable IDE0022 // Use expression body for methods
+            return new FacebookClientManager();
+#pragma warning restore IDE0022 // Use expression body for methods
 #endif
         }
 
