@@ -902,23 +902,23 @@ namespace Plugin.FacebookClient
 
             public void OnCancel()
             {
-                var c = HandleCancel;
-                if (c != null)
-                    c();
+                var handler = HandleCancel;
+                if (handler != null)
+                    handler();
             }
 
             public void OnError(FacebookException error)
             {
-                var c = HandleError;
-                if (c != null)
-                    c(error);
+                var handler = HandleError;
+                if (handler != null)
+                    handler(error);
             }
 
             public void OnSuccess(Java.Lang.Object result)
             {
-                var c = HandleSuccess;
-                if (c != null)
-                    c(result.JavaCast<TResult>());
+                var handler = HandleSuccess;
+                if (handler != null)
+                    handler(result.JavaCast<TResult>());
             }
         }
     }

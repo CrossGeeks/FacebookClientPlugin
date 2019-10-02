@@ -1,25 +1,74 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="MSBuild.Sdk.Extras/2.0.41">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;Xamarin.iOS10;MonoAndroid90</TargetFrameworks>
+
+    <!--Assembly and Namespace info -->
     <AssemblyName>Plugin.FacebookClient</AssemblyName>
     <RootNamespace>Plugin.FacebookClient</RootNamespace>
+
+    <Product>$(AssemblyName) ($(TargetFramework))</Product>
+    <AssemblyVersion>2.0.2</AssemblyVersion>
+    <AssemblyFileVersion>2.02</AssemblyFileVersion>
+    <Version>2.02</Version>
+    <PackOnBuild>true</PackOnBuild>
+    <NeutralLanguage>en</NeutralLanguage>
+    <LangVersion>default</LangVersion>
+    <DefineConstants>$(DefineConstants);</DefineConstants>
+
+    <UseFullSemVerForNuGet>false</UseFullSemVerForNuGet>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+
+    <LangVersion>latest</LangVersion>
+
+    <PackageProjectUrl>https://github.com/CrossGeeks/FacebookClientPlugin</PackageProjectUrl>
+    <PackageIconUrl>https://github.com/CrossGeeks/FacebookClientPlugin/blob/master/art/icon.png?raw=true</PackageIconUrl>
+    <RepositoryUrl>https://github.com/CrossGeeks/FacebookClientPlugin</RepositoryUrl>
+    <PackageTags>iOS,Android,facebook,login,share,xamarin,plugins</PackageTags>
+
+    <Title>Facebook Client Plugin for Xamarin</Title>
+    <Summary>Facebook login, sharing, facebook graph requests and permissions handling across Xamarin.iOS and Xamarin.Android</Summary>
+    <Description>Facebook login, sharing, facebook graph requests and permissions handling across Xamarin.iOS and Xamarin.Android</Description>
+
+    <Owners>crossgeeks,rdelrosario</Owners>
+    <Authors>Rendy Del Rosario</Authors>
+    <Copyright>Copyright 2017 CrossGeeks</Copyright>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netstandard1.0\Plugin.FacebookClient.xml</DocumentationFile>
-    <DebugType>none</DebugType>
-    <DebugSymbols>False</DebugSymbols>
+  <!-- Define what happens on build and release -->
+   <PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
   </PropertyGroup>
 
-  <Import Project="..\Plugin.FacebookClient.Shared\Plugin.FacebookClient.Shared.projitems" Label="Shared" />
+  <PropertyGroup Condition=" '$(Configuration)'=='Release' ">
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <DebugType>pdbonly</DebugType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Plugin.FacebookClient.Abstractions\Plugin.FacebookClient.Abstractions.csproj" />
+    <Compile Include="**\*.shared.cs" />
+    <Compile Include="**\*.shared.*.cs" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Properties\" />
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard')) ">
   </ItemGroup>
 
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
+     <Compile Include="**\*.ios.cs" />
+     <Compile Include="**\*.ios.*.cs" />
+     <PackageReference Include="Xamarin.Facebook.iOS" Version="5.6.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
+     <Compile Include="**\*.android.cs" />
+     <Compile Include="**\*.android.*.cs" />
+    <PackageReference Include="Xamarin.Facebook.Android" Version="5.0.3" />
+  </ItemGroup>
+   <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
 </Project>
