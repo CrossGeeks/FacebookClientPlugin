@@ -1,5 +1,7 @@
 ## Facebook Client Plugin for Xamarin iOS and Android
 
+[![Build Status](https://dev.azure.com/CrossGeeks/Plugins/_apis/build/status/FacebookClient/FacebookClient%20Plugin%20CD%20Pipeline?branchName=master)](https://dev.azure.com/CrossGeeks/Plugins/_build/latest?definitionId=2&branchName=master)
+
 Simple cross platform plugin for handling facebook login, sharing, facebook graph requests and permissions handling.
 
 Blog post: [Facebook Client Plugin](http://wp.me/p9ztz9-du)
