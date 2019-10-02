@@ -22,7 +22,7 @@ steps:
 - task: MSBuild@1
   displayName: 'Build beta'
   inputs:
-    solution: 'src/Plugin.FacebookClient/Plugin.Facebook.csproj'
+    solution: 'src/Plugin.FacebookClient/Plugin.FacebookClient.csproj'
     msbuildArguments: '/t:restore;build;pack /p:PackageVersion=$(Build.BuildNumber)-beta /p:PackageOutputPath=$(build.artifactstagingdirectory)/beta /p:AssemblyFileVersion=$(Build.BuildNumber)  '
     clean: true
 
@@ -30,7 +30,7 @@ steps:
 - task: MSBuild@1
   displayName: 'Build final'
   inputs:
-    solution: 'src/Plugin.FacebookClient/Plugin.Facebook.csproj'
+    solution: 'src/Plugin.FacebookClient/Plugin.FacebookClient.csproj'
     msbuildArguments: '/t:restore;build;pack /p:PackageVersion=$(Build.BuildNumber) /p:PackageOutputPath=$(build.artifactstagingdirectory)/final /p:AssemblyFileVersion=$(Build.BuildNumber) '
     clean: true
 
