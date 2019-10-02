@@ -1,5 +1,4 @@
-﻿using Plugin.FacebookClient.Abstractions;
-using System;
+﻿using System;
 
 namespace Plugin.FacebookClient
 {

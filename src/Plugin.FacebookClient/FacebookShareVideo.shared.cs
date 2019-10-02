@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Plugin.FacebookClient.Abstractions
+namespace Plugin.FacebookClient
 {
     public class FacebookShareVideo
     {

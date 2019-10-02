@@ -1,4 +1,3 @@
-using Plugin.FacebookClient.Abstractions;
 using System;
 using Xamarin.Facebook.Login;
 using Xamarin.Facebook;

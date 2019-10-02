@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Plugin.FacebookClient.Abstractions
+namespace Plugin.FacebookClient
 {
     public abstract class FacebookShareContent
     {
