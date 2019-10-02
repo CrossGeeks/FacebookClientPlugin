@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Facebook.LoginKit;
-using Foundation;
+﻿using Foundation;
 using Plugin.FacebookClient;
-using Plugin.FacebookClient.Abstractions;
 using UIKit;
 
 namespace FacebookClientSample.iOS

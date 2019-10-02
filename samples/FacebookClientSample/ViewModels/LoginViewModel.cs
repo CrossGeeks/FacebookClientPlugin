@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
 using Plugin.FacebookClient;
-using Plugin.FacebookClient.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
