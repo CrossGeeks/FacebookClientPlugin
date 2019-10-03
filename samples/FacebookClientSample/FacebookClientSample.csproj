@@ -11,6 +11,6 @@
     <PackageReference Include="Xamarin.Forms" Version="3.1.0.697729" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.1.3" />
-    <PackageReference Include="Plugin.FacebookClient" Version="2.0.9-beta" />
+    <PackageReference Include="Plugin.FacebookClient" Version="2.1.14" />
   </ItemGroup>
 </Project>

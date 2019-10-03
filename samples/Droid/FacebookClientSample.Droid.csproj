@@ -162,7 +162,7 @@
       <HintPath>..\packages\Xamarin.Android.Support.v7.MediaRouter.27.0.2.1\lib\MonoAndroid81\Xamarin.Android.Support.v7.MediaRouter.dll</HintPath>
     </Reference>
     <Reference Include="Plugin.FacebookClient">
-      <HintPath>..\packages\Plugin.FacebookClient.2.0.9-beta\lib\monoandroid90\Plugin.FacebookClient.dll</HintPath>
+      <HintPath>..\packages\Plugin.FacebookClient.2.1.14\lib\monoandroid90\Plugin.FacebookClient.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>

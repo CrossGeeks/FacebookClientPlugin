@@ -85,7 +85,7 @@
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
     <Reference Include="Plugin.FacebookClient">
-      <HintPath>..\packages\Plugin.FacebookClient.2.0.9-beta\lib\xamarinios10\Plugin.FacebookClient.dll</HintPath>
+      <HintPath>..\packages\Plugin.FacebookClient.2.1.14\lib\xamarinios10\Plugin.FacebookClient.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Forms.Core">
       <HintPath>..\packages\Xamarin.Forms.3.1.0.697729\lib\Xamarin.iOS10\Xamarin.Forms.Core.dll</HintPath>
