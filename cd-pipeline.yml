@@ -31,6 +31,7 @@ steps:
   displayName: 'Build beta'
   inputs:
     solution: 'src/Plugin.FacebookClient/Plugin.FacebookClient.csproj'
+    configuration: 'Release'
     msbuildArguments: '/t:restore;build;pack /p:PackageVersion=$(Build.BuildNumber)-beta /p:PackageOutputPath=$(build.artifactstagingdirectory)/beta /p:AssemblyFileVersion=$(Build.BuildNumber)  '
     clean: true
 
@@ -39,9 +40,10 @@ steps:
   displayName: 'Build final'
   inputs:
     solution: 'src/Plugin.FacebookClient/Plugin.FacebookClient.csproj'
+    configuration: 'Release'
     msbuildArguments: '/t:restore;build;pack /p:PackageVersion=$(Build.BuildNumber) /p:PackageOutputPath=$(build.artifactstagingdirectory)/final /p:AssemblyFileVersion=$(Build.BuildNumber) '
     clean: true
-
+    
 # copy all the nupkg files created to the artifact directory
 - task: CopyFiles@2
   displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
