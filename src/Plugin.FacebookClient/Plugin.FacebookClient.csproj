@@ -9,8 +9,8 @@
 
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
     <AssemblyVersion>2.0.2</AssemblyVersion>
-    <AssemblyFileVersion>2.02</AssemblyFileVersion>
-    <Version>2.02</Version>
+    <AssemblyFileVersion>2.0.2</AssemblyFileVersion>
+    <Version>2.0.2</Version>
     <PackOnBuild>true</PackOnBuild>
     <NeutralLanguage>en</NeutralLanguage>
     <LangVersion>default</LangVersion>
