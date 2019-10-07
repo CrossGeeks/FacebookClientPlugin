@@ -185,6 +185,20 @@ Sharing event:
   };
 ```
 
+Game Request event:
+  
+```cs
+  CrossFacebookClient.Current.OnGameRequest += (s,a)=> 
+  {
+      switch (a.Status)
+      {
+         case FacebookActionStatus.Completed:
+          //Game request succesfully
+         break;
+      }
+  };
+```
+
 Request event:
   
 ```cs
