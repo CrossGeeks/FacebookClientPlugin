@@ -22,7 +22,7 @@ Blog post: [Facebook Client Plugin](http://wp.me/p9ztz9-du)
 
 ### API Usage
 
-Call **CrossFacebookClient.Current** from any project or .NETStandard to gain access to APIs.
+Call **CrossFacebookClient.Current** from any project to gain access to APIs.
 
 ## Features
 
