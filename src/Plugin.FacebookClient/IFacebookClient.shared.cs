@@ -121,6 +121,7 @@ namespace Plugin.FacebookClient
             Task<FacebookResponse<bool>> LoginAsync(string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read);
             Task<FacebookResponse<Dictionary<string, object>>> SharePhotoAsync(byte[] imgBytes, string caption = "");
             Task<FacebookResponse<Dictionary<string, object>>> ShareAsync(FacebookShareContent shareContent);
+            Task<FacebookResponse<Dictionary<string, object>>> RequestGameRequestDialogAsync(FacebookGameRequestContent gameRequestContent);
             Task<FacebookResponse<string>> RequestUserDataAsync(string[] fields, string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read);
             Task<FacebookResponse<string>> QueryDataAsync(string path, string[] permissions = null, IDictionary<string, string> parameters = null, string version = null);
             //Task<FacebookResponse<string>> PostDataAsync(string path, string[] permissions, IDictionary<string, string> parameters = null, string version = null);

@@ -84,6 +84,16 @@ FacebookSharePhotoContent photoContent = new FacebookSharePhotoContent(photos);
 
 More information on [Sharing Content](../docs/SharingContent.md) section.
 
+### Game Request
+
+```cs
+FacebookGameRequestContent gameRequest = new FacebookGameRequestContent(){
+    Title = "This is the request title",
+    Message = "This is the request message"
+};
+ await CrossFacebookClient.Current.RequestGameRequestDialogAsync(gameRequest);
+```
+
 ### Facebook Graph Requests
 
 Get all my likes

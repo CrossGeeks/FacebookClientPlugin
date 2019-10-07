@@ -24,6 +24,7 @@ namespace Plugin.FacebookClient
     {
         static TaskCompletionSource<FacebookResponse<string>> _userDataTcs;
         static TaskCompletionSource<FacebookResponse<Dictionary<string, object>>> _shareTcs;
+        static TaskCompletionSource<FacebookResponse<Dictionary<string, object>>> _gameRequestTcs;
         static TaskCompletionSource<FacebookResponse<string>> _requestTcs;
         static TaskCompletionSource<FacebookResponse<string>> _postTcs;
         static TaskCompletionSource<FacebookResponse<string>> _deleteTcs;
@@ -35,6 +36,8 @@ namespace Plugin.FacebookClient
         //Activity mActivity;
         static FacebookCallback<SharerResult> shareCallback;
         static FacebookCallback<LoginResult> loginCallback;
+        static FacebookCallback<GameRequestDialog.Result> gameRequestCallback;
+
         public static Activity CurrentActivity { get; set; }
 
         static FacebookPendingAction<Dictionary<string, object>> pendingAction;
@@ -126,6 +129,19 @@ namespace Plugin.FacebookClient
             remove
             {
                 _onSharing -= value;
+            }
+        }
+
+        static EventHandler<FBEventArgs<Dictionary<string, object>>> _onGameRequest;
+        public event EventHandler<FBEventArgs<Dictionary<string, object>>> OnGameRequest
+        {
+            add
+            {
+                _onGameRequest += value;
+            }
+            remove
+            {
+                _onGameRequest -= value;
             }
         }
 
@@ -259,6 +275,36 @@ namespace Plugin.FacebookClient
                     var fbArgs = new FBEventArgs<Dictionary<string, object>>(null, FacebookActionStatus.Error, shareError.Message);
                     _onSharing?.Invoke(CrossFacebookClient.Current, fbArgs);
                     _shareTcs?.TrySetResult(new FacebookResponse<Dictionary<string, object>>(fbArgs));
+                }
+            };
+
+
+            gameRequestCallback = new FacebookCallback<GameRequestDialog.Result>
+            {
+                HandleSuccess = gameRequestResult =>
+                {
+
+                    if (!string.IsNullOrEmpty(gameRequestResult.RequestId))
+                    {
+                        Dictionary<string, object> parameters = new Dictionary<string, object>();
+
+                        parameters.Add("requestId", gameRequestResult.RequestId);
+                        var fbArgs = new FBEventArgs<Dictionary<string, object>>(parameters, FacebookActionStatus.Completed);
+                        _onGameRequest?.Invoke(CrossFacebookClient.Current, fbArgs);
+                        _gameRequestTcs?.TrySetResult(new FacebookResponse<Dictionary<string, object>>(fbArgs));
+                    }
+                },
+                HandleCancel = () =>
+                {
+                    var fbArgs = new FBEventArgs<Dictionary<string, object>>(null, FacebookActionStatus.Canceled, "User cancelled facebook operation");
+                    _onGameRequest?.Invoke(CrossFacebookClient.Current, fbArgs);
+                    _gameRequestTcs?.TrySetResult(new FacebookResponse<Dictionary<string, object>>(fbArgs));
+                },
+                HandleError = gameRequestError =>
+                {
+                    var fbArgs = new FBEventArgs<Dictionary<string, object>>(null, FacebookActionStatus.Error, gameRequestError.Message);
+                    _onGameRequest?.Invoke(CrossFacebookClient.Current, fbArgs);
+                    _gameRequestTcs?.TrySetResult(new FacebookResponse<Dictionary<string, object>>(fbArgs));
                 }
             };
 
@@ -887,6 +933,92 @@ namespace Plugin.FacebookClient
             }
         }
 
+        public async Task<FacebookResponse<Dictionary<string, object>>> RequestGameRequestDialogAsync(FacebookGameRequestContent gameRequestContent)
+        {
+            _gameRequestTcs = new TaskCompletionSource<FacebookResponse<Dictionary<string, object>>>();
+            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            {
+                {"content",gameRequestContent}
+
+            };
+
+            return await PerformAction<FacebookResponse<Dictionary<string, object>>>(RequestGame, parameters, _gameRequestTcs.Task, FacebookPermissionType.Publish, new string[] { });
+
+        }
+        void RequestGame(Dictionary<string, object> paramsDictionary)
+        {
+            if (paramsDictionary.TryGetValue("content", out object request) && request is FacebookGameRequestContent)
+            {
+                GameRequestContent.Builder gRequestContent = new GameRequestContent.Builder();
+                var gameRequestContent = request as FacebookGameRequestContent;
+
+                if (!string.IsNullOrEmpty(gameRequestContent.ObjectId))
+                {
+                    gRequestContent.SetObjectId(gameRequestContent.ObjectId);
+                }
+
+                if (!string.IsNullOrEmpty(gameRequestContent.Title))
+                {
+                    gRequestContent.SetTitle(gameRequestContent.Title);
+                }
+
+                if (!string.IsNullOrEmpty(gameRequestContent.Message))
+                {
+                    gRequestContent.SetMessage(gameRequestContent.Message);
+                }
+
+                if (!string.IsNullOrEmpty(gameRequestContent.Data))
+                {
+                    gRequestContent.SetData(gameRequestContent.Data);
+                }
+
+                if (gameRequestContent.Recipients != null && gameRequestContent.Recipients.Length > 0)
+                {
+                    gRequestContent.SetRecipients(gameRequestContent.Recipients);
+                }
+
+                if (gameRequestContent.RecipientSuggestions != null && gameRequestContent.RecipientSuggestions.Length > 0)
+                {
+                    gRequestContent.SetSuggestions(gameRequestContent.RecipientSuggestions);
+                }
+
+                switch (gameRequestContent.ActionType)
+                {
+                    case FacebookGameRequestActionType.None:
+                      
+                        break;
+                    case FacebookGameRequestActionType.Send:
+                        gRequestContent.SetActionType(GameRequestContent.ActionType.Send);
+                        break;
+                    case FacebookGameRequestActionType.AskFor:
+                        gRequestContent.SetActionType(GameRequestContent.ActionType.Askfor);
+                        break;
+                    case FacebookGameRequestActionType.Turn:
+                        gRequestContent.SetActionType(GameRequestContent.ActionType.Turn);
+                        break;
+
+                }
+
+
+                switch (gameRequestContent.Filters)
+                {
+                    case FacebookGameRequestFilter.None:
+            
+                        break;
+                    case FacebookGameRequestFilter.AppUsers:
+                        gRequestContent.SetFilters(GameRequestContent.Filters.AppUsers);
+                        break;
+                    case FacebookGameRequestFilter.AppNonUsers:
+                        gRequestContent.SetFilters(GameRequestContent.Filters.AppNonUsers);
+                        break;
+
+                }
+
+                GameRequestDialog dialog = new GameRequestDialog(CurrentActivity);
+                dialog.RegisterCallback(mCallbackManager, gameRequestCallback);
+                dialog.Show(gRequestContent.Build());
+            }
+        }
 
 
         /// <summary>

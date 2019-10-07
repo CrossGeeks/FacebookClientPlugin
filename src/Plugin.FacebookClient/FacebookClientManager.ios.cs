@@ -18,10 +18,11 @@ namespace Plugin.FacebookClient
     /// <summary>
     /// Implementation for FacebookClient
     /// </summary>
-    public class FacebookClientManager : NSObject, IFacebookClient, ISharingDelegate
+    public class FacebookClientManager : NSObject, IFacebookClient, ISharingDelegate, IGameRequestDialogDelegate
     {
         TaskCompletionSource<FacebookResponse<string>> _userDataTcs;
         TaskCompletionSource<FacebookResponse<Dictionary<string, object>>> _shareTcs;
+        TaskCompletionSource<FacebookResponse<Dictionary<string, object>>> _gameRequestTcs;
         TaskCompletionSource<FacebookResponse<string>> _requestTcs;
         TaskCompletionSource<FacebookResponse<string>> _postTcs;
         TaskCompletionSource<FacebookResponse<string>> _deleteTcs;
@@ -38,6 +39,8 @@ namespace Plugin.FacebookClient
         public event EventHandler<FBEventArgs<bool>> OnLogout = delegate { };
 
         public event EventHandler<FBEventArgs<Dictionary<string, object>>> OnSharing = delegate { };
+
+        public event EventHandler<FBEventArgs<Dictionary<string, object>>> OnGameRequest = delegate { };
 
         public event EventHandler<FBEventArgs<string>> OnRequestData = delegate { };
         public event EventHandler<FBEventArgs<string>> OnPostData = delegate { };
@@ -67,7 +70,7 @@ namespace Plugin.FacebookClient
         {
             get
             {
-                return !string.IsNullOrEmpty(ActiveToken) && NSUserDefaults.StandardUserDefaults.ValueForKey(FBAccessTokenExpirationDateKey) !=null && NSDate.Now.Compare(NSUserDefaults.StandardUserDefaults.ValueForKey(FBAccessTokenExpirationDateKey) as NSDate) == NSComparisonResult.Ascending;
+                return !string.IsNullOrEmpty(ActiveToken) && NSUserDefaults.StandardUserDefaults.ValueForKey(FBAccessTokenExpirationDateKey) != null && NSDate.Now.Compare(NSUserDefaults.StandardUserDefaults.ValueForKey(FBAccessTokenExpirationDateKey) as NSDate) == NSComparisonResult.Ascending;
             }
         }
 
@@ -75,7 +78,7 @@ namespace Plugin.FacebookClient
         {
             get
             {
-                return  AccessToken.CurrentAccessToken?.TokenString ?? NSUserDefaults.StandardUserDefaults.StringForKey(FBAccessTokenKey) ?? string.Empty;
+                return AccessToken.CurrentAccessToken?.TokenString ?? NSUserDefaults.StandardUserDefaults.StringForKey(FBAccessTokenKey) ?? string.Empty;
             }
         }
 
@@ -119,7 +122,7 @@ namespace Plugin.FacebookClient
             return IsLoginSessionActive && (AccessToken.CurrentAccessToken.HasGranted(permission));
 
         }
-        public static void Initialize(UIApplication app,NSDictionary options)
+        public static void Initialize(UIApplication app, NSDictionary options)
         {
             ApplicationDelegate.SharedInstance.FinishedLaunching(app, options);
         }
@@ -129,14 +132,14 @@ namespace Plugin.FacebookClient
         }
         public static bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
         {
-           return ApplicationDelegate.SharedInstance.OpenUrl(app, url, $"{options["UIApplicationOpenURLOptionsSourceApplicationKey"]}", options["UIApplicationOpenURLOptionsAnnotationKey"]);
+            return ApplicationDelegate.SharedInstance.OpenUrl(app, url, $"{options["UIApplicationOpenURLOptionsSourceApplicationKey"]}", options["UIApplicationOpenURLOptionsAnnotationKey"]);
         }
 
         public static bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
         {
-           return ApplicationDelegate.SharedInstance.OpenUrl(application, url, sourceApplication, annotation);
+            return ApplicationDelegate.SharedInstance.OpenUrl(application, url, sourceApplication, annotation);
         }
-        
+
         public void DidComplete(ISharing sharer, NSDictionary results)
         {
             Dictionary<string, object> parameters = new Dictionary<string, object>();
@@ -219,12 +222,12 @@ namespace Plugin.FacebookClient
                     pendingAction = null;
                 });
 
-              
-                
+
+
             }
             else
             {
-               
+
                 var fbArgs = new FBEventArgs<bool>(retVal, FacebookActionStatus.Completed);
                 OnLogin?.Invoke(CrossFacebookClient.Current, fbArgs);
                 _loginTcs?.TrySetResult(new FacebookResponse<bool>(fbArgs));
@@ -254,7 +257,7 @@ namespace Plugin.FacebookClient
                 parameters.Add("caption", caption);
             }
 
-          return await PerformAction(RequestSharePhoto, parameters, _shareTcs.Task, FacebookPermissionType.Publish, new string[] { });
+            return await PerformAction(RequestSharePhoto, parameters, _shareTcs.Task, FacebookPermissionType.Publish, new string[] { });
         }
 
         public async Task<FacebookResponse<Dictionary<string, object>>> ShareAsync(FacebookShareContent shareContent)
@@ -281,7 +284,7 @@ namespace Plugin.FacebookClient
 
                     if (linkContent.Quote != null)
                     {
-                        sLinkContent.Quote=linkContent.Quote;
+                        sLinkContent.Quote = linkContent.Quote;
                     }
 
                     if (linkContent.ContentLink != null)
@@ -364,7 +367,7 @@ namespace Plugin.FacebookClient
 
                         }
 
-                        if(photos.Count >0)
+                        if (photos.Count > 0)
                         {
                             sharePhotoContent.Photos = photos.ToArray();
                         }
@@ -408,13 +411,13 @@ namespace Plugin.FacebookClient
 
                     if (videoContent.Video != null)
                     {
-                        
+
                         if (videoContent.Video.LocalUrl != null)
                         {
                             shareVideoContent.Video = ShareVideo.From(videoContent.Video.LocalUrl);
                         }
 
-                        
+
                     }
 
                     if (videoContent.ContentLink != null)
@@ -459,7 +462,7 @@ namespace Plugin.FacebookClient
                         vc = vc.PresentedViewController;
                     }
 
-                    ShareDialog.Show(vc,content, this);
+                    ShareDialog.Show(vc, content, this);
                 }
             }
         }
@@ -475,18 +478,18 @@ namespace Plugin.FacebookClient
                 if (imageBytes != null)
                 {
                     using (var data = NSData.FromArray(imageBytes))
-                      image = UIImage.LoadFromData(data);
+                        image = UIImage.LoadFromData(data);
                 }
-                
+
 
                 SharePhoto photo = Facebook.ShareKit.SharePhoto.From(image, true);
-           
+
                 if (paramsDictionary.ContainsKey("caption"))
                 {
                     photo.Caption = $"{paramsDictionary["caption"]}";
                 }
 
-         
+
                 var photoContent = new SharePhotoContent()
                 {
                     Photos = new SharePhoto[] { photo }
@@ -532,7 +535,7 @@ namespace Plugin.FacebookClient
             return await PerformAction<FacebookResponse<string>>(RequestData, paramDict, _postTcs.Task, FacebookPermissionType.Publish, permissions);
         }
 
-        public async Task<FacebookResponse<string>> DeleteDataAsync(string path, string[] permissions,IDictionary<string, string> parameters = null, string version = null)
+        public async Task<FacebookResponse<string>> DeleteDataAsync(string path, string[] permissions, IDictionary<string, string> parameters = null, string version = null)
         {
             _deleteTcs = new TaskCompletionSource<FacebookResponse<string>>();
             Dictionary<string, object> paramDict = new Dictionary<string, object>()
@@ -542,7 +545,7 @@ namespace Plugin.FacebookClient
                 {"method", FacebookHttpMethod.Delete },
                 {"version", version}
             };
-            return await PerformAction<FacebookResponse<string>>(RequestData, paramDict, _deleteTcs.Task, FacebookPermissionType.Publish,permissions);
+            return await PerformAction<FacebookResponse<string>>(RequestData, paramDict, _deleteTcs.Task, FacebookPermissionType.Publish, permissions);
         }
 
 
@@ -585,35 +588,35 @@ namespace Plugin.FacebookClient
                 return;
             }
 
-         
 
-            
 
-            NSMutableDictionary parameters=null;
+
+
+            NSMutableDictionary parameters = null;
 
             if (paramDict != null)
             {
                 parameters = new NSMutableDictionary();
                 foreach (var p in paramDict)
                 {
-                    if(!string.IsNullOrEmpty(p.Key) && !string.IsNullOrEmpty(p.Value))
+                    if (!string.IsNullOrEmpty(p.Key) && !string.IsNullOrEmpty(p.Value))
                     {
                         parameters.Add(new NSString($"{p.Key}"), new NSString($"{p.Value}"));
                     }
-                  
+
                 }
             }
 
-            var graphRequest = string.IsNullOrEmpty(version)?new GraphRequest(path, parameters, httpMethod): new GraphRequest(path, parameters, AccessToken.CurrentAccessToken.TokenString,version, httpMethod);
+            var graphRequest = string.IsNullOrEmpty(version) ? new GraphRequest(path, parameters, httpMethod) : new GraphRequest(path, parameters, AccessToken.CurrentAccessToken.TokenString, version, httpMethod);
             var requestConnection = new GraphRequestConnection();
             requestConnection.AddRequest(graphRequest, (connection, result, error) =>
             {
-                
+
                 if (error == null)
                 {
-                    
-                    NSData responseData= NSJsonSerialization.Serialize(result, NSJsonWritingOptions.PrettyPrinted, out NSError jsonError);
-                    if(jsonError == null)
+
+                    NSData responseData = NSJsonSerialization.Serialize(result, NSJsonWritingOptions.PrettyPrinted, out NSError jsonError);
+                    if (jsonError == null)
                     {
                         NSString responseString = NSString.FromData(responseData, NSStringEncoding.UTF8);
                         var fbResponse = new FBEventArgs<string>(responseString, FacebookActionStatus.Completed);
@@ -626,7 +629,7 @@ namespace Plugin.FacebookClient
                         onEvent?.Invoke(CrossFacebookClient.Current, fbResponse);
                         currentTcs?.TrySetResult(new FacebookResponse<string>(fbResponse));
                     }
-                    
+
                 }
                 else
                 {
@@ -659,7 +662,7 @@ namespace Plugin.FacebookClient
                 {
                     if (error == null)
                     {
-                        
+
                         NSData responseData = NSJsonSerialization.Serialize(result, NSJsonWritingOptions.PrettyPrinted, out NSError jsonError);
                         if (jsonError == null)
                         {
@@ -674,7 +677,7 @@ namespace Plugin.FacebookClient
                             OnUserData?.Invoke(this, fbResponse);
                             _userDataTcs?.TrySetResult(new FacebookResponse<string>(fbResponse));
                         }
-                        
+
                     }
                     else
                     {
@@ -698,7 +701,7 @@ namespace Plugin.FacebookClient
 
         }
 
-        async Task<T> PerformAction<T>(Action<Dictionary<string, object>> action, Dictionary<string, object> parameters, Task<T> task, FacebookPermissionType permissionType, string[] permissions) 
+        async Task<T> PerformAction<T>(Action<Dictionary<string, object>> action, Dictionary<string, object> parameters, Task<T> task, FacebookPermissionType permissionType, string[] permissions)
         {
             pendingAction = null;
             if (permissions == null)
@@ -725,7 +728,7 @@ namespace Plugin.FacebookClient
         }
 
 
-        async Task<FBEventArgs<Dictionary<string, object>>> PerformAction(Action<Dictionary<string, object>> action, Dictionary<string, object> parameters,Task<FBEventArgs<Dictionary<string, object>>> task, FacebookPermissionType permissionType, string[] permissions)
+        async Task<FBEventArgs<Dictionary<string, object>>> PerformAction(Action<Dictionary<string, object>> action, Dictionary<string, object> parameters, Task<FBEventArgs<Dictionary<string, object>>> task, FacebookPermissionType permissionType, string[] permissions)
         {
             pendingAction = null;
             if (permissions == null)
@@ -747,7 +750,7 @@ namespace Plugin.FacebookClient
                     action(parameters);
                 }
             }
-           
+
 
             return await task;
         }
@@ -773,13 +776,124 @@ namespace Plugin.FacebookClient
                 {"fields",fields}
             };
 
-           return await PerformAction(RequestUserData, parameters,_userDataTcs.Task, FacebookPermissionType.Read, permissions);
+            return await PerformAction(RequestUserData, parameters, _userDataTcs.Task, FacebookPermissionType.Read, permissions);
         }
 
         public void LogEvent(string name)
         {
             AppEvents.LogEvent(name);
         }
-        
+
+        public async Task<FacebookResponse<Dictionary<string, object>>> RequestGameRequestDialogAsync(FacebookGameRequestContent gameRequestContent)
+        {
+            _gameRequestTcs = new TaskCompletionSource<FacebookResponse<Dictionary<string, object>>>();
+            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            {
+                {"content",gameRequestContent}
+
+            };
+
+            return await PerformAction(RequestGame, parameters, _gameRequestTcs.Task, FacebookPermissionType.Publish, new string[] { });
+            
+        }
+
+        void RequestGame(Dictionary<string, object> paramsDictionary)
+        {
+            if (paramsDictionary.TryGetValue("content", out object request) && request is FacebookGameRequestContent)
+            {
+                GameRequestContent gRequestContent = new GameRequestContent();
+                var gameRequestContent = request as FacebookGameRequestContent;
+
+                if (!string.IsNullOrEmpty(gameRequestContent.ObjectId))
+                {
+                    gRequestContent.ObjectId = gameRequestContent.ObjectId;
+                }
+
+                if (!string.IsNullOrEmpty(gameRequestContent.Title))
+                {
+                    gRequestContent.Title = gameRequestContent.Title;
+                }
+
+                if (!string.IsNullOrEmpty(gameRequestContent.Message))
+                {
+                    gRequestContent.Message = gameRequestContent.Message;
+                }
+
+                if (!string.IsNullOrEmpty(gameRequestContent.Data))
+                {
+                    gRequestContent.Data = gameRequestContent.Data;
+                }
+
+                if (gameRequestContent.Recipients != null && gameRequestContent.Recipients.Length > 0)
+                {
+                    gRequestContent.Recipients = gameRequestContent.Recipients;
+                }
+
+                if (gameRequestContent.RecipientSuggestions != null && gameRequestContent.RecipientSuggestions.Length > 0)
+                {
+                    gRequestContent.RecipientSuggestions = gameRequestContent.RecipientSuggestions;
+                }
+
+                switch(gameRequestContent.ActionType)
+                {
+                    case FacebookGameRequestActionType.None:
+                        gRequestContent.ActionType= GameRequestActionType.None;
+                        break;
+                    case FacebookGameRequestActionType.Send:
+                        gRequestContent.ActionType = GameRequestActionType.Send;
+                        break;
+                    case FacebookGameRequestActionType.AskFor:
+                        gRequestContent.ActionType = GameRequestActionType.AskFor;
+                        break;
+                    case FacebookGameRequestActionType.Turn:
+                        gRequestContent.ActionType = GameRequestActionType.Turn;
+                        break;
+
+                }
+
+
+                switch (gameRequestContent.Filters)
+                {
+                    case FacebookGameRequestFilter.None:
+                        gRequestContent.Filters = GameRequestFilter.None;
+                        break;
+                    case FacebookGameRequestFilter.AppUsers:
+                        gRequestContent.Filters = GameRequestFilter.AppUsers;
+                        break;
+                    case FacebookGameRequestFilter.AppNonUsers:
+                        gRequestContent.Filters = GameRequestFilter.AppNonUsers;
+                        break;
+
+                }
+                GameRequestDialog.Show(gRequestContent, this);
+            }
+        }
+
+        public void DidComplete(GameRequestDialog gameRequestDialog, NSDictionary results)
+        {
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            foreach (var r in results)
+            {
+                parameters.Add($"{r.Key}", $"{r.Value}");
+            }
+            var fbArgs = new FBEventArgs<Dictionary<string, object>>(parameters, FacebookActionStatus.Completed);
+            OnGameRequest(this, fbArgs);
+            _gameRequestTcs?.TrySetResult(new FacebookResponse<Dictionary<string, object>>(fbArgs));
+        }
+
+        public void DidFail(GameRequestDialog gameRequestDialog, NSError error)
+        {
+            var fbArgs = new FBEventArgs<Dictionary<string, object>>(null, FacebookActionStatus.Error, $"Facebook Game Request Failed - {error.Code} - {error.Description}");
+            OnGameRequest(this, fbArgs);
+            _gameRequestTcs?.TrySetResult(new FacebookResponse<Dictionary<string, object>>(fbArgs));
+        }
+
+        public void DidCancel(GameRequestDialog gameRequestDialog)
+        {
+            var fbArgs = new FBEventArgs<Dictionary<string, object>>(null, FacebookActionStatus.Canceled, "User cancelled facebook operation");
+
+            OnGameRequest(this, fbArgs);
+            _gameRequestTcs?.TrySetResult(new FacebookResponse<Dictionary<string, object>>(fbArgs));
+        }
     }
 }
