@@ -8,7 +8,7 @@ Blog post: [Facebook Client Plugin](http://wp.me/p9ztz9-du)
 
 ### Setup
 * Available on NuGet: http://www.nuget.org/packages/Plugin.FacebookClient [![NuGet](https://img.shields.io/nuget/v/Plugin.FacebookClient.svg?label=NuGet)](https://www.nuget.org/packages/Plugin.FacebookClient/)
-* Install into your PCL project and Client projects.
+* Install into your .NETStandard project and Client projects.
 * Create your [Facebook](docs/FacebookPortalSetup.md) application.
 * Follow the [Android](docs/AndroidSetup.md) and [iOS](docs/iOSSetup.md) Setup guides
 * Check out [Getting Started](docs/GettingStarted.md)
@@ -22,7 +22,7 @@ Blog post: [Facebook Client Plugin](http://wp.me/p9ztz9-du)
 
 ### API Usage
 
-Call **CrossFacebookClient.Current** from any project or PCL to gain access to APIs.
+Call **CrossFacebookClient.Current** from any project or .NETStandard to gain access to APIs.
 
 ## Features
 
