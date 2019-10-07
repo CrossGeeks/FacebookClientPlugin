@@ -29,6 +29,7 @@ Call **CrossFacebookClient.Current** from any project or PCL to gain access to A
 - Login
 - Permissions Handling
 - Share (Photos, Link, Video)
+- Game Request
 - Facebook Graph Requests
 
 ## Documentation
