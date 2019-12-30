@@ -1,7 +1,7 @@
 <Project Sdk="MSBuild.Sdk.Extras/2.0.41">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.0;netstandard2.0;Xamarin.iOS10;MonoAndroid81;MonoAndroid90</TargetFrameworks>
+    <TargetFrameworks>netstandard1.0;netstandard2.0;Xamarin.iOS10;MonoAndroid90</TargetFrameworks>
 
     <!--Assembly and Namespace info -->
     <AssemblyName>Plugin.FacebookClient</AssemblyName>
@@ -62,13 +62,13 @@
   <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
      <Compile Include="**\*.ios.cs" />
      <Compile Include="**\*.ios.*.cs" />
-     <PackageReference Include="Xamarin.Facebook.iOS" Version="5.6.0" />
+     <PackageReference Include="Xamarin.Facebook.iOS" Version="5.12.0" />
   </ItemGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
      <Compile Include="**\*.android.cs" />
      <Compile Include="**\*.android.*.cs" />
-    <PackageReference Include="Xamarin.Facebook.Android" Version="5.0.3" />
+    <PackageReference Include="Xamarin.Facebook.Android" Version="5.11.2" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="FacebookGameRequestContent.shared.cs">

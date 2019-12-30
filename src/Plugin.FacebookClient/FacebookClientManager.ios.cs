@@ -1,6 +1,5 @@
 using System;
 using Facebook.LoginKit;
-using Facebook;
 using UIKit;
 using System.Threading.Tasks;
 using System.Linq;
@@ -8,9 +7,7 @@ using Facebook.ShareKit;
 using Foundation;
 using Facebook.CoreKit;
 using System.Collections.Generic;
-using ExternalAccessory;
 using System.IO;
-using AVFoundation;
 
 
 namespace Plugin.FacebookClient
