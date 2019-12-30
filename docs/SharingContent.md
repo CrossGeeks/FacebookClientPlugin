@@ -1,10 +1,19 @@
 ## Sharing Content in Facebook
 
-If your app is public on Facebook developer portal, you should be able to test sharing with any users. 
+### Android Considerations
+
+If you're sharing links, images or video via the Facebook for Android app, you also need to declare the FacebookContentProvider in the manifest.
+
+Append your app id to the end of the authorities value. For example if your Facebook app id is 1234, the declaration looks like:
+```xml
+<provider android:authorities="com.facebook.app.FacebookContentProvider1234"
+          android:name="com.facebook.FacebookContentProvider"
+          android:exported="true" />
+```
 
 ## Testing Sharing Content
 
-If your application isn't yet public then you need to add the users you want to be able to test sharing
+If your app is public on Facebook developer portal, you should be able to test sharing with any users. In case it isn't yet public then you need to add the users you want to be able to test sharing:
 
 Add your testers
 
