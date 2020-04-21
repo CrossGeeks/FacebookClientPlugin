@@ -34,55 +34,6 @@ Override OpenUrl methods
 
 ### Info.plist
 
-Need to whitelist Facebook domains in your app by adding the following to your application's **Info.plist**:
-
-```xml
-<key>NSAppTransportSecurity</key>
-<dict>
-    <key>NSExceptionDomains</key>
-    <dict>
-        <key>facebook.com</key>
-        <dict>
-            <key>NSIncludesSubdomains</key>
-            <true/>                
-            <key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
-            <false/>
-        </dict>
-        <key>fbcdn.net</key>
-        <dict>
-            <key>NSIncludesSubdomains</key>
-            <true/>
-            <key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
-            <false/>
-        </dict>
-        <key>akamaihd.net</key>
-        <dict>
-            <key>NSIncludesSubdomains</key>
-            <true/>
-            <key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
-            <false/>
-        </dict>
-    </dict>
-    <key>NSAllowsArbitraryLoadsInWebContent</key>
-    <true/>
-</dict>
-```
-
-Make sure you add any other additional urls for web services call inside the **NSExceptionDomains** dict too:
-
-```xml
-<key>otherExternalDomainYouNeedToCall</key>
-<dict> 
-  <key>NSIncludesSubdomains</key>
-  <true/>
-  <key>NSExceptionAllowsInsecureHTTPLoads</key>
-  <true/>
-  <key>NSAllowsArbitraryLoads</key>
-  <true/>
-</dict>
-```
-
-
 Add facebook bundle url types:
 
 
