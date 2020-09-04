@@ -64,20 +64,11 @@
      <Compile Include="**\*.ios.*.cs" />
      <PackageReference Include="Xamarin.Facebook.iOS" Version="7.1.1" />
   </ItemGroup>
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid90')) ">
-     <Compile Include="**\*.android.cs" />
-     <Compile Include="**\*.android.*.cs" />
-    <PackageReference Include="Xamarin.Facebook.Android" Version="5.11.2" />
-  </ItemGroup>
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid10.0')) ">
+  <!-- NOTE: When Android 11.x comes out we neeed to make this check more robust -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'MonoAndroid10.0'">
      <Compile Include="**\*.android.cs" />
      <Compile Include="**\*.android.*.cs" />
     <PackageReference Include="Xamarin.Facebook.Android" Version="7.1.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Update="FacebookGameRequestContent.shared.cs">
-      <SubType></SubType>
-    </Compile>
-  </ItemGroup>
-   <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
+  <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
 </Project>
