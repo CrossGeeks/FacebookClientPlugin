@@ -253,16 +253,15 @@ namespace Plugin.FacebookClient
             {
                 HandleSuccess = shareResult =>
                 {
-
+                    Dictionary<string, object> parameters = null;
                     if (shareResult.PostId != null)
                     {
-                        Dictionary<string, object> parameters = new Dictionary<string, object>();
-
+                        parameters = new Dictionary<string, object>();
                         parameters.Add("postId", shareResult.PostId);
-                        var fbArgs = new FBEventArgs<Dictionary<string, object>>(parameters, FacebookActionStatus.Completed);
-                        _onSharing?.Invoke(CrossFacebookClient.Current, fbArgs);
-                        _shareTcs?.TrySetResult(new FacebookResponse<Dictionary<string, object>>(fbArgs));
                     }
+                    var fbArgs = new FBEventArgs<Dictionary<string, object>>(parameters, FacebookActionStatus.Completed);
+                    _onSharing?.Invoke(CrossFacebookClient.Current, fbArgs);
+                    _shareTcs?.TrySetResult(new FacebookResponse<Dictionary<string, object>>(fbArgs));
                 },
                 HandleCancel = () =>
                 {
