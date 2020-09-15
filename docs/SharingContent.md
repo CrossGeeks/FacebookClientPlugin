@@ -50,8 +50,8 @@ FacebookSharePhotoContent photoContent = new FacebookSharePhotoContent(photos);
 
 ### Share Link
 ```cs               
-FacebookShareLinkContent linkContent = new FacebookShareLinkContent("awesome plugins","http://www.github.com/crossgeeks");
- var ret = await CrossFacebookClient.Current.ShareAsync(linkContent);
+FacebookShareLinkContent linkContent = new FacebookShareLinkContent("awesome plugins",new Uri( "http://www.github.com/crossgeeks"));
+var ret = await CrossFacebookClient.Current.ShareAsync(linkContent);
 ```
 
 ### Share Video
