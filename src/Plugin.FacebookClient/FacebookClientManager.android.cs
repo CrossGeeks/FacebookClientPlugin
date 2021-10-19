@@ -583,10 +583,9 @@ namespace Plugin.FacebookClient
             else
             {
                 var fbResponse = new FBEventArgs<string>(null, FacebookActionStatus.Canceled, "User cancelled facebook operation");
-                if(_onUserData != null)
-                {
-                    _onUserData.Invoke(CrossFacebookClient.Current, fbResponse);
-                }
+
+                _onUserData?.Invoke(CrossFacebookClient.Current, fbResponse);
+
                 _userDataTcs?.TrySetResult(new FacebookResponse<string>(fbResponse));
             }
 
