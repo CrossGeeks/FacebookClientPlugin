@@ -62,7 +62,7 @@
   <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
      <Compile Include="**\*.ios.cs" />
      <Compile Include="**\*.ios.*.cs" />
-     <PackageReference Include="Xamarin.Facebook.iOS" Version="7.1.1" />
+     <PackageReference Include="Xamarin.Facebook.iOS" Version="9.0.1.5" />
   </ItemGroup>
   
   <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
@@ -71,13 +71,13 @@
   </ItemGroup>
 
    <!-- NOTE: When Android 11.x comes out we neeed to make this check more robust -->
-  <ItemGroup  Condition="$(TargetFramework.StartsWith('MonoAndroid')) And '$(TargetFramework)' != 'MonoAndroid10.0'">
-    <PackageReference Include="Xamarin.Facebook.Android" Version="5.11.2" />
+  <ItemGroup Condition="$(TargetFramework.StartsWith('MonoAndroid')) And '$(TargetFramework)' != 'MonoAndroid10.0'">
+    <PackageReference Include="Xamarin.Facebook.Android" Version="11.2.0.1" />
   </ItemGroup>
 
   <!-- NOTE: When Android 11.x comes out we neeed to make this check more robust -->
   <ItemGroup Condition="'$(TargetFramework)' == 'MonoAndroid10.0'">
-    <PackageReference Include="Xamarin.Facebook.Android" Version="7.1.0" />
+    <PackageReference Include="Xamarin.Facebook.Android" Version="11.2.0.1" />
   </ItemGroup>
   <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
 </Project>
