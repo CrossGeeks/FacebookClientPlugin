@@ -16,7 +16,7 @@ pr:
 
 # the machine and prerequisites to run this build on
 pool:
-  vmImage: macos-10.14
+  vmImage: macOS-latest
 
 # The different steps in our build
 steps:
