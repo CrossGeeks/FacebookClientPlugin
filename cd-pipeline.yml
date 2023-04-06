@@ -1,7 +1,7 @@
 variables:
   MONO_VERSION: 6_4_0
   NETCORE_VERSION: '3.0.x'
-  XCODE_VERSION: 11.1
+  XCODE_VERSION: 14.2
 
 # set the version numbering, this results in 1.0.1 for the first build incrementing that way.
 name: 4.0$(rev:.r)
@@ -16,7 +16,7 @@ pr:
 
 # the machine and prerequisites to run this build on
 pool:
-  vmImage: macOS-latest
+  vmImage: macOS-11
 
 # The different steps in our build
 steps:
