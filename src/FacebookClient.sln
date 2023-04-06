@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\docs\SharingContent.md = ..\docs\SharingContent.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin.FacebookClient", "Plugin.FacebookClient\Plugin.FacebookClient.csproj", "{3F4A56C6-5CE5-476F-B5AB-1DE45FD909A1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin.FacebookClient", "Plugin.FacebookClient\Plugin.FacebookClient.csproj", "{FF4A4CD5-77AB-4790-8791-22BE1277FFAC}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -34,22 +34,8 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3F4A56C6-5CE5-476F-B5AB-1DE45FD909A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3F4A56C6-5CE5-476F-B5AB-1DE45FD909A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3F4A56C6-5CE5-476F-B5AB-1DE45FD909A1}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{3F4A56C6-5CE5-476F-B5AB-1DE45FD909A1}.Debug|ARM.Build.0 = Debug|Any CPU
-		{3F4A56C6-5CE5-476F-B5AB-1DE45FD909A1}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{3F4A56C6-5CE5-476F-B5AB-1DE45FD909A1}.Debug|x64.Build.0 = Debug|Any CPU
-		{3F4A56C6-5CE5-476F-B5AB-1DE45FD909A1}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{3F4A56C6-5CE5-476F-B5AB-1DE45FD909A1}.Debug|x86.Build.0 = Debug|Any CPU
-		{3F4A56C6-5CE5-476F-B5AB-1DE45FD909A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3F4A56C6-5CE5-476F-B5AB-1DE45FD909A1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3F4A56C6-5CE5-476F-B5AB-1DE45FD909A1}.Release|ARM.ActiveCfg = Release|Any CPU
-		{3F4A56C6-5CE5-476F-B5AB-1DE45FD909A1}.Release|ARM.Build.0 = Release|Any CPU
-		{3F4A56C6-5CE5-476F-B5AB-1DE45FD909A1}.Release|x64.ActiveCfg = Release|Any CPU
-		{3F4A56C6-5CE5-476F-B5AB-1DE45FD909A1}.Release|x64.Build.0 = Release|Any CPU
-		{3F4A56C6-5CE5-476F-B5AB-1DE45FD909A1}.Release|x86.ActiveCfg = Release|Any CPU
-		{3F4A56C6-5CE5-476F-B5AB-1DE45FD909A1}.Release|x86.Build.0 = Release|Any CPU
+		{FF4A4CD5-77AB-4790-8791-22BE1277FFAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF4A4CD5-77AB-4790-8791-22BE1277FFAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

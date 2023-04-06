@@ -36,7 +36,7 @@ namespace Plugin.FacebookClient
         //Activity mActivity;
         static FacebookCallback<SharerResult> shareCallback;
         static FacebookCallback<LoginResult> loginCallback;
-        static FacebookCallback<GameRequestDialog.Result> gameRequestCallback;
+        static FacebookCallback<Xamarin.Facebook.GamingServices.GameRequestDialog.Result> gameRequestCallback;
 
         public static Activity CurrentActivity { get; set; }
 
@@ -44,7 +44,7 @@ namespace Plugin.FacebookClient
 
         static EventHandler<FBEventArgs<string>> _onUserData;
         public event EventHandler<FBEventArgs<string>> OnUserData
-        {
+         {
             add
             {
                 _onUserData += value;
@@ -278,7 +278,7 @@ namespace Plugin.FacebookClient
             };
 
 
-            gameRequestCallback = new FacebookCallback<GameRequestDialog.Result>
+            gameRequestCallback = new FacebookCallback<Xamarin.Facebook.GamingServices.GameRequestDialog.Result>
             {
                 HandleSuccess = gameRequestResult =>
                 {

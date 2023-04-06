@@ -125,7 +125,7 @@ namespace Plugin.FacebookClient
         }
         public static void OnActivated()
         {
-            AppEvents.ActivateApp();
+            AppEvents.Shared.ActivateApp();
         }
         public static bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
         {

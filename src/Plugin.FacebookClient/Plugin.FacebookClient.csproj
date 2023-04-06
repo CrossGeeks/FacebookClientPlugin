@@ -1,7 +1,7 @@
-<Project Sdk="MSBuild.Sdk.Extras/2.0.54">
+<Project Sdk="MSBuild.Sdk.Extras/3.0.44">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.0;netstandard2.0;Xamarin.iOS10;MonoAndroid90;MonoAndroid10.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;Xamarin.iOS10;MonoAndroid10.0</TargetFrameworks>
 
     <!--Assembly and Namespace info -->
     <AssemblyName>Plugin.FacebookClient</AssemblyName>
@@ -62,22 +62,14 @@
   <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
      <Compile Include="**\*.ios.cs" />
      <Compile Include="**\*.ios.*.cs" />
-     <PackageReference Include="Xamarin.Facebook.iOS" Version="9.0.1.5" />
+     <PackageReference Include="Xamarin.Facebook.iOS" Version="12.2.0.1" />
   </ItemGroup>
   
   <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
     <Compile Include="**\*.android.cs" />
     <Compile Include="**\*.android.*.cs" />
+        <PackageReference Include="Xamarin.Facebook.Android" Version="11.2.0.1" />
   </ItemGroup>
 
-   <!-- NOTE: When Android 11.x comes out we neeed to make this check more robust -->
-  <ItemGroup Condition="$(TargetFramework.StartsWith('MonoAndroid')) And '$(TargetFramework)' != 'MonoAndroid10.0'">
-    <PackageReference Include="Xamarin.Facebook.Android" Version="11.2.0.1" />
-  </ItemGroup>
-
-  <!-- NOTE: When Android 11.x comes out we neeed to make this check more robust -->
-  <ItemGroup Condition="'$(TargetFramework)' == 'MonoAndroid10.0'">
-    <PackageReference Include="Xamarin.Facebook.Android" Version="11.2.0.1" />
-  </ItemGroup>
   <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
 </Project>
