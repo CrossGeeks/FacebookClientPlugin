@@ -25,6 +25,7 @@
 ```xml
 <string name="facebook_app_name">MyFacebookAppName</string>
 <string name="facebook_app_id">xxxxxxxxxxxxx</string>
+<string name="facebook_client_token">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</string>
 <string name="fb_login_protocol_scheme">fbxxxxxxxxxxxxx</string>
 ```
 **Note: Replace *xxxxxxxxxxxxx* with your facebook app id.**
@@ -41,6 +42,7 @@ Also define this **within** the **application** tag
 
 ```xml
     <meta-data android:name="com.facebook.sdk.ApplicationId"  android:value="@string/facebook_app_id"/>
+    <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
     <activity android:name="com.facebook.FacebookActivity"
         android:configChanges=
                 "keyboard|keyboardHidden|screenLayout|screenSize|orientation"

@@ -1,19 +1,25 @@
-using System;
-using Xamarin.Facebook.Login;
-using Xamarin.Facebook;
+    using System;
+using CrossGeeks.Facebook.Login;
+using CrossGeeks.Facebook;
 using System.Threading.Tasks;
 using System.Linq;
 using Android.App;
-using Xamarin.Facebook.Share.Model;
+using CrossGeeks.Facebook.Share.Model;
 using Android.Graphics;
-using Xamarin.Facebook.Share;
+using CrossGeeks.Facebook.Share;
 using Android.OS;
 using System.Collections.Generic;
-using Xamarin.Facebook.AppEvents;
+using CrossGeeks.Facebook.AppEvents;
 using Java.Interop;
 using Org.Json;
 using Android.Content;
-using Xamarin.Facebook.Share.Widget;
+using CrossGeeks.Facebook.Share.Widget;
+using AndroidX.AppCompat.App;
+using AndroidX.Activity.Result;
+using AndroidX.Activity;
+using Java.Util.Logging;
+using CrossGeeks.Facebook.GamingServices;
+using Android.Content.PM;
 
 namespace Plugin.FacebookClient
 {
@@ -29,16 +35,16 @@ namespace Plugin.FacebookClient
         static TaskCompletionSource<FacebookResponse<string>> _postTcs;
         static TaskCompletionSource<FacebookResponse<string>> _deleteTcs;
         static TaskCompletionSource<FacebookResponse<bool>> _loginTcs;
-
+        readonly string[] _facebookPackages = new[] { "com.facebook.katana", "com.facebook.lite" };
         static AppEventsLogger mLogger;
         static ICallbackManager mCallbackManager;
 
-        //Activity mActivity;
+
         static FacebookCallback<SharerResult> shareCallback;
         static FacebookCallback<LoginResult> loginCallback;
-        static FacebookCallback<Xamarin.Facebook.GamingServices.GameRequestDialog.Result> gameRequestCallback;
+        static FacebookCallback<GameRequestDialog.Result> gameRequestCallback;
 
-        public static Activity CurrentActivity { get; set; }
+        public static ComponentActivity CurrentActivity { get; set; }
 
         static FacebookPendingAction<Dictionary<string, object>> pendingAction;
 
@@ -200,7 +206,7 @@ namespace Plugin.FacebookClient
         {
             mCallbackManager?.OnActivityResult(requestCode, (int)resultCode, intent);
         }
-        public static void Initialize(Activity activity)
+        public static void Initialize(ComponentActivity activity)
         {
             mLogger = AppEventsLogger.NewLogger(Android.App.Application.Context as Android.App.Application);
             mCallbackManager = CallbackManagerFactory.Create();
@@ -278,7 +284,7 @@ namespace Plugin.FacebookClient
             };
 
 
-            gameRequestCallback = new FacebookCallback<Xamarin.Facebook.GamingServices.GameRequestDialog.Result>
+            gameRequestCallback = new FacebookCallback<GameRequestDialog.Result>
             {
                 HandleSuccess = gameRequestResult =>
                 {
@@ -306,13 +312,23 @@ namespace Plugin.FacebookClient
                     _gameRequestTcs?.TrySetResult(new FacebookResponse<Dictionary<string, object>>(fbArgs));
                 }
             };
-
+            
             LoginManager.Instance.RegisterCallback(mCallbackManager, loginCallback);
+           
         }
+
+        public bool IsAppInstalled() =>
+            CurrentActivity.PackageManager.GetInstalledPackages(PackageInfoFlags.Activities)
+                    .Join(_facebookPackages,
+                    x => x.PackageName,
+                    x => x,
+                    (installedPackage, fbPackageName) =>
+                    {
+                        return fbPackageName;
+                    }).Count() > 0;
+
         public void Logout()
         {
-            //_shareTcs = null;
-            //_userDataTcs = null;
             LoginManager.Instance.LogOut();
             AccessToken.CurrentAccessToken = null;
             Profile.CurrentProfile = null;
@@ -326,33 +342,6 @@ namespace Plugin.FacebookClient
             return (AccessToken.CurrentAccessToken != null) && (AccessToken.CurrentAccessToken.Permissions.Contains(permission));
 
         }
-
-
-        /*async Task<FBEventArgs<Dictionary<string, object>>> PerformAction(Action<Dictionary<string, object>> action, Dictionary<string, object> parameters, Task<FBEventArgs<Dictionary<string, object>>> task, FacebookPermissionType permissionType, string[] permissions)
-        {
-            pendingAction = null;
-            if(permissions == null)
-            {
-                action(parameters);
-            }
-            else
-            {
-                bool authorized = HasPermissions(permissions);
-
-                if (!authorized)
-                {
-                    pendingAction = new FacebookPendingAction<Dictionary<string, object>>(action, parameters);
-                    await LoginAsync(permissions, permissionType);
-                }
-                else
-                {
-                    action(parameters);
-                }
-            }
-          
-            return await task;
-
-        }*/
 
         async Task<T> PerformAction<T>(Action<Dictionary<string, object>> action, Dictionary<string, object> parameters, Task<T> task, FacebookPermissionType permissionType, string[] permissions)
         {
@@ -474,7 +463,6 @@ namespace Plugin.FacebookClient
 
         void RequestData(Dictionary<string, object> pDictionary)
         {
-            //string path,Bundle parameters = null,HttpMethod method = null,string version = null
             string path = $"{pDictionary["path"]}";
             string version = $"{pDictionary["version"]}";
             Dictionary<string, string> parameters = pDictionary["parameters"] as Dictionary<string, string>;
@@ -708,30 +696,6 @@ namespace Plugin.FacebookClient
                     FacebookShareVideoContent videoContent = shareContent as FacebookShareVideoContent;
                     ShareVideoContent.Builder videoContentBuilder = new ShareVideoContent.Builder();
 
-
-                   /*if (videoContent.PreviewPhoto != null)
-                    {
-                        SharePhoto.Builder photoBuilder = new SharePhoto.Builder();
-
-                        if (!string.IsNullOrEmpty(videoContent.PreviewPhoto.Caption))
-                        {
-                            photoBuilder.SetCaption(videoContent.PreviewPhoto.Caption);
-                        }
-
-                        if (videoContent.PreviewPhoto.ImageUrl != null && !string.IsNullOrEmpty(videoContent.PreviewPhoto.ImageUrl.AbsoluteUri))
-                        {
-                            photoBuilder.SetImageUrl(Android.Net.Uri.Parse(videoContent.PreviewPhoto.ImageUrl.AbsoluteUri));
-                        }
-
-                        if (videoContent.PreviewPhoto.Image != null)
-                        {
-                            Bitmap bmp = BitmapFactory.DecodeByteArray(videoContent.PreviewPhoto.Image, 0, videoContent.PreviewPhoto.Image.Length);
-
-                            photoBuilder.SetBitmap(bmp);
-                        }
-                        videoContentBuilder.SetPreviewPhoto(photoBuilder.Build().JavaCast<SharePhoto>());
-                    }*/
-
                     if (videoContent.Video != null)
                     {
                         ShareVideo.Builder videoBuilder = new ShareVideo.Builder();
@@ -778,7 +742,6 @@ namespace Plugin.FacebookClient
 
                 if (content != null)
                 {
-                    //ShareApi.Share(content, shareCallback);
                     ShareDialog dialog = new ShareDialog(CurrentActivity);
                     dialog.RegisterCallback(mCallbackManager, shareCallback);
                     dialog.ShouldFailOnDataError = true;
@@ -800,7 +763,6 @@ namespace Plugin.FacebookClient
                 }
 
                 Bitmap bmp = BitmapFactory.DecodeByteArray(imageBytes, 0, imageBytes.Length);
-                //Bitmap mutableBitmap = bmp.copy(Bitmap.Config.ARGB_8888, true);
 
                 SharePhoto sharePhoto = builder.SetBitmap(bmp).Build().JavaCast<SharePhoto>();
 
@@ -810,8 +772,6 @@ namespace Plugin.FacebookClient
 
                 var sharePhotoContent = new SharePhotoContent.Builder()
                     .SetPhotos(photos).Build();
-
-                //ShareApi.Share(sharePhotoContent, shareCallback);
 
                 ShareDialog dialog = new ShareDialog(CurrentActivity);
                 dialog.RegisterCallback(mCallbackManager, shareCallback);
@@ -824,6 +784,9 @@ namespace Plugin.FacebookClient
 
         public async Task<FacebookResponse<bool>> LoginAsync(string[] permissions, FacebookPermissionType permissionType = FacebookPermissionType.Read)
         {
+
+            LoginManager.Instance.SetLoginBehavior(IsAppInstalled() ? LoginBehavior.NativeOnly : LoginBehavior.WebOnly);
+
             _loginTcs = new TaskCompletionSource<FacebookResponse<bool>>();
             var retVal = IsLoggedIn;
             if (!retVal || !HasPermissions(permissions))
@@ -836,14 +799,14 @@ namespace Plugin.FacebookClient
                     {
                         if (permissionType == FacebookPermissionType.Read)
                         {
-                            LoginManager.Instance.LogInWithReadPermissions(activity, permissions.ToList());
+
+                            LoginManager.Instance.LogInWithReadPermissions(activity, mCallbackManager, permissions.ToList());
                         }
                         else
                         {
-                            LoginManager.Instance.LogInWithPublishPermissions(activity, permissions.ToList());
+                            LoginManager.Instance.LogInWithPublishPermissions(activity, mCallbackManager, permissions.ToList());
                         }
                     });
-
                 }
 
             }
